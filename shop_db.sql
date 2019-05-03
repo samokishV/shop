@@ -1,148 +1,200 @@
--- MySQL Workbench Forward Engineering
+-- MySQL dump 10.13  Distrib 5.7.26, for Linux (x86_64)
+--
+-- Host: 127.0.0.1    Database: shop_db
+-- ------------------------------------------------------
+-- Server version	5.7.26-0ubuntu0.18.04.1
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- -----------------------------------------------------
--- Schema shop_db
--- -----------------------------------------------------
+--
+-- Table structure for table `categories`
+--
 
--- -----------------------------------------------------
--- Schema shop_db
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `shop_db` DEFAULT CHARACTER SET utf8 ;
--- -----------------------------------------------------
--- Schema shop_db
--- -----------------------------------------------------
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category` varchar(45) NOT NULL,
+  `preview` varchar(45) NOT NULL,
+  `original` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- -----------------------------------------------------
--- Schema shop_db
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `shop_db` DEFAULT CHARACTER SET utf8 ;
-USE `shop_db` ;
+--
+-- Dumping data for table `categories`
+--
 
--- -----------------------------------------------------
--- Table `shop_db`.`products`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `shop_db`.`products` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(45) NOT NULL,
-  `description` TEXT NOT NULL,
-  `price` INT(6) NOT NULL DEFAULT '0',
-  `in_stock` INT(6) NOT NULL DEFAULT '0',
-  `slug` VARCHAR(45) NOT NULL,
-  `preview` VARCHAR(45) NOT NULL,
-  `original` VARCHAR(45) NOT NULL,
-  `create_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `promo` TINYINT(1) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 16
-DEFAULT CHARACTER SET = utf8;
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `orders`
+--
 
--- -----------------------------------------------------
--- Table `shop_db`.`categories`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `shop_db`.`categories` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `category` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 8
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`product_category`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `shop_db`.`product_category` (
-  `id` INT NOT NULL,
-  `category_id` INT NOT NULL,
-  `product_id` INT NOT NULL,
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `total` int(45) NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `phone` varchar(45) NOT NULL,
+  `address` varchar(45) NOT NULL,
+  `processed` tinyint(1) NOT NULL,
+  `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_product_category_1_idx` (`product_id` ASC),
-  CONSTRAINT `fk_product_category_1`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `shop_db`.`products` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_product_category_2`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `shop_db`.`categories` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
+  KEY `fk_orders_1_idx` (`user_id`),
+  CONSTRAINT `fk_orders_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-USE `shop_db` ;
+--
+-- Dumping data for table `orders`
+--
 
--- -----------------------------------------------------
--- Table `shop_db`.`users`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `shop_db`.`users` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
-  `role` VARCHAR(10) NOT NULL DEFAULT 'user',
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 24
-DEFAULT CHARACTER SET = utf8;
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `product_category`
+--
 
--- -----------------------------------------------------
--- Table `shop_db`.`orders`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `shop_db`.`orders` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `user_id` INT(11) NOT NULL,
-  `total` INT(45) NOT NULL,
-  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `phone` VARCHAR(45) NOT NULL,
-  `address` VARCHAR(45) NOT NULL,
-  `processed` TINYINT(1) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
+DROP TABLE IF EXISTS `product_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_category` (
+  `id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_orders_1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_orders_1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `shop_db`.`users` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-AUTO_INCREMENT = 14
-DEFAULT CHARACTER SET = utf8;
+  KEY `fk_product_category_1_idx` (`product_id`),
+  KEY `fk_product_category_2` (`category_id`),
+  CONSTRAINT `fk_product_category_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_product_category_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `product_category`
+--
 
--- -----------------------------------------------------
--- Table `shop_db`.`products_orders`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `shop_db`.`products_orders` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `orders_id` INT(11) NOT NULL,
-  `products_id` INT(11) NOT NULL,
-  `qt` INT(11) NOT NULL,
-  `total` INT(11) NOT NULL,
+LOCK TABLES `product_category` WRITE;
+/*!40000 ALTER TABLE `product_category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) NOT NULL,
+  `description` text NOT NULL,
+  `price` int(6) NOT NULL DEFAULT '0',
+  `in_stock` int(6) NOT NULL DEFAULT '0',
+  `slug` varchar(45) NOT NULL,
+  `preview` varchar(45) NOT NULL,
+  `original` varchar(45) NOT NULL,
+  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `promo` tinyint(1) DEFAULT NULL,
+  `additional` json DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products`
+--
+
+LOCK TABLES `products` WRITE;
+/*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES (1,'Title','Description',450,10,'test-product','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(2,'Product 2','Some description',550,0,'test-product-2','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(3,'Product 3','Some description',1050,0,'test-product-3','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(4,'Title','Description',450,100,'test-product-4','1.jpg','1.jpg','2019-05-03 17:53:16','2019-05-03 17:53:16',NULL,'{\"height\": 50, \"weight\": \"115 pounds\"}');
+/*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products_orders`
+--
+
+DROP TABLE IF EXISTS `products_orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products_orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orders_id` int(11) NOT NULL,
+  `products_id` int(11) NOT NULL,
+  `qt` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `orders_id` (`orders_id` ASC),
-  INDEX `plants_id` (`products_id` ASC),
-  CONSTRAINT `products_orders_ibfk_1`
-    FOREIGN KEY (`orders_id`)
-    REFERENCES `shop_db`.`orders` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `products_orders_ibfk_2`
-    FOREIGN KEY (`products_id`)
-    REFERENCES `shop_db`.`products` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-AUTO_INCREMENT = 14
-DEFAULT CHARACTER SET = utf8;
+  KEY `orders_id` (`orders_id`),
+  KEY `plants_id` (`products_id`),
+  CONSTRAINT `products_orders_ibfk_1` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `products_orders_ibfk_2` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `products_orders`
+--
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+LOCK TABLES `products_orders` WRITE;
+/*!40000 ALTER TABLE `products_orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `products_orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `role` varchar(10) NOT NULL DEFAULT 'user',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-05-03 19:52:36
