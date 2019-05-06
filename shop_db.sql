@@ -27,8 +27,10 @@ CREATE TABLE `categories` (
   `category` varchar(45) NOT NULL,
   `preview` varchar(45) NOT NULL,
   `original` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `slug` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug_UNIQUE` (`slug`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +39,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'Plants','1.jpg','1.jpg','plants'),(2,'Test category','1.jpg','1.jpg','test-cat-1'),(3,'Test category 2','1.jpg','1.jpg','test-cat-2'),(4,'Test category 3','1.jpg','1.jpg','test-cat-3'),(5,'Test category 4','1.jpg','1.jpg','test-cat-4'),(6,'Test category 5','1.jpg','1.jpg','test-cat-5');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +82,7 @@ DROP TABLE IF EXISTS `product_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_category` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -87,7 +90,7 @@ CREATE TABLE `product_category` (
   KEY `fk_product_category_2` (`category_id`),
   CONSTRAINT `fk_product_category_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_product_category_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,6 +99,7 @@ CREATE TABLE `product_category` (
 
 LOCK TABLES `product_category` WRITE;
 /*!40000 ALTER TABLE `product_category` DISABLE KEYS */;
+INSERT INTO `product_category` VALUES (1,1,1),(2,1,2),(3,1,3),(4,2,4),(5,2,5),(6,2,6),(7,3,7),(8,3,8),(9,3,9);
 /*!40000 ALTER TABLE `product_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +124,7 @@ CREATE TABLE `products` (
   `promo` tinyint(1) DEFAULT NULL,
   `additional` json DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +133,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Title','Description',450,10,'test-product','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(2,'Product 2','Some description',550,0,'test-product-2','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(3,'Product 3','Some description',1050,0,'test-product-3','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(4,'Title','Description',450,100,'test-product-4','1.jpg','1.jpg','2019-05-03 17:53:16','2019-05-03 17:53:16',NULL,'{\"height\": 50, \"weight\": \"115 pounds\"}');
+INSERT INTO `products` VALUES (1,'Title','Description',450,10,'test-product','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(2,'Product 2','Some description',550,0,'test-product-2','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(3,'Product 3','Some description',1050,0,'test-product-3','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(4,'Title','Description',450,100,'test-product-4','1.jpg','1.jpg','2019-05-03 17:53:16','2019-05-03 17:53:16',NULL,'{\"height\": 50, \"weight\": \"115 pounds\"}'),(5,'Promo 1','description',152,10,'promo-1','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL),(6,'Promo 2','description',252,10,'promo-2','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL),(7,'Promo 3','description',152,12,'promo-3','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL),(8,'Promo 4','description',152,23,'promo-4','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL),(9,'Promo 5','description',152,44,'promo-5','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,4 +201,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-03 19:52:36
+-- Dump completed on 2019-05-06 19:45:20

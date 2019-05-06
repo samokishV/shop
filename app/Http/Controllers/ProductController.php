@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,11 +18,11 @@ class ProductController extends Controller
      */
     public function show(Request $request, $slug)
     {
-        $product = DB::select('select * from products where slug = ?', [$slug]);
-        if(isset($product[0])) {
-            return view('product', ['products' => $product, 'title' => $product[0]->title]);
-        }
-        else {
+        $product = Product::findBySlug($slug);
+
+        if($product) {
+            return view('product', ['product' => $product, 'title' => $product->title]);
+        } else {
             return response('Page not found', 404);
         }
     }

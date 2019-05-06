@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PagesController@index');
+
+Route::get('home', 'PagesController@index');
+
+Route::match(['get', 'post'], '/category/{catSlug}', 'PagesController@category');
+
+Route::get('{slug}', 'ProductController@show');
