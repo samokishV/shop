@@ -12,7 +12,7 @@
                             <label for="formControlRange">
                                 <h5 class="card-title">Price < <span id="slidernumber"> {{ old('price') }}</span></h5>
                             </label>
-                            <input type="range" name="price" class="form-control-range" id="formControlRange" min=0 max="1000" step="50"
+                            <input type="range" name="price" class="form-control-range" id="formControlRange" min=0 max="2000" step="50"
                                    value="{{ old('price') }}">
                         </div>
                     </div>
@@ -22,15 +22,15 @@
         </div>
         <div class="col-sm-8 row d-flex justify-content-start">
             <div class="col-sm-12">
-                Sorting:
-                <select name="search-options">
-                    <option name="default"> Default</option>
-                    <option name="name-asc"> By name from A to Z </option>
-                    <option name="name-desc">By name from Z to A</option>
-                    <option name="price-asc">By price ascending</option>
-                    <option name="price-desc">By price descending</option>
-                    <option name="data-asc">From new to old</option>
-                    <option name="data-desc">From old to new</option>
+                <label for="sort"> Sorting: </label>
+                <select name="sort-options" id="sort" form="search">
+                    <option value="default" @if (old('sort-options')=="default") selected @endif> Default</option>
+                    <option value="title-asc" @if (old('sort-options')=="title-asc") selected @endif> By name from A to Z </option>
+                    <option value="title-desc" @if (old('sort-options')=="title-desc") selected @endif>By name from Z to A</option>
+                    <option value="price-asc" @if (old('sort-options')=="price-asc") selected @endif>By price ascending</option>
+                    <option value="price-desc" @if (old('sort-options')=="price-desc") selected @endif>By price descending</option>
+                    <option value="create_at-asc" @if (old('sort-options')=="create_at-asc") selected @endif>From new to old</option>
+                    <option value="create_at-desc" @if (old('sort-options')=="create_at-desc") selected @endif>From old to new</option>
                 </select>
             </div>
             @foreach($products as $product)

@@ -26,4 +26,18 @@ class ProductController extends Controller
             return response('Page not found', 404);
         }
     }
+
+    public function search(Request $request)
+    {
+        $this->validate($request, [
+            'keyword' => 'required'
+        ]);
+
+        $request->flash();
+
+        $keyword = $request->input('keyword');
+        $product = Product::searchByKeyword($keyword);
+
+        return view('search', ['products' => $product]);
+    }
 }

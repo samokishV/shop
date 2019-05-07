@@ -17,4 +17,6 @@ Route::get('home', 'PagesController@index');
 
 Route::match(['get', 'post'], '/category/{catSlug}', 'PagesController@category');
 
+Route::post('/product/search', 'ProductController@search');
+
 Route::get('{slug}', 'ProductController@show');

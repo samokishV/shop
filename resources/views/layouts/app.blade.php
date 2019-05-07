@@ -28,7 +28,8 @@
         <ul class="navbar-nav mr-right">
             <li class="nav-item">
                 <form action="/product/search" method="post" class="form-inline my-2 my-lg-0">
-                    <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    {{ csrf_field() }}
+                    <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="{{old('keyword')}}" required>
                     <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </li>

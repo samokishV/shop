@@ -37,7 +37,12 @@ class PagesController extends Controller
     {
         $request->flash();
 
-        $products = Product::findByCategory($catSlug);
+        $order = $request->input('sort-options');
+        if(!isset($order)) $order = 'default';
+
+        $price = $request->input('price');
+
+        $products = Product::findByCategory($catSlug, $order, $price);
 
         return view('category', ['products'=>$products]);
     }

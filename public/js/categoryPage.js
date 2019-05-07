@@ -9,4 +9,8 @@ $(document).ready(function() {
         $("#slidernumber").text(newval);
 
     });
+
+    $("[name='sort-options']").on('change', function() {
+        document.forms['myForm'].submit();
+    });
 });
