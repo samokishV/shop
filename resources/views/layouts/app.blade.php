@@ -49,9 +49,16 @@
             </li>
             <li class="nav-item">
                 @auth
-                    <li> <a class="nav-link" href="/user/logout/" onclick="return confirmDelete();">Log out</a> </li>
+                    <a href="{{ route('logout') }}" class="nav-link"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Log out
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 @else
-                    <li> <a class="nav-link" href="/user/login/">Log in</a> </li>
+                    <li> <a class="nav-link" href="/login/">Log in</a> </li>
                 @endauth
             </li>
         </ul>

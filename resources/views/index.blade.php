@@ -23,11 +23,11 @@
         @foreach ($data['promo'] as $promo)
         <div class="card m-2" style="width: 18rem;">
             <form method='post' action="" class="products">
-                <a href="{{$promo->slug}}">
+                <a href="/product/{{$promo->slug}}">
                     <img class="card-img-top" src="/img/{{$promo->preview}}" alt="{{$promo->title}}">
                 </a>
                 <div class="card-body">
-                    <h5 class="card-title bold"><a href="{{$promo->slug}}">{{$promo->title}}</a></h5>
+                    <h5 class="card-title bold"><a href="/product/{{$promo->slug}}">{{$promo->title}}</a></h5>
                     <h5 class="card-title">{{$promo->price}}</h5>
                     @if($promo->in_stock > 0)
                     <h6 class="card-subtitle mb-2 text-muted">in stock: {{$promo->in_stock}}</h6>

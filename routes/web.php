@@ -19,4 +19,6 @@ Route::match(['get', 'post'], '/category/{catSlug}', 'PagesController@category')
 
 Route::post('/product/search', 'ProductController@search');
 
-Route::get('{slug}', 'ProductController@show');
+Route::get('/product/{slug}', 'ProductController@show');
+
+Auth::routes();
