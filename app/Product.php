@@ -80,7 +80,7 @@ class Product extends Model
             ->join('product_category', 'categories.id', '=', 'product_category.category_id')
             ->join('products', 'product_category.product_id', '=', 'products.id')
             ->where('title', 'LIKE', "%{$keyword}%")
-            ->select('products.*', 'categories.*')
+            ->select('products.*', 'categories.category')
             ->get();
 
         // group products by category
