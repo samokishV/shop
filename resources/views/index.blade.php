@@ -22,7 +22,8 @@
     <div class="col-sm-12 row d-flex justify-content-start">
         @foreach ($data['promo'] as $promo)
         <div class="card m-2" style="width: 18rem;">
-            <form method='post' action="" class="products">
+            <form method='post' action="/cart/add" class="products">
+                {{ csrf_field() }}
                 <a href="/product/{{$promo->slug}}">
                     <img class="card-img-top" src="/img/{{$promo->preview}}" alt="{{$promo->title}}">
                 </a>

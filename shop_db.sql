@@ -16,6 +16,36 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `carts`
+--
+
+DROP TABLE IF EXISTS `carts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `carts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qt` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_cart_1_idx` (`user_id`),
+  CONSTRAINT `fk_cart_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carts`
+--
+
+LOCK TABLES `carts` WRITE;
+/*!40000 ALTER TABLE `carts` DISABLE KEYS */;
+INSERT INTO `carts` VALUES (6,1,5,1,'2019-05-08 16:12:12','2019-05-08 16:12:12'),(7,1,6,3,'2019-05-08 16:12:15','2019-05-08 16:12:15');
+/*!40000 ALTER TABLE `carts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `categories`
 --
 
@@ -111,7 +141,7 @@ CREATE TABLE `password_resets` (
   `token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +262,7 @@ CREATE TABLE `users` (
   `updated_at` datetime NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +271,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','h7VavU0WKW6d22lJBQxtiWFVwB80HwUH4XP0EGe84mmOuA8yJk7MMUawtNLV'),(2,'samokish.viktoria@gmail.com','$2y$10$bgqZOFF/SgUNXRzRh.sF7.jeofruLLMErfnX8ilr24n/q/E29.fCi','user','2019-05-07 15:22:15','2019-05-07 15:37:29','gD3wrmsFYaAl3qNvIPFLz7mCzOJKG5I9WBzGTAk4h6BArHjqvF1vG8LZoiQu'),(3,'test@mail.ru','$2y$10$.zItwvPXXImxvZOjTXzAw.Cg5CL4RCZNwRRAYwUvigoqUrExLiAZe','user','2019-05-07 15:43:29','2019-05-07 15:43:29','NlsuoVtiSqwPd6IrVI5QzVudIBq3HCbH1lDC1N3OQL08FyRJ8CAjFzsBP0Fx');
+INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','T7lV5oCQUMerxgKDTwkeAj3k0EocoM7so2PpVR8CihkN9mcZq4uS31Nt3UIa'),(3,'test@mail.ru','$2y$10$.zItwvPXXImxvZOjTXzAw.Cg5CL4RCZNwRRAYwUvigoqUrExLiAZe','user','2019-05-07 15:43:29','2019-05-07 15:43:29','NlsuoVtiSqwPd6IrVI5QzVudIBq3HCbH1lDC1N3OQL08FyRJ8CAjFzsBP0Fx'),(4,'test@gmail.com','$2y$10$bge4dNNOdOESInwiMPjh3.stZ5RV/FqWKZcDYgSg8gaovUgBK4SeS','user','2019-05-08 08:07:31','2019-05-08 08:07:31',NULL),(6,'samokish.viktoria@gmail.com','$2y$10$rz/Tnl.LySdGzG1HK8J7hOlUiG4KfI4HQc1vh1U2gQD1wwAzeslp6','user','2019-05-08 10:37:56','2019-05-08 10:37:56','ipPIWaQXqWpDX9abe7Ce1bxf4QUsz5bxgdUwBwj3asEEONvMlEbMcRk21lpS');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -254,4 +284,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-07 18:50:24
+-- Dump completed on 2019-05-08 19:14:48
