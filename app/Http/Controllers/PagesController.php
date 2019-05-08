@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use DB;
 use Illuminate\Contracts\View\Factory as Factory;
-use Illuminate\Illuminate\View\View as View;
+use Illuminate\View\View as View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Category as Category;
 use App\Product as Product;
+use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
@@ -45,6 +47,19 @@ class PagesController extends Controller
         $products = Product::findByCategory($catSlug, $order, $price);
 
         return view('category', ['products'=>$products]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Factory| View
+     */
+    public function cart(Request $request)
+    {
+        $userId = Auth::id();
+
+        $products = Cart::index($userId);
+
+        return view('cart', ['products'=>$products]);
     }
 }
 

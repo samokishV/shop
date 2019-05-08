@@ -24,3 +24,5 @@ Route::get('/product/{slug}', 'ProductController@show');
 Auth::routes();
 
 Route::post('cart/add', 'CartController@add');
+
+Route::get('cart', 'PagesController@cart');

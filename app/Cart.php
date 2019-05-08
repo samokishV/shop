@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Cart extends Model
@@ -31,5 +32,20 @@ class Cart extends Model
         $cart->qt = $qt;
 
         $cart->save();
+    }
+
+    /**
+     * @param int $userId
+     * @return Collection
+     */
+    public static function index($userId)
+    {
+        $products =  DB::table('carts')
+            ->join('products', 'carts.product_id', '=', 'products.id')
+            ->where('user_id', '=', $userId)
+            ->select('products.*', 'carts.qt')
+            ->get();
+
+        return $products;
     }
 }
