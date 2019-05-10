@@ -19,3 +19,8 @@
     background-color:white;
     cursor: pointer;
 }
+
+.order-table td, th {
+    padding:10px;
+    border: 1pt solid lightGrey;
+}

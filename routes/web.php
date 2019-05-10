@@ -32,3 +32,15 @@ Route::post('cart/delete/{productId}', 'CartController@delete');
 Route::post('cart/delete', 'CartController@deleteAll');
 
 Route::get('cart', 'PagesController@cart');
+
+Route::match(['get', 'post'], 'order', 'PagesController@order');
+
+
+
+
+
+
+
+
+
+

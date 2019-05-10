@@ -61,5 +61,18 @@ class PagesController extends Controller
 
         return view('cart', ['products'=>$products]);
     }
+
+    /**
+     * @return Factory|View
+     */
+    public function order(Request $request)
+    {
+        $request->flash();
+
+        $userId = Auth::id();
+
+        $cart = Cart::index($userId);
+        return view('order', ['cart'=>$cart]);
+    }
 }
 
