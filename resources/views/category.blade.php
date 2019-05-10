@@ -35,7 +35,8 @@
             </div>
             @foreach($products as $product)
                 <div class="card m-2" style="width: 18rem;">
-                    <form method='post' action="" class="products">
+                    <form method='post' action="/cart/add" class="products">
+                        {{ csrf_field() }}
                         <a href="/product/{{$product->slug}}">
                             <img class="card-img-top" src="/img/{{$product->preview}}" alt="{{$product->title}}">
                         </a>
@@ -47,7 +48,7 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="col-20">
-                                            <input class="form-control" name="qt" type="number" value="1" min="1"  max="{{$product->in_stock}}" id="example-number-input">
+                                            <input class="form-control" name="qt" type="number" value="1" min="1"  max="{{$product->in_stock}}" id="example-number-input" onkeydown="return false">
                                             <input name="id" type="hidden" value="{{$product->id}}">
                                         </div>
                                     </div>

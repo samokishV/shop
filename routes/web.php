@@ -25,4 +25,10 @@ Auth::routes();
 
 Route::post('cart/add', 'CartController@add');
 
+Route::post('cart/update/{productId}', 'CartController@update');
+
+Route::post('cart/delete/{productId}', 'CartController@delete');
+
+Route::post('cart/delete', 'CartController@deleteAll');
+
 Route::get('cart', 'PagesController@cart');

@@ -14,16 +14,5 @@ $(document).ready(function() {
         document.forms['myForm'].submit();
     });
 
-    $(".products").submit(function() {
-        var str = $(this).serialize();
-        $.ajax({
-            type: 'post',
-            url: '/cart/add',
-            data: str,
-            success: function(data) {
-                alert(data);
-            }
-        });
-        return false;
-    });
 });
+

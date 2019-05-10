@@ -8,7 +8,8 @@
             </div>
             <div class="col-sm">
                 <div class="card" style="width: 20rem;">
-                    <form method='post' action="" class="products">
+                    <form method='post' action="/cart/add" class="products">
+                        {{ csrf_field() }}
                         <div class="card-body">
                             <h5 class="card-title bold">{{$product->title}}</h5>
                             <h5 class="card-title">{{$product->price}}</h5>
@@ -24,7 +25,7 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="col-20">
-                                            <input class="form-control" name="qt" type="number" value="1" min="1" max="{{$product->in_stock}}" id="example-number-input">
+                                            <input class="form-control" name="qt" type="number" value="1" min="1" max="{{$product->in_stock}}" id="example-number-input" onkeydown="return false">
                                             <input type="hidden" name="id" value="{{$product->id}}">
                                         </div>
                                     </div>

@@ -36,6 +36,47 @@ class Cart extends Model
 
     /**
      * @param int $userId
+     * @param string $productId
+     * @return int
+     */
+    public static function deleteById($userId, $productId)
+    {
+        return DB::table('carts')
+            ->where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->delete();
+    }
+
+    /**
+     * @param $userId
+     * @return int
+     */
+    public static function deleteAll($userId)
+    {
+        return DB::table('carts')
+            ->where('user_id', $userId)
+            ->delete();
+    }
+
+    /**
+     * @param int $userId
+     * @param string $productId
+     * @param $qt
+     * @return void
+     */
+    public static function updateById($userId, $productId, $qt)
+    {
+        $product = Cart::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->firstOrFail();
+
+        $product->qt = $qt;
+
+        $product->save();
+    }
+
+    /**
+     * @param int $userId
      * @return Collection
      */
     public static function index($userId)
@@ -43,9 +84,18 @@ class Cart extends Model
         $products =  DB::table('carts')
             ->join('products', 'carts.product_id', '=', 'products.id')
             ->where('user_id', '=', $userId)
-            ->select('products.*', 'carts.qt')
+            ->select('products.*', 'carts.qt', DB::raw('price*qt as total'))
             ->get();
 
         return $products;
+    }
+
+    /**
+     * @param int $userId
+     * @return array
+     */
+    public static function count($userId)
+    {
+        return DB::select('select count(product_id) as productsQt from carts where user_id = ?', [$userId]);
     }
 }

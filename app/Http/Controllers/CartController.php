@@ -17,7 +17,6 @@ class CartController extends Controller
         $productId= $request->input('id');
         $qt= $request->input('qt');
 
-
         $userId = Auth::id();
         if(!$userId) {
             return "You should be registered to add product to cart!";
@@ -31,5 +30,42 @@ class CartController extends Controller
             Cart::add($userId, $productId, $qt);
             return "Product successfully add to cart";
         }
+    }
+
+    /**
+     * @param Request $request
+     * @param $productId
+     * @return int
+     */
+    public function delete(Request $request, $productId)
+    {
+        $userId = Auth::id();
+
+        $result = Cart::deleteById($userId, $productId);
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function deleteAll()
+    {
+        $userId = Auth::id();
+
+        $result = Cart::deleteAll($userId);
+        return $result;
+    }
+
+    /**
+     * @param string $productId
+     * @return void
+     */
+    public function update(Request $request, $productId)
+    {
+        $userId = Auth::id();
+        $qt= $request->qt;
+
+        $result = Cart::updateById($userId, $productId, $qt);
+        return $result;
     }
 }
