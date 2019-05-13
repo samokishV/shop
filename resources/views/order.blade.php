@@ -8,28 +8,49 @@
                 <p><h3>Checkout</h3></p>
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" name="name" value="{{old('name')}}" class="form-control" required>
+                    <input type="text" name="name" value="{{old('name')}}" class="form-control" required id="name">
+                    @if ($errors->has('name'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('name') }}
+                        </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" name="email" value="{{old('email')}}" class="form-control" required>
+                    <input type="email" name="email" value="{{old('email')}}" class="form-control" required id="email">
+                    @if ($errors->has('email'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('email') }}
+                        </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone</label>
-                    <input type="tel" name="phone" value="{{old('phone')}}" class="form-control" required>
+                    <input type="tel" name="phone" value="{{old('phone')}}" class="form-control" required id="phone">
+                    @if ($errors->has('phone'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('phone') }}
+                        </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" name="address" value="{{old('address')}}" class="form-control" required>
+                    <input type="text" name="address" value="{{old('address')}}" class="form-control" required id="address">
+                    @if ($errors->has('address'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('address') }}
+                        </div>
+                    @endif
                 </div>
                 <input type="hidden">
-                @isset($cart)
+                @isset($cart[0])
                     <input type="submit" class="btn btn-success btn-lg w-100" value="Checkout">
                 @endisset
 
-                @empty($cart)
-                    <h3>Please add items to cart to make an order!</h3>
+                @empty($cart[0])
+                    <h3>Please add items to make an order!</h3>
                 @endempty
+
             </form>
         </div>
         <div class="col-sm">

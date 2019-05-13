@@ -32,7 +32,7 @@ CREATE TABLE `carts` (
   PRIMARY KEY (`id`),
   KEY `fk_cart_1_idx` (`user_id`),
   CONSTRAINT `fk_cart_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `carts` (
 
 LOCK TABLES `carts` WRITE;
 /*!40000 ALTER TABLE `carts` DISABLE KEYS */;
-INSERT INTO `carts` VALUES (6,1,5,1,'2019-05-08 16:12:12','2019-05-08 16:12:12'),(7,1,6,3,'2019-05-08 16:12:15','2019-05-08 16:12:15');
+INSERT INTO `carts` VALUES (6,1,5,8,'2019-05-08 16:12:12','2019-05-10 17:19:05'),(7,1,6,10,'2019-05-08 16:12:15','2019-05-10 16:34:57'),(59,7,5,1,'2019-05-13 17:37:17','2019-05-13 17:37:17'),(60,7,6,1,'2019-05-13 17:37:19','2019-05-13 17:37:19'),(61,7,7,1,'2019-05-13 17:37:20','2019-05-13 17:37:20');
 /*!40000 ALTER TABLE `carts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,15 +108,17 @@ CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `total` int(45) NOT NULL,
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `phone` varchar(45) NOT NULL,
   `address` varchar(45) NOT NULL,
-  `processed` tinyint(1) NOT NULL,
+  `processed` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_orders_1_idx` (`user_id`),
   CONSTRAINT `fk_orders_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +143,7 @@ CREATE TABLE `password_resets` (
   `token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,8 +200,8 @@ CREATE TABLE `products` (
   `slug` varchar(45) NOT NULL,
   `preview` varchar(45) NOT NULL,
   `original` varchar(45) NOT NULL,
-  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   `promo` tinyint(1) DEFAULT NULL,
   `additional` json DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -212,7 +214,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Title','Description',450,10,'test-product','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(2,'Product 2','Some description',550,0,'test-product-2','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(3,'Product 3','Some description',1050,0,'test-product-3','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(4,'Title','Description',450,100,'test-product-4','1.jpg','1.jpg','2019-05-03 17:53:16','2019-05-03 17:53:16',NULL,'{\"height\": 50, \"weight\": \"115 pounds\"}'),(5,'Promo 1','description',152,10,'promo-1','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL),(6,'Promo 2','description',252,10,'promo-2','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL),(7,'Promo 3','description',152,12,'promo-3','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL),(8,'Promo 4','description',152,23,'promo-4','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL),(9,'Promo 5','description',152,44,'promo-5','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-06 12:05:49',1,NULL);
+INSERT INTO `products` VALUES (1,'Title','Description',450,8,'test-product','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-13 16:17:04',NULL,NULL),(2,'Product 2','Some description',550,0,'test-product-2','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(3,'Product 3','Some description',1050,0,'test-product-3','1.jpg','1.jpg','2019-05-03 15:21:19','2019-05-03 15:21:19',NULL,NULL),(4,'Title','Description',450,99,'test-product-4','1.jpg','1.jpg','2019-05-03 17:53:16','2019-05-13 11:21:56',NULL,'{\"height\": 50, \"weight\": \"115 pounds\"}'),(5,'Promo 1','description',152,7,'promo-1','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-13 13:15:59',1,NULL),(6,'Promo 2','description',252,7,'promo-2','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-13 11:24:31',1,NULL),(7,'Promo 3','description',152,11,'promo-3','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-13 15:05:45',1,NULL),(8,'Promo 4','description',152,21,'promo-4','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-13 14:20:52',1,NULL),(9,'Promo 5','description',152,34,'promo-5','1.jpg','1.jpg','2019-05-06 12:05:49','2019-05-13 17:15:30',1,NULL);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,15 +227,17 @@ DROP TABLE IF EXISTS `products_orders`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `products_orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `orders_id` int(11) NOT NULL,
-  `products_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `qt` int(11) NOT NULL,
   `total` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `orders_id` (`orders_id`),
-  KEY `plants_id` (`products_id`),
-  CONSTRAINT `products_orders_ibfk_1` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `products_orders_ibfk_2` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `orders_id` (`order_id`),
+  KEY `plants_id` (`product_id`),
+  CONSTRAINT `products_orders_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `products_orders_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -262,7 +266,7 @@ CREATE TABLE `users` (
   `updated_at` datetime NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,7 +275,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','T7lV5oCQUMerxgKDTwkeAj3k0EocoM7so2PpVR8CihkN9mcZq4uS31Nt3UIa'),(3,'test@mail.ru','$2y$10$.zItwvPXXImxvZOjTXzAw.Cg5CL4RCZNwRRAYwUvigoqUrExLiAZe','user','2019-05-07 15:43:29','2019-05-07 15:43:29','NlsuoVtiSqwPd6IrVI5QzVudIBq3HCbH1lDC1N3OQL08FyRJ8CAjFzsBP0Fx'),(4,'test@gmail.com','$2y$10$bge4dNNOdOESInwiMPjh3.stZ5RV/FqWKZcDYgSg8gaovUgBK4SeS','user','2019-05-08 08:07:31','2019-05-08 08:07:31',NULL),(6,'samokish.viktoria@gmail.com','$2y$10$rz/Tnl.LySdGzG1HK8J7hOlUiG4KfI4HQc1vh1U2gQD1wwAzeslp6','user','2019-05-08 10:37:56','2019-05-08 10:37:56','ipPIWaQXqWpDX9abe7Ce1bxf4QUsz5bxgdUwBwj3asEEONvMlEbMcRk21lpS');
+INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','jALtVDfUJL5g8M8QIF6AHkzzxCpoEKt3N9RZMjy1L52zxf5S7B5WUS7n4gMB'),(3,'test@mail.ru','$2y$10$.zItwvPXXImxvZOjTXzAw.Cg5CL4RCZNwRRAYwUvigoqUrExLiAZe','user','2019-05-07 15:43:29','2019-05-07 15:43:29','NlsuoVtiSqwPd6IrVI5QzVudIBq3HCbH1lDC1N3OQL08FyRJ8CAjFzsBP0Fx'),(4,'test@gmail.com','$2y$10$bge4dNNOdOESInwiMPjh3.stZ5RV/FqWKZcDYgSg8gaovUgBK4SeS','user','2019-05-08 08:07:31','2019-05-08 08:07:31',NULL),(7,'samokish.viktoria@gmail.com','$2y$10$8RKlVW1qc5eqUrjfS8m6ZOFe8l7Gi0J.QSrACJE1ucSlmkKYdtrOC','user','2019-05-10 08:38:14','2019-05-10 08:38:14',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -284,4 +288,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-08 19:14:48
+-- Dump completed on 2019-05-13 20:37:56

@@ -33,11 +33,11 @@ Route::post('cart/delete', 'CartController@deleteAll');
 
 Route::get('cart', 'PagesController@cart');
 
-Route::match(['get', 'post'], 'order', 'PagesController@order');
+Route::get('order', 'PagesController@order');
 
+Route::post('order', 'OrderController@store');
 
-
-
+Route::get('order/history', 'OrderController@index');
 
 
 

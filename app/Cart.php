@@ -98,4 +98,20 @@ class Cart extends Model
     {
         return DB::select('select count(product_id) as productsQt from carts where user_id = ?', [$userId]);
     }
+
+    /**
+     * @param $userId
+     * @return int
+     */
+    public static function getTotal($userId)
+    {
+        $products = Cart::index($userId);
+
+        $total = 0;
+        foreach($products as $product) {
+            $total += $product->total;
+        }
+
+        return $total;
+    }
 }

@@ -22,7 +22,7 @@
         <ul class="navbar-nav mr-auto">
             @auth
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/orders">Orders</a>
+                    <a class="nav-link" href="/order/history">Orders</a>
                 </li>
             @endauth
         </ul>

@@ -63,7 +63,8 @@ class PagesController extends Controller
     }
 
     /**
-     * @return Factory|View
+     * @param Request $request
+     * @return Factory| View
      */
     public function order(Request $request)
     {
@@ -72,6 +73,7 @@ class PagesController extends Controller
         $userId = Auth::id();
 
         $cart = Cart::index($userId);
+
         return view('order', ['cart'=>$cart]);
     }
 }
