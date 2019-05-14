@@ -104,7 +104,6 @@ class Cart extends Model
     public static function getTotal($userId)
     {
         $products = Cart::index($userId);
-        var_dump($products);
 
         $total = 0;
         foreach($products as $product) {

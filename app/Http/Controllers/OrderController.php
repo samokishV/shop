@@ -45,7 +45,7 @@ class OrderController
 
             //send mail to user and manager
             $request->user()->notify(new UserOrderMail());
-            
+
             $user = new User();
             $user->email = $request->email;
             $user->notify(new UserOrderMail());

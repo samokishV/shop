@@ -39,6 +39,25 @@ Route::post('order', 'OrderController@store');
 
 Route::get('order/history', 'OrderController@index');
 
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
+
+    Route::get('user', 'UserController@index');
+
+    Route::delete('user/delete/{id}', 'UserController@destroy');
+
+    Route::get('user/add', 'UserController@create');
+
+    Route::post('user/add', 'UserController@store');
+
+    Route::get('user/edit/{id}', 'UserController@edit');
+
+    Route::post('user/edit/{id}', 'UserController@update');
+
+});
+
+
+
+
 
 
 
