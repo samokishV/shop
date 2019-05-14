@@ -27,8 +27,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public static function getManagerMail()
+    /**
+     * @param string $role
+     * @return User
+     */
+    public static function findByRole($role)
     {
-
+        return User::where('role', $role)
+        ->get();
     }
 }

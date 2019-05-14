@@ -81,13 +81,11 @@ class Cart extends Model
      */
     public static function index($userId)
     {
-        $products =  DB::table('carts')
+        return  DB::table('carts')
             ->join('products', 'carts.product_id', '=', 'products.id')
             ->where('user_id', '=', $userId)
             ->select('products.*', 'carts.qt', DB::raw('price*qt as total'))
             ->get();
-
-        return $products;
     }
 
     /**
@@ -106,6 +104,7 @@ class Cart extends Model
     public static function getTotal($userId)
     {
         $products = Cart::index($userId);
+        var_dump($products);
 
         $total = 0;
         foreach($products as $product) {

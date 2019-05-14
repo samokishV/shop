@@ -69,7 +69,13 @@ class Order extends Model
      */
     public static function  getById($orderId)
     {
-
+        return DB::table('orders')
+            ->join('products_orders', 'orders.id', '=', 'products_orders.order_id')
+            ->join('products', 'products_orders.product_id', '=', 'products.id')
+            ->where('orders.id', '=', $orderId)
+            ->select('orders.id',  'orders.name', 'orders.email', 'orders.phone', 'orders.address',
+                'products_orders.*', 'products.title', DB::raw('round(products_orders.total/qt,2) as price'))
+            ->get();
     }
 }
 
