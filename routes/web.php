@@ -60,8 +60,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('order/edit/{id}', 'OrderController@edit');
 
     Route::post('order/edit/{id}', 'OrderController@update');
+
+    Route::get('category', 'CategoryController@index');
+
+    Route::delete('category/delete/{id}', 'CategoryController@destroy');
+
+    Route::get('category/add', 'CategoryController@create');
+
+    Route::post('category/add', 'CategoryController@store');
+
+    Route::get('category/edit/{id}', 'CategoryController@edit');
+
+    Route::post('category/edit/{id}', 'CategoryController@update');
 });
 
+// Public route to show images
+Route::get('img/{image}', 'ImageController@uploadImages');
 
 
 

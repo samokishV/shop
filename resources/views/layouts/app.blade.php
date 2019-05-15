@@ -75,5 +75,6 @@
 <script src="/js/cart.js"></script>
 <script src="/js/user.js"></script>
 <script src="/js/order.js"></script>
+<script src="/js/category.js"></script>
 </body>
 </html>
