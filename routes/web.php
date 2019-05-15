@@ -37,7 +37,7 @@ Route::get('order', 'PagesController@order');
 
 Route::post('order', 'OrderController@store');
 
-Route::get('order/history', 'OrderController@index');
+Route::get('order/history', 'OrderController@show');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
@@ -53,6 +53,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
     Route::post('user/edit/{id}', 'UserController@update');
 
+    Route::get('order', 'OrderController@index');
+
+    Route::get('order/edit/{id}', 'OrderController@edit');
+
+    Route::post('order/edit/{id}', 'OrderController@update');
 });
 
 

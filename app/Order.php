@@ -77,5 +77,16 @@ class Order extends Model
                 'products_orders.*', 'products.title', DB::raw('round(products_orders.total/qt,2) as price'))
             ->get();
     }
+
+    /**
+     * @param int $id
+     * @param bool $status
+     */
+    public static function changeStatus($id, $status)
+    {
+        $order = Order::find($id);
+        $order->processed = $status;
+        $order->save();
+    }
 }
 

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class OrderController
 {
@@ -59,11 +60,62 @@ class OrderController
         }
     }
 
-    public function index()
+    /**
+     * Display a listing of the resource for definite user
+     *
+     * @return Response
+     */
+    public function show()
     {
         $userId = Auth::id();
         $orders = Order::index($userId);
 
         return view('order-history', ['orders'=>$orders]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $orders = Order::all();
+        return view('orders.index', ['orders' => $orders]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $info = Order::find($id);
+        $products = Order::getById($id);
+        return view('orders.edit', ['info' => $info,'products' => $products]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(Request $request, $id)
+    {
+        $processed = $request['processed'];
+
+        if($processed=="on") {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+
+        Order::changeStatus($id, $status);
+
+        return redirect('admin/order');
     }
 }
