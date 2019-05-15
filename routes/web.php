@@ -41,6 +41,8 @@ Route::get('order/history', 'OrderController@show');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
+    Route::get('/', 'PagesController@adminIndex');
+
     Route::get('user', 'UserController@index');
 
     Route::delete('user/delete/{id}', 'UserController@destroy');

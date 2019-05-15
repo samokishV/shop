@@ -29,6 +29,14 @@ class PagesController extends Controller
     }
 
     /**
+     * @return Factory| View
+     */
+    public function adminIndex()
+    {
+        return view('admin-index', compact("data"));
+    }
+
+    /**
      * Display the category page.
      *
      * @param Request $request

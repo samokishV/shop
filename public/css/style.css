@@ -24,3 +24,7 @@
     padding:10px;
     border: 1pt solid lightGrey;
 }
+
+.customLink, .customLink:hover{
+    text-decoration: none;
+}
