@@ -76,5 +76,6 @@
 <script src="/js/user.js"></script>
 <script src="/js/order.js"></script>
 <script src="/js/category.js"></script>
+<script src="/js/product.js"></script>
 </body>
 </html>

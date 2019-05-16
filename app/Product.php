@@ -92,4 +92,29 @@ class Product extends Model
 
         return $result;
     }
+
+    /**
+     * @return Product
+     */
+    public static function findAll()
+    {
+        $products =  DB::table('categories')
+            ->join('product_category', 'categories.id', '=', 'product_category.category_id')
+            ->join('products', 'product_category.product_id', '=', 'products.id')
+            ->select('products.*', 'categories.category')
+            ->get();
+
+        return $products;
+    }
+
+    /**
+     * @param int $id
+     * @param bool $status
+     */
+    public static function changeStatus($id, $status)
+    {
+        $product = Product::find($id);
+        $product->promo = $status;
+        $product->save();
+    }
 }
