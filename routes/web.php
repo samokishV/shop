@@ -75,11 +75,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
     Route::get('product', 'ProductController@index');
 
-    // Route::delete('category/delete/{id}', 'CategoryController@destroy');
+    Route::delete('product/delete/{id}', 'ProductController@destroy');
 
-    // Route::get('category/add', 'CategoryController@create');
+    Route::get('product/add', 'ProductController@create');
 
-    // Route::post('category/add', 'CategoryController@store');
+    Route::post('product/add', 'ProductController@store');
+
+    Route::get('product/edit/{id}', 'ProductController@edit');
+
+    Route::post('product/edit/{id}', 'ProductController@update');
 
     Route::get('product/edit-promo/{id}', 'ProductController@updatePromo');
 

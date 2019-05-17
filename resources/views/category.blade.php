@@ -38,7 +38,7 @@
                     <form method='post' action="/cart/add" class="products">
                         {{ csrf_field() }}
                         <a href="/product/{{$product->slug}}">
-                            <img class="card-img-top" src="/img/{{$product->preview}}" alt="{{$product->title}}">
+                            <img class="card-img-top" src="/{{$product->preview}}" alt="{{$product->title}}">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title bold"><a href="/product/{{$product->slug}}">{{$product->title}}</a></h5>

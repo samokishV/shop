@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+use Illuminate\Validation\Rule;
 use App\Product;
+use App\Category;
 use DB;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -82,5 +85,120 @@ class ProductController extends Controller
         Product::changeStatus($id, $status);
 
         return redirect('admin/product');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        $categories = Category::all();
+        return view('products.add', ['categories' => $categories]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        $validator =  Validator::make($request->all(), [
+            'category' => 'required | numeric',
+            'slug' => ['required', 'alpha_dash', Rule::unique('products')],
+            'image' => ['required', Rule::dimensions()->minWidth(400)->minHeight(400)],
+            'image.*' => 'mimes:jpeg,png,jpg | max:2048',
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required | numeric',
+            'in_stock' => 'required | numeric'
+        ]);
+
+        if ($validator->fails()) {
+            $request->flash();
+            $categories = Category::all();
+            return view('products.add', ['categories' => $categories])->withErrors($validator->messages());
+        } else {
+            $categoryId = $request['category'];
+            $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
+            $info["image"] = $request->file("image");
+            $status = $request['promo'];
+
+            if($status=="on") {
+                $promo = 1;
+            } else {
+                $promo = 0;
+            }
+            Product::store($categoryId, $info, $promo);
+            return redirect('admin/product');
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $product = Product::find($id);
+        $categories = Category::all();
+        return view('products.edit', ['product' => $product, 'categories' => $categories]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(Request $request, $id)
+    {
+        $validator =  Validator::make($request->all(), [
+            'category' => 'required | numeric',
+            'slug' => ['required', 'alpha_dash', Rule::unique('products')->ignore($id)],
+            'image' => [Rule::dimensions()->minWidth(400)->minHeight(400)],
+            'image.*' => 'mimes:jpeg,png,jpg | max:2048',
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required | numeric',
+            'in_stock' => 'required | numeric'
+        ]);
+
+        if ($validator->fails()) {
+            $request->flash();
+            $categories = Category::all();
+            return view('products.edit', ['categories' => $categories])->withErrors($validator->messages());
+        } else {
+            $categoryId = $request['category'];
+            $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
+            $info["image"] = $request->file("image");
+            $status = $request['promo'];
+
+            if($status=="on") {
+                $promo = 1;
+            } else {
+                $promo = 0;
+            }
+            Product::updateById($id, $categoryId, $info, $promo);
+            return redirect('admin/product');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+        $product->delete();
     }
 }
