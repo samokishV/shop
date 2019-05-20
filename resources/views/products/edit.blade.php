@@ -3,6 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm">
+            @foreach($products as $product)
             <form action="" method="post" id="product-add" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <p><h3>Edit product</h3></p>
@@ -55,7 +56,7 @@
                     <label for="category">Category</label>
                     <select name="category" id="category">
                         @foreach($categories as $category)
-                            <option value="{{$category->id}}" @if(old('$category', $product->category)==$category->category) selected @endif>{{$category->category}}</option>
+                            <option value="{{$category->id}}" @if($category->id==old('category', $product->category_id)) selected @endif>{{$category->category}}</option>
                         @endforeach
                     </select>
                     @if ($errors->has('category'))
@@ -115,6 +116,7 @@
                 </div>
                 <input type="submit" class="btn btn-success btn-lg w-100" value="Submit">
             </form>
+            @endforeach
         </div>
     </div>
     <div class="row">

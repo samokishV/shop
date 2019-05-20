@@ -109,6 +109,22 @@ class Product extends Model
 
     /**
      * @param int $id
+     * @return Product
+     */
+    public static function findById($id)
+    {
+        $products =  DB::table('categories')
+            ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
+            ->join('products', 'products_categories.product_id', '=', 'products.id')
+            ->where('products.id', '=', $id)
+            ->select('products.*', 'categories.id as category_id')
+            ->get();
+
+        return $products;
+    }
+
+    /**
+     * @param int $id
      * @param bool $status
      */
     public static function changeStatus($id, $status)

@@ -145,9 +145,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::find($id);
+        $products = Product::findById($id);
         $categories = Category::all();
-        return view('products.edit', ['product' => $product, 'categories' => $categories]);
+        return view('products.edit', ['products' => $products, 'categories' => $categories]);
     }
 
     /**
@@ -172,8 +172,9 @@ class ProductController extends Controller
 
         if ($validator->fails()) {
             $request->flash();
+            $products = Product::findById($id);
             $categories = Category::all();
-            return view('products.edit', ['categories' => $categories])->withErrors($validator->messages());
+            return view('products.edit', ['categories' => $categories, 'products' => $products])->withErrors($validator->messages());
         } else {
             $categoryId = $request['category'];
             $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
