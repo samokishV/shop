@@ -22,7 +22,7 @@ class PagesController extends Controller
     public function index()
     {
         $data = [];
-        $data['categories'] = Category::all();
+        $data['categories'] = Category::findWithProducts();
         $data['promo'] = Product::findPromo();
 
         return view('index', compact("data"));

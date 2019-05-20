@@ -71,4 +71,19 @@ class Category extends Model
 
         $category->delete();
     }
+
+    /**
+     * @return Category
+     */
+    public static function findWithProducts()
+    {
+        $products =  DB::table('categories')
+            ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
+            ->groupBy('category_id')
+            ->havingRaw('count(category_id) > 0')
+            ->select('categories.*')
+            ->get();
+
+        return $products;
+    }
 }
