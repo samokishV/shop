@@ -87,4 +87,14 @@ class User extends Authenticatable
             return false;
         }
     }
+
+    /**
+     * @return bool
+     */
+    public function isManager()
+    {
+        if($this->role === "manager") {
+            return true;
+        }
+    }
 }

@@ -43,6 +43,7 @@ class Kernel extends HttpKernel
 
         'approver+' => [
             \App\Http\Middleware\Admin::class,
+            \App\Http\Middleware\Manager::class
         ],
     ];
 
@@ -60,6 +61,8 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'admin' => \App\Http\Middleware\Admin::class
+        'admin' => \App\Http\Middleware\Admin::class,
+        'manager' => \App\Http\Middleware\Manager::class,
+        'check_role' => \App\Http\Middleware\CheckRole::class
     ];
 }

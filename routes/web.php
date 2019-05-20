@@ -55,12 +55,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
     Route::post('user/edit/{id}', 'UserController@update');
 
-    Route::get('order', 'OrderController@index');
-
-    Route::get('order/edit/{id}', 'OrderController@edit');
-
-    Route::post('order/edit/{id}', 'OrderController@update');
-
     Route::get('category', 'CategoryController@index');
 
     Route::delete('category/delete/{id}', 'CategoryController@destroy');
@@ -88,6 +82,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('product/edit-promo/{id}', 'ProductController@updatePromo');
 
     Route::post('product/edit-promo/{id}', 'ProductController@updatePromo');
+});
+
+Route::group(['prefix' => 'admin/order', 'middleware' => ['check_role:admin,manager']], function() {
+
+    Route::get('/', 'OrderController@index');
+
+    Route::get('edit/{id}', 'OrderController@edit');
+
+    Route::post('edit/{id}', 'OrderController@update');
+
 });
 
 // Public route to show images
