@@ -39,6 +39,7 @@ $(document).ready(function() {
             }
         });
         $(this).remove();
+        arr = $(":input[type=number]");
         return false;
     });
 

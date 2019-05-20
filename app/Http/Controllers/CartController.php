@@ -57,15 +57,14 @@ class CartController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param string $productId
-     * @return void
      */
     public function update(Request $request, $productId)
     {
         $userId = Auth::id();
         $qt= $request->qt;
 
-        $result = Cart::updateById($userId, $productId, $qt);
-        return $result;
+        Cart::updateById($userId, $productId, $qt);
     }
 }

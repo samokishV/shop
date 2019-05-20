@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Rules\PhoneNumber;
 
 class OrderController
 {
@@ -22,9 +23,9 @@ class OrderController
     public function store(Request $request)
     {
         $validator =  Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
+            'name' => 'required | alpha',
+            'email' => 'required | email',
+            'phone' => ['required', new PhoneNumber],
             'address' => 'required'
         ]);
 
@@ -42,6 +43,7 @@ class OrderController
             $cart = Cart::index($userId)->toArray();
             $orderId = Order::store($userId, $userInfo, $total, $cart);
 
+            $userInfo = Order::find($orderId);
             $order = Order::getById($orderId);
 
             //send mail to user and manager
@@ -53,7 +55,7 @@ class OrderController
 
             $managers = User::findByRole('manager');
             foreach($managers as $manager) {
-                Mail::to($manager->email)->send(new ManagerOrderMail($order));
+                Mail::to($manager->email)->send(new ManagerOrderMail($userInfo, $order));
             }
 
             return redirect('order/history');

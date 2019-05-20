@@ -12,7 +12,7 @@
             {{ csrf_field() }}
             <div class="row justify-content-md-center card-body cart-product">
                 <div class="col col-lg-2">
-                    <img src="/img/{{$product->original}}" alt="{{$product->title}}" width="80%">
+                    <img src="/{{$product->preview}}" alt="{{$product->title}}" width="80%">
                 </div>
                 <div class="col col-lg">
                     <h5 class="card-title bold">{{$product->title}}</h5>
@@ -47,7 +47,6 @@
         </form>
     @endforeach
     <div class="d-flex justify-content-end">
-        <!-- TolalQt:  -->
     </div>
     <div class="row">
         <div class="w-50">
