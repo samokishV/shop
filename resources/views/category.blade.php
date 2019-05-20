@@ -29,8 +29,8 @@
                     <option value="title-desc" @if (old('sort-options')=="title-desc") selected @endif>By name from Z to A</option>
                     <option value="price-asc" @if (old('sort-options')=="price-asc") selected @endif>By price ascending</option>
                     <option value="price-desc" @if (old('sort-options')=="price-desc") selected @endif>By price descending</option>
-                    <option value="create_at-asc" @if (old('sort-options')=="create_at-asc") selected @endif>From new to old</option>
-                    <option value="create_at-desc" @if (old('sort-options')=="create_at-desc") selected @endif>From old to new</option>
+                    <option value="created_at-asc" @if (old('sort-options')=="created_at-asc") selected @endif>From new to old</option>
+                    <option value="created_at-desc" @if (old('sort-options')=="created_at-desc") selected @endif>From old to new</option>
                 </select>
             </div>
             @foreach($products as $product)
@@ -66,7 +66,7 @@
                 </div>
             @endforeach
             <div class="col-sm-12 d-flex justify-content-center">
-               {{ $products->links() }}
+                {{ $products->appends(request()->except(['page','_token']))->links() }}
             </div>
         </div>
     </div>
