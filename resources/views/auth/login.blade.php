@@ -55,13 +55,19 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                <a class="btn btn-link btn-sm" href="{{ route('password.request') }}">
                                     Forgot Your Password?
                                 </a>
 
-                                <a class="btn btn-link" href="{{ route('register') }}">
+                                <a class="btn btn-link btn-sm" href="{{ route('register') }}">
                                     Not Registered Yet?
                                 </a>
+                            </div>
+                        </div>
+                        <p style="margin-left:10px">OR</p>
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <a href="{{url('/redirect')}}" class="btn btn-primary">Login with Facebook</a>
                             </div>
                         </div>
                     </form>
@@ -71,3 +77,6 @@
     </div>
 </div>
 @endsection
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v3.3&appId=2439952276237335&autoLogAppEvents=1"></script>

@@ -13,7 +13,7 @@
 
 Route::get('/', 'PagesController@index');
 
-Route::get('home', 'PagesController@index');
+Route::get('home', 'PagesController@index')->name('home');;
 
 Route::match(['get', 'post'], '/category/{catSlug}', 'PagesController@category');
 
@@ -96,6 +96,9 @@ Route::group(['prefix' => 'admin/order', 'middleware' => ['check_role:admin,mana
 
 // Public route to show images
 Route::get('img/{image}', 'ImageController@uploadImages');
+
+Route::get('/redirect', 'SocialAuthFacebookController@redirect');
+Route::get('/callback', 'SocialAuthFacebookController@callback');
 
 
 

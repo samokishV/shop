@@ -120,7 +120,7 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`id`),
   KEY `fk_orders_1_idx` (`user_id`),
   CONSTRAINT `fk_orders_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +129,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (56,7,556,'1','1',1,'1','assa@mdasd.ru','2019-05-13 17:39:49','2019-05-15 10:53:06'),(57,7,456,'1','1',1,'1','assa@mdasd.ru','2019-05-13 17:40:11','2019-05-16 15:53:06'),(58,7,152,'1','1',1,'1','assa@mdasd.ru','2019-05-14 07:46:38','2019-05-16 13:37:30'),(59,7,152,'1','1',0,'1','assa@mdasd.ru','2019-05-14 10:23:20','2019-05-15 10:53:39'),(97,7,152,'1','1',1,'1','assa@mdasd.ru','2019-05-14 11:03:15','2019-05-15 10:53:33'),(98,7,152,'1','1',0,'1','assa@mdasd.ru','2019-05-14 11:05:07','2019-05-16 13:37:30'),(99,12,456,'1','1',1,'1','assa@mdasd.ru','2019-05-15 09:30:54','2019-05-15 10:53:33');
+INSERT INTO `orders` VALUES (56,7,556,'1','1',1,'1','assa@mdasd.ru','2019-05-13 17:39:49','2019-05-15 10:53:06'),(57,7,456,'1','1',1,'1','assa@mdasd.ru','2019-05-13 17:40:11','2019-05-16 15:53:06'),(58,7,152,'1','1',1,'1','assa@mdasd.ru','2019-05-14 07:46:38','2019-05-16 13:37:30'),(59,7,152,'1','1',0,'1','assa@mdasd.ru','2019-05-14 10:23:20','2019-05-15 10:53:39'),(97,7,152,'1','1',1,'1','assa@mdasd.ru','2019-05-14 11:03:15','2019-05-15 10:53:33'),(98,7,152,'1','1',0,'1','assa@mdasd.ru','2019-05-14 11:05:07','2019-05-16 13:37:30'),(99,12,456,'1','1',1,'1','assa@mdasd.ru','2019-05-15 09:30:54','2019-05-15 10:53:33'),(100,7,6156,'4545454','gddfdf',0,'namje','name@mail.ru','2019-05-20 12:25:36','2019-05-20 12:25:36'),(101,7,908,'2312413324','sdfdsfdggs',0,'dasd','samokish.viktoria@gmail.com','2019-05-20 12:35:46','2019-05-20 12:35:46'),(102,7,1302,'4232352352','dsgdfsgdfs',1,'fdgg','samokish.viktoria@gmail.com','2019-05-20 12:36:50','2019-05-20 12:39:43'),(103,7,1260,'+380984363000','dsfdf',0,'fdg','samokish.viktoria@gmail.com','2019-05-20 12:46:25','2019-05-20 12:46:25'),(104,7,152,'0984363000','fdsf',1,'dfsd','samokish.viktoria@gmail.com','2019-05-20 12:47:01','2019-05-20 12:47:38'),(105,7,152,'+380984363000','asdsd',0,'Name','samokish.viktoria@gmail.com','2019-05-20 12:52:34','2019-05-20 12:52:34');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +179,7 @@ CREATE TABLE `products` (
   `promo` tinyint(1) DEFAULT NULL,
   `additional` json DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +188,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Title','Description',450,8,'test-product','img/small_n1m2dakv9a8wo4gskwco0wko4w0ckg8.jpg','img/KANZLT22VbvhI5gtxaBhxCNkix7PlARmTMcSa38Y.jpeg','2019-05-03 15:21:19','2019-05-16 16:27:20',1,NULL),(2,'Product 2','Some description',550,0,'test-product-2','img/small_30gsznszjy68o4s88w84wg4c448g4k8.jpg','img/W1fAcTirV05UE1jGD4ngPvqUoJCPhWH5tPIvDWGs.jpeg','2019-05-03 15:21:19','2019-05-16 16:23:42',0,NULL),(3,'Product 3','Some description',1050,0,'test-product-3','img/small_l6cm1s1p91s8wss0ck0sk44k84ko4ks.jpg','img/cjusRiBtddFEzmkgEM5ZnmFrAd3pud0W4qNMoWCv.jpeg','2019-05-03 15:21:19','2019-05-16 16:27:20',1,NULL),(4,'Title','Description',450,99,'test-product-4','img/small_qi3ezugmzjks84kwo8c4o0s4g8ocg0g.jpg','img/9kWgo2WGFbtXTiKf3nr1b0lk61DzZWVIS4Znb7rl.jpeg','2019-05-03 17:53:16','2019-05-16 16:27:30',0,'{\"height\": \"50\", \"weight\": \"115\"}'),(5,'Promo 1','description',152,6,'promo-1','img/small_qgc8ej16cw04kk4w0owc4g8kkggo8gk.jpg','img/UQYljPE9UUluNps9lR1Ia3zTBZyxulT7zeAkE4ZI.jpeg','2019-05-06 12:05:49','2019-05-16 16:23:43',0,NULL),(6,'Promo 2','description',252,6,'promo-2','img/small_g2s5wboko9skscwgo0o8wk00cg8ggg8.jpg','img/9I1b0Ddk6fpt0PUiZNl3CLdepjMj6ReVksgJGBeZ.jpeg','2019-05-06 12:05:49','2019-05-16 16:27:33',1,NULL),(7,'Promo 3','description',152,9,'promo-3','img/small_agmd8ietsaw4okogow84gsogwssg0c4.jpg','img/ILG4mhHENtGfWog1OOvVESIKyNspD7potC1wP1oV.jpeg','2019-05-06 12:05:49','2019-05-16 16:27:25',1,NULL),(8,'Promo 4','description',152,16,'promo-4','img/small_ogzipe9tdk0kkks8c4w84gog0wo8k0s.jpg','img/qlbyMSIk1dXoGgLKueaRmxmFVjsPeLN8oy1FlwQy.jpeg','2019-05-06 12:05:49','2019-05-16 16:23:43',0,NULL),(9,'Promo 5','description',152,30,'promo-5','img/small_phzlkm66q80wgw488o0gccw80wskosk.jpg','img/Ny60yLSCwS0IysOHSJJ44gRh5krUwoYUCTSjjMcF.jpeg','2019-05-06 12:05:49','2019-05-16 16:27:34',1,NULL);
+INSERT INTO `products` VALUES (1,'Title','Description',450,68,'test-product','img/small_n1m2dakv9a8wo4gskwco0wko4w0ckg8.jpg','img/KANZLT22VbvhI5gtxaBhxCNkix7PlARmTMcSa38Y.jpeg','2019-05-03 15:21:19','2019-05-20 12:25:36',1,NULL),(2,'Product 2','Some description',550,20,'test-product-2','img/small_30gsznszjy68o4s88w84wg4c448g4k8.jpg','img/W1fAcTirV05UE1jGD4ngPvqUoJCPhWH5tPIvDWGs.jpeg','2019-05-03 15:21:19','2019-05-16 16:23:42',0,NULL),(3,'Product 3','Some description',1050,23,'test-product-3','img/small_l6cm1s1p91s8wss0ck0sk44k84ko4ks.jpg','img/cjusRiBtddFEzmkgEM5ZnmFrAd3pud0W4qNMoWCv.jpeg','2019-05-03 15:21:19','2019-05-20 12:36:50',1,NULL),(4,'Title','Description',450,99,'test-product-4','img/small_qi3ezugmzjks84kwo8c4o0s4g8ocg0g.jpg','img/9kWgo2WGFbtXTiKf3nr1b0lk61DzZWVIS4Znb7rl.jpeg','2019-05-03 17:53:16','2019-05-16 16:27:30',0,'{\"height\": \"50\", \"weight\": \"115\"}'),(5,'Promo 1','description',120,18,'promo-1','img/small_qgc8ej16cw04kk4w0owc4g8kkggo8gk.jpg','img/UQYljPE9UUluNps9lR1Ia3zTBZyxulT7zeAkE4ZI.jpeg','2019-05-06 12:05:49','2019-05-16 16:23:43',0,NULL),(6,'Promo 2','description',252,48,'promo-2','img/small_g2s5wboko9skscwgo0o8wk00cg8ggg8.jpg','img/9I1b0Ddk6fpt0PUiZNl3CLdepjMj6ReVksgJGBeZ.jpeg','2019-05-06 12:05:49','2019-05-20 12:46:25',1,NULL),(7,'Promo 3','description',152,89,'promo-3','img/small_agmd8ietsaw4okogow84gsogwssg0c4.jpg','img/ILG4mhHENtGfWog1OOvVESIKyNspD7potC1wP1oV.jpeg','2019-05-06 12:05:49','2019-05-20 12:52:34',1,NULL),(8,'Promo 4','description',152,16,'promo-4','img/small_ogzipe9tdk0kkks8c4w84gog0wo8k0s.jpg','img/qlbyMSIk1dXoGgLKueaRmxmFVjsPeLN8oy1FlwQy.jpeg','2019-05-06 12:05:49','2019-05-16 16:23:43',0,NULL),(9,'Promo 5','description',152,28,'promo-5','img/small_phzlkm66q80wgw488o0gccw80wskosk.jpg','img/Ny60yLSCwS0IysOHSJJ44gRh5krUwoYUCTSjjMcF.jpeg','2019-05-06 12:05:49','2019-05-20 12:47:01',1,NULL);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +210,7 @@ CREATE TABLE `products_categories` (
   KEY `fk_products_categories_2` (`product_id`),
   CONSTRAINT `fk_products_categories_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_products_categories_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,7 +243,7 @@ CREATE TABLE `products_orders` (
   KEY `plants_id` (`product_id`),
   CONSTRAINT `products_orders_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `products_orders_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -252,8 +252,36 @@ CREATE TABLE `products_orders` (
 
 LOCK TABLES `products_orders` WRITE;
 /*!40000 ALTER TABLE `products_orders` DISABLE KEYS */;
-INSERT INTO `products_orders` VALUES (1,56,5,1,152,'2019-05-13 17:39:49','2019-05-13 17:39:49'),(2,56,6,1,252,'2019-05-13 17:39:49','2019-05-13 17:39:49'),(3,56,7,1,152,'2019-05-13 17:39:49','2019-05-13 17:39:49'),(4,57,8,3,456,'2019-05-13 17:40:11','2019-05-13 17:40:11'),(5,58,9,1,152,'2019-05-14 07:46:38','2019-05-14 07:46:38'),(6,59,9,1,152,'2019-05-14 10:23:20','2019-05-14 10:23:20'),(7,97,8,1,152,'2019-05-14 11:03:15','2019-05-14 11:03:15'),(8,98,9,1,152,'2019-05-14 11:05:07','2019-05-14 11:05:07'),(9,99,9,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(10,99,8,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(11,99,7,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54');
+INSERT INTO `products_orders` VALUES (1,56,5,1,152,'2019-05-13 17:39:49','2019-05-13 17:39:49'),(2,56,6,1,252,'2019-05-13 17:39:49','2019-05-13 17:39:49'),(3,56,7,1,152,'2019-05-13 17:39:49','2019-05-13 17:39:49'),(4,57,8,3,456,'2019-05-13 17:40:11','2019-05-13 17:40:11'),(5,58,9,1,152,'2019-05-14 07:46:38','2019-05-14 07:46:38'),(6,59,9,1,152,'2019-05-14 10:23:20','2019-05-14 10:23:20'),(7,97,8,1,152,'2019-05-14 11:03:15','2019-05-14 11:03:15'),(8,98,9,1,152,'2019-05-14 11:05:07','2019-05-14 11:05:07'),(9,99,9,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(10,99,8,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(11,99,7,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(12,100,1,12,5400,'2019-05-20 12:25:36','2019-05-20 12:25:36'),(13,100,6,3,756,'2019-05-20 12:25:36','2019-05-20 12:25:36'),(14,101,9,1,152,'2019-05-20 12:35:46','2019-05-20 12:35:46'),(15,101,6,3,756,'2019-05-20 12:35:46','2019-05-20 12:35:46'),(16,102,6,1,252,'2019-05-20 12:36:50','2019-05-20 12:36:50'),(17,102,3,1,1050,'2019-05-20 12:36:50','2019-05-20 12:36:50'),(18,103,6,5,1260,'2019-05-20 12:46:25','2019-05-20 12:46:25'),(19,104,9,1,152,'2019-05-20 12:47:01','2019-05-20 12:47:01'),(20,105,7,1,152,'2019-05-20 12:52:34','2019-05-20 12:52:34');
 /*!40000 ALTER TABLE `products_orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `social_facebook_accounts`
+--
+
+DROP TABLE IF EXISTS `social_facebook_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `social_facebook_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `provider_user_id` varchar(100) DEFAULT NULL,
+  `provider` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `social_facebook_accounts`
+--
+
+LOCK TABLES `social_facebook_accounts` WRITE;
+/*!40000 ALTER TABLE `social_facebook_accounts` DISABLE KEYS */;
+INSERT INTO `social_facebook_accounts` VALUES (1,7,'396856127568419','facebook','2019-05-21 05:35:34','2019-05-21 05:35:34');
+/*!40000 ALTER TABLE `social_facebook_accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -281,7 +309,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','jALtVDfUJL5g8M8QIF6AHkzzxCpoEKt3N9RZMjy1L52zxf5S7B5WUS7n4gMB'),(7,'samokish.viktoria@gmail.com','$2y$10$8RKlVW1qc5eqUrjfS8m6ZOFe8l7Gi0J.QSrACJE1ucSlmkKYdtrOC','manager','2019-05-10 08:38:14','2019-05-15 09:30:12','jnYlP7vXu1PJzFUiM4stmQoSFvZsO6Mm9ilEAHF6uaFiOO2T0caWmjImmyx8'),(12,'test2@mail.ru','$2y$10$8ILq00ly/UJznDD7Vtu8MOs.nKmvQBTFdRlHnadtmidDH3AIlpIQ.','admin','2019-05-14 15:57:51','2019-05-14 16:09:02',NULL),(13,'test@mail.ru','$2y$10$Of6KwZfLoBQVH5vm5FWdkuLlMe/dVfpnY73P.u0bm8R4hNhXBxWSK','user','2019-05-14 16:08:31','2019-05-14 16:08:31',NULL);
+INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','jALtVDfUJL5g8M8QIF6AHkzzxCpoEKt3N9RZMjy1L52zxf5S7B5WUS7n4gMB'),(7,'samokish.viktoria@gmail.com','$2y$10$8RKlVW1qc5eqUrjfS8m6ZOFe8l7Gi0J.QSrACJE1ucSlmkKYdtrOC','manager','2019-05-10 08:38:14','2019-05-15 09:30:12','kKhsynlmyyBvC0Ga8fOhNFwVMODV7ekqzfyyA8wibp4HeVmtglUvv25dlB98'),(12,'test2@mail.ru','$2y$10$8ILq00ly/UJznDD7Vtu8MOs.nKmvQBTFdRlHnadtmidDH3AIlpIQ.','admin','2019-05-14 15:57:51','2019-05-14 16:09:02',NULL),(13,'test@mail.ru','$2y$10$Of6KwZfLoBQVH5vm5FWdkuLlMe/dVfpnY73P.u0bm8R4hNhXBxWSK','user','2019-05-14 16:08:31','2019-05-14 16:08:31',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -294,4 +322,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-17 19:43:20
+-- Dump completed on 2019-05-21 12:21:50
