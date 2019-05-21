@@ -68,6 +68,7 @@
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <a href="{{url('/redirect')}}" class="btn btn-primary">Login with Facebook</a>
+                                <a href="{{url('/redirect/twitter')}}" class="btn btn-primary">Login with Twitter</a>
                             </div>
                         </div>
                     </form>

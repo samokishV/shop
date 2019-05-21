@@ -87,7 +87,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,6 +96,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES (1,'2019_05_21_101244_create_social_twitter_accounts_table',1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,6 +286,31 @@ INSERT INTO `social_facebook_accounts` VALUES (1,7,'396856127568419','facebook',
 UNLOCK TABLES;
 
 --
+-- Table structure for table `social_twitter_accounts`
+--
+
+DROP TABLE IF EXISTS `social_twitter_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `social_twitter_accounts` (
+  `user_id` int(11) NOT NULL,
+  `provider_user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `social_twitter_accounts`
+--
+
+LOCK TABLES `social_twitter_accounts` WRITE;
+/*!40000 ALTER TABLE `social_twitter_accounts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `social_twitter_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -309,7 +335,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','jALtVDfUJL5g8M8QIF6AHkzzxCpoEKt3N9RZMjy1L52zxf5S7B5WUS7n4gMB'),(7,'samokish.viktoria@gmail.com','$2y$10$8RKlVW1qc5eqUrjfS8m6ZOFe8l7Gi0J.QSrACJE1ucSlmkKYdtrOC','manager','2019-05-10 08:38:14','2019-05-15 09:30:12','kKhsynlmyyBvC0Ga8fOhNFwVMODV7ekqzfyyA8wibp4HeVmtglUvv25dlB98'),(12,'test2@mail.ru','$2y$10$8ILq00ly/UJznDD7Vtu8MOs.nKmvQBTFdRlHnadtmidDH3AIlpIQ.','admin','2019-05-14 15:57:51','2019-05-14 16:09:02',NULL),(13,'test@mail.ru','$2y$10$Of6KwZfLoBQVH5vm5FWdkuLlMe/dVfpnY73P.u0bm8R4hNhXBxWSK','user','2019-05-14 16:08:31','2019-05-14 16:08:31',NULL);
+INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','jALtVDfUJL5g8M8QIF6AHkzzxCpoEKt3N9RZMjy1L52zxf5S7B5WUS7n4gMB'),(7,'samokish.viktoria@gmail.com','$2y$10$8RKlVW1qc5eqUrjfS8m6ZOFe8l7Gi0J.QSrACJE1ucSlmkKYdtrOC','manager','2019-05-10 08:38:14','2019-05-15 09:30:12','xrDnGbXTQRY6E6C4Lz95Tetu5UVanRsJfAKC7fH7uYdoSktzdVRideajhjGt'),(12,'test2@mail.ru','$2y$10$8ILq00ly/UJznDD7Vtu8MOs.nKmvQBTFdRlHnadtmidDH3AIlpIQ.','admin','2019-05-14 15:57:51','2019-05-14 16:09:02',NULL),(13,'test@mail.ru','$2y$10$Of6KwZfLoBQVH5vm5FWdkuLlMe/dVfpnY73P.u0bm8R4hNhXBxWSK','user','2019-05-14 16:08:31','2019-05-14 16:08:31',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -322,4 +348,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-21 12:21:50
+-- Dump completed on 2019-05-21 20:29:40

@@ -100,6 +100,9 @@ Route::get('img/{image}', 'ImageController@uploadImages');
 Route::get('/redirect', 'SocialAuthFacebookController@redirect');
 Route::get('/callback', 'SocialAuthFacebookController@callback');
 
+Route::get('/redirect/twitter', 'SocialAuthTwitterController@redirect');
+Route::get('/callback/twitter', 'SocialAuthTwitterController@callback');
+
 
 
 
