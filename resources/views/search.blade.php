@@ -8,9 +8,10 @@
         <div class="col-sm-12 row d-flex justify-content-start">
             @foreach($group as $product)
             <div class="card m-2" style="width: 18rem;">
-                <form method='post' action="" class="products">
+                <form method='post' action="/cart/add" class="products">
+                    {{ csrf_field() }}
                     <a href="/{{$product->slug}}">
-                        <img class="card-img-top" src="/img/{{$product->preview}}" alt="{{$product->title}}">
+                        <img class="card-img-top" src="/{{$product->preview}}" alt="{{$product->title}}">
                     </a>
                     <div class="card-body">
                         <h5 class="card-title bold"><a href="/{{$product->slug}}">{{$product->title}}</a></h5>
