@@ -4,8 +4,9 @@ namespace App;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
-class Order extends Model
+class Order extends MyModel
 {
     /**
      * @param int $userId
@@ -55,11 +56,11 @@ class Order extends Model
      */
     public static function index($userId)
     {
-        return DB::table('orders')
+        return Order::where('user_id', '=', $userId)
             ->join('products_orders', 'orders.id', '=', 'products_orders.order_id')
             ->join('products', 'products_orders.product_id', '=', 'products.id')
-            ->where('orders.user_id', '=', $userId)
-            ->select('orders.id', 'products_orders.*', 'products.title', DB::raw('round(products_orders.total/qt,2) as price'))
+            ->select('products_orders.*', 'orders.id', 'products.title', DB::raw('round(products_orders.total/qt,2) as price'))
+            ->orderBy('orders.id')
             ->get();
     }
 
@@ -69,10 +70,9 @@ class Order extends Model
      */
     public static function  getById($orderId)
     {
-        return DB::table('orders')
+        return Order::where('orders.id', '=', $orderId)
             ->join('products_orders', 'orders.id', '=', 'products_orders.order_id')
             ->join('products', 'products_orders.product_id', '=', 'products.id')
-            ->where('orders.id', '=', $orderId)
             ->select('orders.id',  'orders.name', 'orders.email', 'orders.phone', 'orders.address',
                 'products_orders.*', 'products.title', DB::raw('round(products_orders.total/qt,2) as price'))
             ->get();

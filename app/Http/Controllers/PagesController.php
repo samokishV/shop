@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Order;
 use DB;
 use Illuminate\Contracts\View\Factory as Factory;
 use Illuminate\View\View as View;

@@ -47,6 +47,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('timezone') ? ' has-error' : '' }}">
+                            <div class="col-md-6">
+                                <input id="timezone" type="hidden" class="form-control" name="timezone" required value="">
+
+                                @if ($errors->has('timezone'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('timezone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">

@@ -16,4 +16,7 @@ $(document).ready(function() {
         });
         $(this).closest("tr").remove();
     });
+
+    var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    $("#timezone").val(timezone);
 });
