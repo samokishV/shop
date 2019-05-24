@@ -4,7 +4,7 @@
     <div class="container main">
         <div class="row">
             <div class="col-sm-5">
-                <img class="d-block h-100" src="/img/{{$product->original_img}}" alt="First slide">
+                <img class="d-block h-100" src="/{{$product->original_img}}" alt="First slide">
             </div>
             <div class="col-sm">
                 <div class="card" style="width: 20rem;">
