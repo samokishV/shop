@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    
 <h1> Categories </h1>
 <div class="col-sm-12 row d-flex justify-content-start">
     @isset($data['categories'])

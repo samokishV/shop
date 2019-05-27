@@ -49,7 +49,7 @@
 
                         <div class="form-group{{ $errors->has('timezone') ? ' has-error' : '' }}">
                             <div class="col-md-6">
-                                <input id="timezone" type="hidden" class="form-control" name="timezone" required value="">
+                                <input id="timezone" type="hidden" class="form-control timezone" name="timezone" required value="">
 
                                 @if ($errors->has('timezone'))
                                     <span class="help-block">

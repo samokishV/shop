@@ -42,8 +42,9 @@ class User extends Authenticatable
      * @param string $email
      * @param string $password
      * @param string $role
+     * @param string $timezone
      */
-    public static function store($email, $password, $role)
+    public static function store($email, $password, $role, $timezone)
     {
         $hash = Hash::make($password);
 
@@ -51,6 +52,7 @@ class User extends Authenticatable
         $user->email = $email;
         $user->password = $hash;
         $user->role = $role;
+        $user->timezone = $timezone;
         $user->save();
     }
 
@@ -59,8 +61,9 @@ class User extends Authenticatable
      * @param string $email
      * @param string $password
      * @param string $role
+     * @param string $timezone
      */
-    public static function updateById($id, $email, $password, $role)
+    public static function updateById($id, $email, $password, $role, $timezone)
     {
         $user = User::find($id);
 
@@ -73,6 +76,7 @@ class User extends Authenticatable
             $user->password = $password;
         }
         $user->role = $role;
+        $user->timezone = $timezone;
         $user->save();
     }
 

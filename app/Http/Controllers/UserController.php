@@ -43,7 +43,8 @@ class UserController extends Controller
         $validator =  Validator::make($request->all(), [
             'email' => 'required | email | unique:"users',
             'password' => 'required | min:8',
-            'role' => 'required'
+            'role' => 'required',
+            'timezone' => 'nullable|timezone',
         ]);
 
         if ($validator->fails()) {
@@ -53,7 +54,8 @@ class UserController extends Controller
             $email = $request->email;
             $password = $request->password;
             $role = $request->role;
-            User::store($email, $password, $role);
+            $timezone = $request->timezone;
+            User::store($email, $password, $role, $timezone);
             return redirect('admin/user');
         }
     }
@@ -95,17 +97,20 @@ class UserController extends Controller
         $validator =  Validator::make($request->all(), [
             'email' => ['required' , Rule::unique('users')->ignore($user->id)],
             'password' => 'required | min:8',
-            'role' => 'required'
+            'role' => 'required',
+            'timezone' => 'nullable|timezone',
         ]);
 
         if ($validator->fails()) {
             $request->flash();
-            return view('users.add')->withErrors($validator->messages());
+            $user = User::find($id);
+            return view('users.edit', ['user' => $user])->withErrors($validator->messages());
         } else {
             $email = $request->email;
             $password = $request->password;
             $role = $request->role;
-            User::updateById($id, $email, $password, $role);
+            $timezone = $request->timezone;
+            User::updateById($id, $email, $password, $role, $timezone);
             return redirect('admin/user');
         }
     }

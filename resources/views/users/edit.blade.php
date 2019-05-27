@@ -38,6 +38,15 @@
                         </div>
                     @endif
                 </div>
+                <div class="form-group">
+                    <label for="timezone">Timezone</label>
+                    <input type="text" name=timezone value="{{old('timezone', $user->timezone)}}" class="form-control" id="timezone">
+                    @if ($errors->has('timezone'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('timezone') }}
+                        </div>
+                    @endif
+                </div>
                 <input type="submit" class="btn btn-success btn-lg w-100" value="Submit">
             </form>
         </div>

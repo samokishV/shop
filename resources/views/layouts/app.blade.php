@@ -77,5 +77,6 @@
 <script src="/js/order.js"></script>
 <script src="/js/category.js"></script>
 <script src="/js/product.js"></script>
+<script src="/js/timezone.js"></script>
 </body>
 </html>
