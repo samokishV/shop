@@ -26,7 +26,9 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone</label>
-                    <input type="tel" name="phone" value="{{old('phone')}}" class="form-control" required id="phone">
+                    <input type="tel" name="phone" value="{{old('phone')}}" class="form-control" required id="phone" size="25">
+                    <input type="checkbox" id="phone_mask" checked class="invisible">
+                    <label id="descr" for="phone_mask"></label>
                     @if ($errors->has('phone'))
                         <div class="alert alert-danger">
                             {{ $errors->first('phone') }}
@@ -75,3 +77,4 @@
         </div>
     </div>
 @endsection
+

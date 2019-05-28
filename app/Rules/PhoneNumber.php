@@ -35,6 +35,6 @@ class PhoneNumber implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'The phone number must be in a valid format';
     }
 }
