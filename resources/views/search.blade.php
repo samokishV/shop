@@ -10,11 +10,11 @@
             <div class="card m-2" style="width: 18rem;">
                 <form method='post' action="/cart/add" class="products">
                     {{ csrf_field() }}
-                    <a href="/{{$product->slug}}">
+                    <a href="/product/{{$product->slug}}">
                         <img class="card-img-top" src="/{{$product->preview}}" alt="{{$product->title}}">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title bold"><a href="/{{$product->slug}}">{{$product->title}}</a></h5>
+                        <h5 class="card-title bold"><a href="/product/{{$product->slug}}">{{$product->title}}</a></h5>
                         <h5 class="card-title">{{$product->price}}</h5>
                         @if($product->in_stock > 0)
                             <h6 class="card-subtitle mb-2 text-muted">in stock: {{$product->in_stock}}</h6>
