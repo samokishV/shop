@@ -21,7 +21,7 @@
                             <div class="row">
                                 <div class="col-sm">
                                     <div class="col-20">
-                                        <input class="form-control" name="qt" type="number" value="1" min="1"  max="{{$product->in_stock}}" id="example-number-input">
+                                        <input class="form-control" name="qt" type="number" value="1" min="1"  max="{{$product->in_stock}}" id="example-number-input" onkeydown="return false">
                                         <input name="id" type="hidden" value="{{$product->id}}">
                                     </div>
                                 </div>
