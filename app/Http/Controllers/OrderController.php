@@ -14,6 +14,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Rules\PhoneNumber;
+use App\Rules\Name;
 
 class OrderController
 {
@@ -23,7 +24,7 @@ class OrderController
     public function store(Request $request)
     {
         $validator =  Validator::make($request->all(), [
-            'name' => 'required | alpha',
+            'name' => ['required', new Name],
             'email' => 'required | email',
             'phone' => ['required', new PhoneNumber],
             'address' => 'required'
