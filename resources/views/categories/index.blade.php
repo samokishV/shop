@@ -12,7 +12,7 @@
         @foreach($categories as $category)
         <tr>
             <td>{{$category->id}}</td>
-            <td>{{$category->category}}</td>
+            <td>{{$catFullName[$category->id]}}</td>
             <td><a href="/category/{{$category->slug}}">{{$category->slug}}</a></td>
             <td align="right">
                 <a href="/admin/category/edit/{{$category->id}}"><button class="btn btn-sm btn-primary">edit</button></a>

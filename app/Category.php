@@ -9,13 +9,15 @@ use Illuminate\Http\UploadedFile;
 class Category extends Model
 {
     /**
+     * @param string $parentId
      * @param string $name
      * @param string $slug
      * @param UploadedFile $image
      */
-    public static function store($name, $slug, $image)
+    public static function store($parentId, $name, $slug, $image)
     {
         $category = new Category();
+        $category->parent_id = $parentId;
         $category->category = $name;
         $category->slug = $slug;
 
@@ -30,17 +32,18 @@ class Category extends Model
 
     /**
      * @param int $id
+     * @param string $parentId
      * @param string $name
      * @param string $slug
      * @param UploadedFile $image
      */
-    public static function updateById($id, $name, $slug, $image)
+    public static function updateById($id, $parentId, $name, $slug, $image)
     {
         $category = Category::find($id);
 
         DB::table('categories')
             ->where('id', $id)
-            ->update(['category' => $name, 'slug' => $slug]);
+            ->update(['category' => $name, 'slug' => $slug, 'parent_id' => $parentId]);
 
         if($image) {
             // delete old images from folder

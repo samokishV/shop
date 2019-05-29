@@ -17,7 +17,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('categories.index', ['categories' => $categories]);
+        $categoriesNames = Category::getCategoriesName();
+        return view('categories.index', ['categories' => $categories, 'catFullName' => $categoriesNames]);
     }
 
     /**
@@ -27,7 +28,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.add');
+        $categories = Category::all();
+        $categoriesNames = Category::getCategoriesName();
+        return view('categories.add', ['categories' => $categories, 'catFullName' => $categoriesNames]);
     }
 
     /**
@@ -39,6 +42,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator =  Validator::make($request->all(), [
+            'parent_category' => 'required',
             'category' => 'required | unique:"categories',
             'slug' => 'required | alpha_dash | unique:"categories',
             'image' => ['required',
@@ -49,12 +53,15 @@ class CategoryController extends Controller
 
         if ($validator->fails()) {
             $request->flash();
-            return view('categories.add')->withErrors($validator->messages());
+            $categories = Category::all();
+            $categoriesNames = Category::getCategoriesName();
+            return view('categories.add', ['categories' => $categories, 'catFullName' => $categoriesNames])->withErrors($validator->messages());
         } else {
+            $parentCategory = $request["parent_category"];
             $category = $request["category"];
             $slug = $request["slug"];
             $image = $request->file("image");
-            Category::store($category, $slug, $image);
+            Category::store($parentCategory, $category, $slug, $image);
             return redirect('admin/category');
         }
     }
@@ -79,7 +86,9 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id);
-        return view('categories.edit', ["category" => $category]);
+        $categories = Category::all();
+        $categoriesNames = Category::getCategoriesName();
+        return view('categories.edit', ["category" => $category, "categories" => $categories, 'catFullName' => $categoriesNames]);
     }
 
     /**
@@ -92,6 +101,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $validator =  Validator::make($request->all(), [
+            'parent_category' => 'required',
             'category' => ['required', Rule::unique('categories')->ignore($id)],
             'slug' => ['required', 'alpha_dash', Rule::unique('categories')->ignore($id)],
             'image' => [Rule::dimensions()->minWidth(400)->minHeight(400)],
@@ -101,12 +111,15 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             $request->flash();
             $category = Category::find($id);
-            return view('categories.edit', ["category" => $category])->withErrors($validator->messages());
+            $categories = Category::all();
+            $categoriesNames = Category::getCategoriesName();
+            return view('categories.edit', ["category" => $category, "categories" => $categories, 'catFullName' => $categoriesNames])->withErrors($validator->messages());
         } else {
+            $parentCategory = $request["parent_category"];
             $category = $request["category"];
             $slug = $request["slug"];
             $image = $request->file("image");
-            Category::updateById($id, $category, $slug, $image);
+            Category::updateById($id, $parentCategory, $category, $slug, $image);
             return redirect('admin/category');
         }
     }

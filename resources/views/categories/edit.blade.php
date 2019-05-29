@@ -7,6 +7,22 @@
                 {{ csrf_field() }}
                 <p><h3>Edit category</h3></p>
                 <div class="form-group">
+                    <label for="parent_category">Parent category</label>
+                    <select name="parent_category" id="parent_category">
+                        <option value="0"> </option>
+                        @foreach($categories as $cat)
+                            <option value="{{$cat->id}}" @if($cat->id==old('parent_category', $category->parent_id)) selected @endif>
+                                {{$catFullName[$cat->id]}}
+                            </option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('parent_category'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('parent_category') }}
+                        </div>
+                    @endif
+                </div>
+                <div class="form-group">
                     <label for="category">Category</label>
                     <input type="text" name="category" value="{{old('category', $category->category)}}" class="form-control" required id="category">
                     @if ($errors->has('category'))
@@ -14,6 +30,7 @@
                             {{ $errors->first('category') }}
                         </div>
                     @endif
+
                 </div>
                 <div class="form-group">
                     <label for="slug">Slug</label>
