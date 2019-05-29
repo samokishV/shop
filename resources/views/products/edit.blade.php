@@ -56,7 +56,7 @@
                     <label for="category">Category</label>
                     <select name="category" id="category">
                         @foreach($categories as $category)
-                            <option value="{{$category->id}}" @if($category->id==old('category', $product->category_id)) selected @endif>{{$category->category}}</option>
+                            <option value="{{$category->id}}" @if($category->id==old('category', $product->category_id)) selected @endif>{{$catFullName[$category->id]}}</option>
                         @endforeach
                     </select>
                     @if ($errors->has('category'))

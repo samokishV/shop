@@ -32,7 +32,7 @@ CREATE TABLE `carts` (
   PRIMARY KEY (`id`),
   KEY `fk_cart_1_idx` (`user_id`),
   CONSTRAINT `fk_cart_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `carts` (
 
 LOCK TABLES `carts` WRITE;
 /*!40000 ALTER TABLE `carts` DISABLE KEYS */;
-INSERT INTO `carts` VALUES (6,1,5,8,'2019-05-08 16:12:12','2019-05-10 17:19:05'),(7,1,6,10,'2019-05-08 16:12:15','2019-05-10 16:34:57'),(19,7,9,2,'2019-05-24 14:22:40','2019-05-24 14:22:40');
+INSERT INTO `carts` VALUES (6,1,5,8,'2019-05-08 16:12:12','2019-05-10 17:19:05'),(7,1,6,10,'2019-05-08 16:12:15','2019-05-10 16:34:57'),(31,29,1,1,'2019-05-28 13:46:54','2019-05-28 13:46:54');
 /*!40000 ALTER TABLE `carts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,9 +60,10 @@ CREATE TABLE `categories` (
   `slug` varchar(45) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug_UNIQUE` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +72,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'Plants','img/small_ef784paxjy80cc4w808kk0w4o400oow.jpg','img/Sq1RfAgeoBlC5nFqavAJGE89Bw1OXoOLdhB9rKkk.jpeg','plants',NULL,NULL),(2,'Test category','img/small_mn7hi4kvfjks04wko0ccsww04c4wgks.jpg','img/C6iw8PW0qIPQhZQyrxpsCqOFAVeIajALhkaK381W.jpeg','test-cat-1',NULL,NULL),(3,'Test category 2','img/small_kzqu9dvwu68wcogg8cg4soggsskc8oo.jpg','img/OR0yO0plssYA8fD4dKH1pCVBtREa8gKpDOjPwo91.jpeg','test-cat-2',NULL,NULL),(18,'New category','img/small_95uh54scadk4gcg8wcckswckw88coww.jpg','img/vEL23U4QFtxGq4xWqRiCxTedxcdHEFAgfOawkBHu.jpeg','new-new-2','2019-05-15 15:49:31','2019-05-15 15:49:31'),(21,'1','img/small_cf6ys1rh568ssw4sgk4kk8ckkkc80w4.jpg','img/9FPZKlTAu4gtGoHxHgn34CPv9kDlKvIWGGSHpBAj.jpeg','1','2019-05-16 11:31:55','2019-05-16 11:31:55'),(29,'ddd','img/small_2k2gksm71duscc4koks4kcsgk8o4c84.jpg','img/Ajc7coWnTjALj1vtfzZwxc4uIS4StWpZjOvPoMtD.jpeg','dfdsf','2019-05-16 13:36:40','2019-05-16 13:36:40');
+INSERT INTO `categories` VALUES (1,'Plants','img/small_ef784paxjy80cc4w808kk0w4o400oow.jpg','img/Sq1RfAgeoBlC5nFqavAJGE89Bw1OXoOLdhB9rKkk.jpeg','plants',NULL,NULL,0),(18,'New category','img/small_95uh54scadk4gcg8wcckswckw88coww.jpg','img/vEL23U4QFtxGq4xWqRiCxTedxcdHEFAgfOawkBHu.jpeg','new-new-2','2019-05-15 15:49:31','2019-05-15 15:49:31',0),(21,'1','img/small_cf6ys1rh568ssw4sgk4kk8ckkkc80w4.jpg','img/9FPZKlTAu4gtGoHxHgn34CPv9kDlKvIWGGSHpBAj.jpeg','1','2019-05-16 11:31:55','2019-05-16 11:31:55',0),(29,'fsdfdddddddddd','img/small_2k2gksm71duscc4koks4kcsgk8o4c84.jpg','img/Ajc7coWnTjALj1vtfzZwxc4uIS4StWpZjOvPoMtD.jpeg','dfd','2019-05-16 13:36:40','2019-05-16 13:36:40',0),(30,'qwe','img/small_s1p1xt0g6dc4o0s8oogso0gk0cgcgcs.jpg','img/8JlmjlFuKtw4iBst1DBEfbIJUc6zH7PoipqMr3uz.jpeg','qwe---','2019-05-28 08:51:12','2019-05-28 08:51:12',0),(31,'krupnomery',NULL,NULL,'krupnomery',NULL,NULL,1),(32,'roses',NULL,NULL,'roses',NULL,NULL,1),(33,'Test category','img/small_mn7hi4kvfjks04wko0ccsww04c4wgks.jpg','img/C6iw8PW0qIPQhZQyrxpsCqOFAVeIajALhkaK381W.jpeg','test-cat-1',NULL,NULL,32),(34,'Test category 2','img/small_kzqu9dvwu68wcogg8cg4soggsskc8oo.jpg','img/OR0yO0plssYA8fD4dKH1pCVBtREa8gKpDOjPwo91.jpeg','test-cat-2',NULL,NULL,32);
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +122,7 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`id`),
   KEY `fk_orders_1_idx` (`user_id`),
   CONSTRAINT `fk_orders_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +131,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (56,7,556,'1','1',1,'1','assa@mdasd.ru','2019-05-13 17:39:49','2019-05-15 10:53:06'),(57,7,456,'1','1',1,'1','assa@mdasd.ru','2019-05-13 17:40:11','2019-05-16 15:53:06'),(58,7,152,'1','1',1,'1','assa@mdasd.ru','2019-05-14 07:46:38','2019-05-16 13:37:30'),(59,7,152,'1','1',0,'1','assa@mdasd.ru','2019-05-14 10:23:20','2019-05-15 10:53:39'),(97,7,152,'1','1',1,'1','assa@mdasd.ru','2019-05-14 11:03:15','2019-05-15 10:53:33'),(98,7,152,'1','1',0,'1','assa@mdasd.ru','2019-05-14 11:05:07','2019-05-16 13:37:30'),(99,12,456,'1','1',1,'1','assa@mdasd.ru','2019-05-15 09:30:54','2019-05-15 10:53:33'),(100,7,6156,'4545454','gddfdf',0,'namje','name@mail.ru','2019-05-20 12:25:36','2019-05-20 12:25:36'),(101,7,908,'2312413324','sdfdsfdggs',0,'dasd','samokish.viktoria@gmail.com','2019-05-20 12:35:46','2019-05-20 12:35:46'),(102,7,1302,'4232352352','dsgdfsgdfs',1,'fdgg','samokish.viktoria@gmail.com','2019-05-20 12:36:50','2019-05-20 12:39:43'),(103,7,1260,'+380984363000','dsfdf',0,'fdg','samokish.viktoria@gmail.com','2019-05-20 12:46:25','2019-05-20 12:46:25'),(104,7,152,'0984363000','fdsf',1,'dfsd','samokish.viktoria@gmail.com','2019-05-20 12:47:01','2019-05-20 12:47:38'),(105,7,152,'+380984363000','asdsd',0,'Name','samokish.viktoria@gmail.com','2019-05-20 12:52:34','2019-05-20 12:52:34'),(106,14,124300,'23423545325135345342552154','xczgdfagdrfcgb.regaerg',0,'username','abarnikov@gmail.com','2019-05-24 08:25:24','2019-05-24 08:25:24'),(107,12,492,'111111111111111111111344134','fgdgdfh',0,'name','samokish.viktoria@gmail.com','2019-05-24 09:50:37','2019-05-24 09:50:37'),(108,12,0,'111111111111111111111344134','fgdgdfh',0,'name','samokish.viktoria@gmail.com','2019-05-24 09:52:03','2019-05-24 09:52:03'),(109,12,456,'3333333334444','fgdgdfh',0,'cccb','samokish.viktoria@gmail.com','2019-05-24 12:14:35','2019-05-24 12:14:35'),(110,7,2252,'213213123123','dsdg',0,'Name','samokish.viktoria@gmail.com','2019-05-24 14:09:48','2019-05-24 14:09:48'),(111,20,152,'111111111111111111','dfsfds',0,'asASA','samokish.viktoria@gmail.com','2019-05-24 14:54:43','2019-05-24 14:54:43');
+INSERT INTO `orders` VALUES (99,12,456,'1','1',1,'1','assa@mdasd.ru','2019-05-15 09:30:54','2019-05-15 10:53:33'),(106,14,124300,'23423545325135345342552154','xczgdfagdrfcgb.regaerg',0,'username','abarnikov@gmail.com','2019-05-24 08:25:24','2019-05-24 08:25:24'),(107,12,492,'111111111111111111111344134','fgdgdfh',0,'name','samokish.viktoria@gmail.com','2019-05-24 09:50:37','2019-05-24 09:50:37'),(108,12,0,'111111111111111111111344134','fgdgdfh',0,'name','samokish.viktoria@gmail.com','2019-05-24 09:52:03','2019-05-24 09:52:03'),(109,12,456,'3333333334444','fgdgdfh',0,'cccb','samokish.viktoria@gmail.com','2019-05-24 12:14:35','2019-05-24 12:14:35'),(112,29,152,'+380(00)000-00-00','sdsdadf',0,'test','dasdas@sd.com','2019-05-28 12:11:41','2019-05-28 12:11:41'),(113,29,450,'+380(00)000-00-00','dfsfdsf',0,'cbvc vbcbvc bcbc','samokish.viktoria@gmail.com','2019-05-28 13:37:16','2019-05-28 13:37:16'),(114,29,152,'+33(333)333-333','апвпвапавпвап апв',0,'аыва аыва','assa@mdasd.ru','2019-05-28 13:40:29','2019-05-28 13:40:29');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,7 +181,7 @@ CREATE TABLE `products` (
   `promo` tinyint(1) DEFAULT NULL,
   `additional` json DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +190,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Title','Description',450,68,'test-product','img/small_n1m2dakv9a8wo4gskwco0wko4w0ckg8.jpg','img/KANZLT22VbvhI5gtxaBhxCNkix7PlARmTMcSa38Y.jpeg','2019-05-03 15:21:19','2019-05-20 12:25:36',1,NULL),(2,'Product 2','Some description',550,-206,'test-product-2','img/small_30gsznszjy68o4s88w84wg4c448g4k8.jpg','img/W1fAcTirV05UE1jGD4ngPvqUoJCPhWH5tPIvDWGs.jpeg','2019-05-03 15:21:19','2019-05-24 08:25:24',0,NULL),(3,'Product 3','Some description',1050,21,'test-product-3','img/small_l6cm1s1p91s8wss0ck0sk44k84ko4ks.jpg','img/cjusRiBtddFEzmkgEM5ZnmFrAd3pud0W4qNMoWCv.jpeg','2019-05-03 15:21:19','2019-05-24 14:09:48',1,NULL),(4,'Title','Description',450,99,'test-product-4','img/small_qi3ezugmzjks84kwo8c4o0s4g8ocg0g.jpg','img/9kWgo2WGFbtXTiKf3nr1b0lk61DzZWVIS4Znb7rl.jpeg','2019-05-03 17:53:16','2019-05-16 16:27:30',0,'{\"height\": \"50\", \"weight\": \"115\"}'),(5,'Promo 1','description',120,16,'promo-1','img/small_qgc8ej16cw04kk4w0owc4g8kkggo8gk.jpg','img/UQYljPE9UUluNps9lR1Ia3zTBZyxulT7zeAkE4ZI.jpeg','2019-05-06 12:05:49','2019-05-24 09:50:37',0,NULL),(6,'Promo 2','description',252,47,'promo-2','img/small_g2s5wboko9skscwgo0o8wk00cg8ggg8.jpg','img/9I1b0Ddk6fpt0PUiZNl3CLdepjMj6ReVksgJGBeZ.jpeg','2019-05-06 12:05:49','2019-05-24 09:50:37',1,NULL),(7,'Promo 3','description',152,89,'promo-3','img/small_agmd8ietsaw4okogow84gsogwssg0c4.jpg','img/ILG4mhHENtGfWog1OOvVESIKyNspD7potC1wP1oV.jpeg','2019-05-06 12:05:49','2019-05-20 12:52:34',1,NULL),(8,'Promo 4','description',152,13,'promo-4','img/small_ogzipe9tdk0kkks8c4w84gog0wo8k0s.jpg','img/qlbyMSIk1dXoGgLKueaRmxmFVjsPeLN8oy1FlwQy.jpeg','2019-05-06 12:05:49','2019-05-24 12:14:35',0,NULL),(9,'Promo 5','description',152,26,'promo-5','img/small_phzlkm66q80wgw488o0gccw80wskosk.jpg','img/Ny60yLSCwS0IysOHSJJ44gRh5krUwoYUCTSjjMcF.jpeg','2019-05-06 12:05:49','2019-05-24 14:54:43',1,NULL);
+INSERT INTO `products` VALUES (1,'Title','Description',450,67,'test-product','img/small_n1m2dakv9a8wo4gskwco0wko4w0ckg8.jpg','img/KANZLT22VbvhI5gtxaBhxCNkix7PlARmTMcSa38Y.jpeg','2019-05-03 15:21:19','2019-05-27 11:30:48',0,NULL),(2,'Product 2','Some description',550,206,'test-product-2','img/small_30gsznszjy68o4s88w84wg4c448g4k8.jpg','img/W1fAcTirV05UE1jGD4ngPvqUoJCPhWH5tPIvDWGs.jpeg','2019-05-03 15:21:19','2019-05-24 08:25:24',0,'{\"feature\": \"value\"}'),(3,'Product 3','Some description',1050,21,'test-product-3','img/small_l6cm1s1p91s8wss0ck0sk44k84ko4ks.jpg','img/cjusRiBtddFEzmkgEM5ZnmFrAd3pud0W4qNMoWCv.jpeg','2019-05-03 15:21:19','2019-05-24 14:09:48',1,NULL),(4,'Title','Description',450,98,'test-product-4','img/small_qi3ezugmzjks84kwo8c4o0s4g8ocg0g.jpg','img/9kWgo2WGFbtXTiKf3nr1b0lk61DzZWVIS4Znb7rl.jpeg','2019-05-03 17:53:16','2019-05-28 13:37:16',1,'{\"height\": \"50\", \"weight\": \"115\"}'),(5,'Promo 1','description',120,16,'promo-1','img/small_qgc8ej16cw04kk4w0owc4g8kkggo8gk.jpg','img/UQYljPE9UUluNps9lR1Ia3zTBZyxulT7zeAkE4ZI.jpeg','2019-05-06 12:05:49','2019-05-24 09:50:37',0,NULL),(6,'Promo 2','description',252,47,'promo-2','img/small_g2s5wboko9skscwgo0o8wk00cg8ggg8.jpg','img/9I1b0Ddk6fpt0PUiZNl3CLdepjMj6ReVksgJGBeZ.jpeg','2019-05-06 12:05:49','2019-05-27 10:43:29',0,NULL),(7,'Promo 3','description',152,89,'promo-3','img/small_agmd8ietsaw4okogow84gsogwssg0c4.jpg','img/ILG4mhHENtGfWog1OOvVESIKyNspD7potC1wP1oV.jpeg','2019-05-06 12:05:49','2019-05-27 10:43:29',0,NULL),(8,'Promo 4','description',152,12,'promo-4','img/small_ogzipe9tdk0kkks8c4w84gog0wo8k0s.jpg','img/qlbyMSIk1dXoGgLKueaRmxmFVjsPeLN8oy1FlwQy.jpeg','2019-05-06 12:05:49','2019-05-28 12:11:41',1,NULL),(9,'Promo 5','description',152,23,'promo-5','img/small_38zwarm5vncwgk8oo4oo0c8gk0swgs0.jpg','img/upBHhVCblbmnCFMiJG21zQFa82XbPB4lWpbvYr8q.jpeg','2019-05-06 12:05:49','2019-05-28 13:40:29',1,NULL),(10,'product','description',231,34,'product','img/small_r7wsyxhz27ksowsg8kgkgos080484kc.jpg','img/tdHDp189y6clOO9i32k8vaF5vPsiXdTRXywEnnf9.jpeg','2019-05-27 10:44:21','2019-05-27 10:44:21',1,NULL),(11,'qwe','qweqweqwe',2,2,'qwe---','img/small_51esgkdxk2kgg8c0wgkcgo0s8gcs8s0.jpg','img/rlp6zGbxg3fIrcxaZwnlLHegJb6edolFi5n3PzmK.jpeg','2019-05-28 08:52:00','2019-05-28 08:52:00',1,'{\"qwe\": \"333\", \"qweqwe\": \"333333\"}'),(12,'Red rose','test',110,10,'test','img/small_g5tjpo4ype04cgoosg8sk88gcc40s0g.jpg','img/nf5osJMQXHLj84toft1pgJjXnR30fSjOWQumt9dJ.jpeg','2019-05-29 13:33:21','2019-05-29 13:33:21',0,NULL);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +212,7 @@ CREATE TABLE `products_categories` (
   KEY `fk_products_categories_2` (`product_id`),
   CONSTRAINT `fk_products_categories_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_products_categories_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +221,7 @@ CREATE TABLE `products_categories` (
 
 LOCK TABLES `products_categories` WRITE;
 /*!40000 ALTER TABLE `products_categories` DISABLE KEYS */;
-INSERT INTO `products_categories` VALUES (1,1,1,NULL,NULL),(2,1,2,NULL,NULL),(3,1,3,NULL,NULL),(4,2,4,NULL,NULL),(5,2,5,NULL,NULL),(6,2,6,NULL,NULL),(7,3,7,NULL,NULL),(8,3,8,NULL,NULL),(9,3,9,NULL,NULL);
+INSERT INTO `products_categories` VALUES (1,1,1,NULL,NULL),(2,1,2,NULL,NULL),(3,1,3,NULL,NULL),(4,33,4,NULL,NULL),(5,33,5,NULL,NULL),(6,33,6,NULL,NULL),(7,34,7,NULL,NULL),(8,34,8,NULL,NULL),(9,34,9,NULL,NULL),(10,18,10,'2019-05-27 10:44:21','2019-05-27 10:44:21'),(11,30,11,'2019-05-28 08:52:00','2019-05-28 08:52:00'),(12,32,12,'2019-05-29 13:33:21','2019-05-29 13:33:21');
 /*!40000 ALTER TABLE `products_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +245,7 @@ CREATE TABLE `products_orders` (
   KEY `plants_id` (`product_id`),
   CONSTRAINT `products_orders_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `products_orders_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +254,7 @@ CREATE TABLE `products_orders` (
 
 LOCK TABLES `products_orders` WRITE;
 /*!40000 ALTER TABLE `products_orders` DISABLE KEYS */;
-INSERT INTO `products_orders` VALUES (1,56,5,1,152,'2019-05-13 17:39:49','2019-05-13 17:39:49'),(2,56,6,1,252,'2019-05-13 17:39:49','2019-05-13 17:39:49'),(3,56,7,1,152,'2019-05-13 17:39:49','2019-05-13 17:39:49'),(4,57,8,3,456,'2019-05-13 17:40:11','2019-05-13 17:40:11'),(5,58,9,1,152,'2019-05-14 07:46:38','2019-05-14 07:46:38'),(6,59,9,1,152,'2019-05-14 10:23:20','2019-05-14 10:23:20'),(7,97,8,1,152,'2019-05-14 11:03:15','2019-05-14 11:03:15'),(8,98,9,1,152,'2019-05-14 11:05:07','2019-05-14 11:05:07'),(9,99,9,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(10,99,8,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(11,99,7,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(12,100,1,12,5400,'2019-05-20 12:25:36','2019-05-20 12:25:36'),(13,100,6,3,756,'2019-05-20 12:25:36','2019-05-20 12:25:36'),(14,101,9,1,152,'2019-05-20 12:35:46','2019-05-20 12:35:46'),(15,101,6,3,756,'2019-05-20 12:35:46','2019-05-20 12:35:46'),(16,102,6,1,252,'2019-05-20 12:36:50','2019-05-20 12:36:50'),(17,102,3,1,1050,'2019-05-20 12:36:50','2019-05-20 12:36:50'),(18,103,6,5,1260,'2019-05-20 12:46:25','2019-05-20 12:46:25'),(19,104,9,1,152,'2019-05-20 12:47:01','2019-05-20 12:47:01'),(20,105,7,1,152,'2019-05-20 12:52:34','2019-05-20 12:52:34'),(21,106,2,226,124300,'2019-05-24 08:25:24','2019-05-24 08:25:24'),(22,107,6,1,252,'2019-05-24 09:50:37','2019-05-24 09:50:37'),(23,107,5,2,240,'2019-05-24 09:50:37','2019-05-24 09:50:37'),(24,109,8,3,456,'2019-05-24 12:14:35','2019-05-24 12:14:35'),(25,110,9,1,152,'2019-05-24 14:09:48','2019-05-24 14:09:48'),(26,110,3,2,2100,'2019-05-24 14:09:48','2019-05-24 14:09:48'),(27,111,9,1,152,'2019-05-24 14:54:43','2019-05-24 14:54:43');
+INSERT INTO `products_orders` VALUES (9,99,9,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(10,99,8,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(11,99,7,1,152,'2019-05-15 09:30:54','2019-05-15 09:30:54'),(21,106,2,226,124300,'2019-05-24 08:25:24','2019-05-24 08:25:24'),(22,107,6,1,252,'2019-05-24 09:50:37','2019-05-24 09:50:37'),(23,107,5,2,240,'2019-05-24 09:50:37','2019-05-24 09:50:37'),(24,109,8,3,456,'2019-05-24 12:14:35','2019-05-24 12:14:35'),(29,112,8,1,152,'2019-05-28 12:11:41','2019-05-28 12:11:41'),(30,113,4,1,450,'2019-05-28 13:37:16','2019-05-28 13:37:16'),(31,114,9,1,152,'2019-05-28 13:40:29','2019-05-28 13:40:29');
 /*!40000 ALTER TABLE `products_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,8 +272,10 @@ CREATE TABLE `social_facebook_accounts` (
   `provider` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `fk_social_facebook_accounts_1_idx` (`user_id`),
+  CONSTRAINT `fk_social_facebook_accounts_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,7 +284,7 @@ CREATE TABLE `social_facebook_accounts` (
 
 LOCK TABLES `social_facebook_accounts` WRITE;
 /*!40000 ALTER TABLE `social_facebook_accounts` DISABLE KEYS */;
-INSERT INTO `social_facebook_accounts` VALUES (1,7,'396856127568419','facebook','2019-05-21 05:35:34','2019-05-21 05:35:34');
+INSERT INTO `social_facebook_accounts` VALUES (3,29,'396856127568419','facebook','2019-05-28 07:16:11','2019-05-28 07:16:11');
 /*!40000 ALTER TABLE `social_facebook_accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,7 +300,9 @@ CREATE TABLE `social_twitter_accounts` (
   `provider_user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `provider` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  KEY `fk_social_twitter_accounts_1_idx` (`user_id`),
+  CONSTRAINT `fk_social_twitter_accounts_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -307,7 +312,6 @@ CREATE TABLE `social_twitter_accounts` (
 
 LOCK TABLES `social_twitter_accounts` WRITE;
 /*!40000 ALTER TABLE `social_twitter_accounts` DISABLE KEYS */;
-INSERT INTO `social_twitter_accounts` VALUES (7,'1126071204866031616','twitter','2019-05-23 12:34:08','2019-05-23 12:34:08');
 /*!40000 ALTER TABLE `social_twitter_accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +332,7 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) DEFAULT NULL,
   `timezone` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -337,7 +341,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','jALtVDfUJL5g8M8QIF6AHkzzxCpoEKt3N9RZMjy1L52zxf5S7B5WUS7n4gMB','Europe/Moscow'),(7,'samokish.viktoria@gmail.com','$2y$10$8RKlVW1qc5eqUrjfS8m6ZOFe8l7Gi0J.QSrACJE1ucSlmkKYdtrOC','manager','2019-05-10 08:38:14','2019-05-15 09:30:12','GJkVE1XCX4HBTCYgLcZ7Qu44J5treN9KUMK4NwUKmuNmmGA5peYtvF5eEIVD','Europe/Moscow'),(12,'test2@mail.ru','$2y$10$8ILq00ly/UJznDD7Vtu8MOs.nKmvQBTFdRlHnadtmidDH3AIlpIQ.','admin','2019-05-14 15:57:51','2019-05-14 16:09:02',NULL,'Europe/Moscow'),(13,'test@mail.ru','$2y$10$Of6KwZfLoBQVH5vm5FWdkuLlMe/dVfpnY73P.u0bm8R4hNhXBxWSK','user','2019-05-14 16:08:31','2019-05-14 16:08:31',NULL,'Europe/Moscow'),(14,'abarnikov@gmail.com','$2y$10$ykdek5kiVX/vnaTDSZS9E.UarD2JGNQ.oXNuZSeFt0g0CJh8vmuTq','user','2019-05-24 08:17:57','2019-05-24 08:17:57',NULL,'Europe/Moscow'),(20,'test@11.11','$2y$10$94liJOkwHefcO9.UDlzoZuQ2zdVdl1NHrRr1iA9AB9fgWBT9n3i02','user','2019-05-24 14:53:18','2019-05-24 14:53:18',NULL,'UTC'),(21,'aaaaa@a.a','$2y$10$tHszLJvF2fF22sqGPl2YHOlkw3.eiJ9UILO9eV/T2Jv.xwxKftVNC','user','2019-05-24 14:56:45','2019-05-24 14:56:45',NULL,'Europe/Kiev');
+INSERT INTO `users` VALUES (1,'sidorenko@gmail.com','$2y$10$7ChewzYPE61.qlrBDuwYx.nC8KzUJrykcRKEnLPEWRLMGJv8.hUeS','user','2019-05-07 14:47:57','2019-05-07 14:47:57','jALtVDfUJL5g8M8QIF6AHkzzxCpoEKt3N9RZMjy1L52zxf5S7B5WUS7n4gMB','Europe/Moscow'),(12,'test2@mail.ru','$2y$10$8ILq00ly/UJznDD7Vtu8MOs.nKmvQBTFdRlHnadtmidDH3AIlpIQ.','admin','2019-05-14 15:57:51','2019-05-14 16:09:02',NULL,'Europe/Moscow'),(13,'test@mail.ru','$2y$10$Of6KwZfLoBQVH5vm5FWdkuLlMe/dVfpnY73P.u0bm8R4hNhXBxWSK','manager','2019-05-14 16:08:31','2019-05-28 08:37:42',NULL,'Europe/Moscow'),(14,'abarnikov@gmail.com','$2y$10$ykdek5kiVX/vnaTDSZS9E.UarD2JGNQ.oXNuZSeFt0g0CJh8vmuTq','user','2019-05-24 08:17:57','2019-05-24 08:17:57',NULL,'Europe/Moscow'),(21,'aaaaa@a.a','$2y$10$dFml5UymeeF7iXlehum11.o3HC0dUveesDMda4qmooyQrNqiszVkq','user','2019-05-24 14:56:45','2019-05-27 09:43:44',NULL,NULL),(22,'s@mail.com','$2y$10$WVivGyE9U6vunJ/ssqWequ5BgEIxtgCQksj1IXypUJEBO/MwJC582','user','2019-05-27 09:32:42','2019-05-27 09:32:42',NULL,NULL),(23,'hgjh|@mdf.ce','$2y$10$dwc.vDAxf9p430A4Bc6rZO7Dc0j96GjO/Qk8nOgXVHUv83GCWOpR6','user','2019-05-27 09:48:20','2019-05-27 09:48:20',NULL,NULL),(24,'1@1.1','$2y$10$fvhvoS3C79jJ40q2m5vE4eAbLZ2D3EBSx0lTGSzWWFWmDLDJlFYHe','user','2019-05-27 10:24:33','2019-05-27 10:24:54',NULL,'Europe/Kiev'),(26,'rara@gmail.com','$2y$10$Ix9CdJWiQlFOgG7L/xxdnOkxhzQR0r9HRKP3FTKXJvDUx.NgzgTvK','user','2019-05-27 10:39:16','2019-05-27 10:39:16',NULL,NULL),(29,'samokish.viktoria@gmail.com','bc37e109d92bdc1ea71da6c919d54907','user','2019-05-28 10:16:11','2019-05-28 10:16:11',NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -350,4 +354,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-24 18:16:33
+-- Dump completed on 2019-05-29 16:45:54

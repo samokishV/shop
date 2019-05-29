@@ -101,7 +101,7 @@ class Product extends Model
         $products =  DB::table('categories')
             ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
             ->join('products', 'products_categories.product_id', '=', 'products.id')
-            ->select('products.*', 'categories.category')
+            ->select('products.*','categories.id as catId')
             ->get();
 
         return $products;

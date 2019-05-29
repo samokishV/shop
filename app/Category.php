@@ -86,4 +86,94 @@ class Category extends Model
 
         return $products;
     }
+
+    /**
+     * Get array of all full categories name
+     *
+     * @return array | ['categoryId1' => string, 'categoryId2' => string, ...] | [10 => "Category", 11 => "Category/Sub_category_1"]
+     */
+    public static function getCategoriesName()
+    {
+        $list = [];
+        $categories = self::select('id','category', 'parent_id')->get();
+        $data = $categories->keyBy('id')->toArray();
+        $tree = self::buildTree($data);
+        foreach ($data as $key => $value) {
+            // get all parent nodes for child element
+            $arrKeys = self::getKeys($key, $tree);
+            $fullCategoryName = self::getFullCategoryName($arrKeys, $data);
+            $list[$key] = $fullCategoryName;
+        }
+        return $list;
+    }
+
+    /**
+     * Categories array converted in multidimensional (tree) array
+     *
+     * @param array $data  | $data['key1' => ['id' => int, 'category' => string, 'parent_id' => int], 'key2' => [...]]
+     * @return array | ["id"=> int, "category" => string, "parent_id" => int, "childs" => array]
+     */
+    public static  function buildTree($data)
+    {
+        $childs = array();
+
+        foreach($data as &$item) {
+            $childs[$item['parent_id']][$item['id']] = &$item;
+        }
+        unset($item);
+
+        foreach($data as &$item) {
+            if (isset($childs[$item['id']])) {
+                $item['childs'] = $childs[$item['id']];
+            }
+        }
+
+        $tree = $childs[0];
+        return $tree;
+    }
+
+    /**
+     * Get array of parent ids for nested element
+     *
+     * @param int $key
+     * @param array $tree
+     * @return array | ['key1' => int, 'key2' => int, ...]
+     */
+    public static function getKeys($key, $tree) {
+        $found_path = [];
+        $ritit = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($tree), \RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($ritit as $leafValue) {
+
+            $path = array();
+            foreach (range(0, $ritit->getDepth()) as $depth) {
+                $path[] = $ritit->getSubIterator($depth)->key();
+            }
+
+            if (end($path) == $key) {
+                $found_path = $path;
+                break;
+            }
+        }
+
+        return $found_path;
+    }
+
+    /**
+     * Assign the name of categories to the key array
+     *
+     * @param array $arrKeys | $arrKeys['key1' => int, 'key2' => int, ...]
+     * @param array $data | $data['key1' => ['id' => int, 'category' => string, 'parent_id' => int], 'key2' => [...]]
+     * @return string | "Category/Sub_category_1/Sub_category_2"
+     */
+    public static function getFullCategoryName($arrKeys, $data)
+    {
+        foreach($arrKeys as $key=>$value) {
+            if($value!="childs") {
+                if($key == 0) $list = $data[$value]['category'];
+                else $list .= " / ".$data[$value]['category'];
+            }
+        }
+        return $list;
+    }
 }

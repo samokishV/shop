@@ -62,7 +62,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::findAll();
-        return view('products.index', ['products' => $products]);
+        $categoriesNames = Category::getCategoriesName();
+        return view('products.index', ['products' => $products, 'catFullName' => $categoriesNames]);
     }
 
     /**
@@ -95,7 +96,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('products.add', ['categories' => $categories]);
+        $categoriesNames = Category::getCategoriesName();
+        return view('products.add', ['categories' => $categories, 'catFullName' => $categoriesNames]);
     }
 
     /**
@@ -120,7 +122,8 @@ class ProductController extends Controller
         if ($validator->fails()) {
             $request->flash();
             $categories = Category::all();
-            return view('products.add', ['categories' => $categories])->withErrors($validator->messages());
+            $categoriesNames = Category::getCategoriesName();
+            return view('products.add', ['categories' => $categories, 'catFullName' => $categoriesNames])->withErrors($validator->messages());
         } else {
             $categoryId = $request['category'];
             $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
@@ -147,7 +150,8 @@ class ProductController extends Controller
     {
         $products = Product::findById($id);
         $categories = Category::all();
-        return view('products.edit', ['products' => $products, 'categories' => $categories]);
+        $categoriesNames = Category::getCategoriesName();
+        return view('products.edit', ['products' => $products, 'categories' => $categories, 'catFullName' => $categoriesNames]);
     }
 
     /**
@@ -174,7 +178,8 @@ class ProductController extends Controller
             $request->flash();
             $products = Product::findById($id);
             $categories = Category::all();
-            return view('products.edit', ['categories' => $categories, 'products' => $products])->withErrors($validator->messages());
+            $categoriesNames = Category::getCategoriesName();
+            return view('products.edit', ['categories' => $categories, 'products' => $products, 'catFullName' => $categoriesNames])->withErrors($validator->messages());
         } else {
             $categoryId = $request['category'];
             $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');

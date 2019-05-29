@@ -26,7 +26,7 @@
                     <td>{{$product->price}}</td>
                     <td>{{$product->in_stock}}</td>
                     <td><input id="{{$product->id}}" name="promo" type="checkbox" @if($product->promo) checked @endif ></td>
-                    <td>{{$product->category}}</td>
+                    <td>{{$catFullName[$product->catId]}}</td>
                     <td align="right">
                         <a href="/admin/product/edit/{{$product->id}}" class="btn btn-sm btn-primary">Edit</a>
                         <a href="/admin/product/delete/{{$product->id}}" class="product-delete"><button class="btn btn-sm btn-warning">Delete</button></a>

@@ -55,7 +55,7 @@
                     <label for="category">Category</label>
                     <select name="category" id="category">
                         @foreach($categories as $category)
-                            <option value="{{$category->id}}" @if(old('category')==$category->id) selected @endif>{{$category->category}}</option>
+                            <option value="{{$category->id}}" @if(old('category')==$category->id) selected @endif>{{$catFullName[$category->id]}}</option>
                         @endforeach
                     </select>
                     @if ($errors->has('category'))
