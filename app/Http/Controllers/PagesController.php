@@ -23,8 +23,12 @@ class PagesController extends Controller
     public function index()
     {
         $data = [];
-        $data['categories'] = Category::findWithProducts();
+        $data['categories'] = Category::main();
+        $data['names'] = Category::getCategoriesName();
         $data['promo'] = Product::findPromo();
+
+        $categories = Category::all();
+        $data['menu'] = Category::buildMenu($categories, 0);
 
         return view('index', compact("data"));
     }
@@ -53,7 +57,15 @@ class PagesController extends Controller
 
         $price = $request->input('price');
 
-        $products = Product::findByCategory($catSlug, $order, $price);
+        $category = Category::where('slug', $catSlug)->get();
+        $catId =  $category[0]->id;
+
+        $cat = Category::select('id','category', 'parent_id', 'slug')->get();
+        $d = $cat->keyBy('id')->toArray();
+        $tree = Category::buildTree($d);
+        $ids = Category::getSubIds($tree, $catId);
+
+        $products = Product::findByCategory($ids, $order, $price);
 
         return view('category', ['products'=>$products]);
     }

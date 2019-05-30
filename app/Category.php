@@ -76,18 +76,34 @@ class Category extends Model
     }
 
     /**
+     * Select all categories with products
+     *
      * @return Category
      */
     public static function findWithProducts()
     {
-        $products =  DB::table('categories')
+        $categories =  DB::table('categories')
             ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
             ->groupBy('category_id')
             ->havingRaw('count(category_id) > 0')
             ->select('categories.*')
             ->get();
 
-        return $products;
+        return $categories;
+    }
+
+    /**
+     * Select main categories.
+     *
+     * @return Category
+     */
+    public static function main()
+    {
+        $categories =  DB::table('categories')
+            ->where('parent_id', '=', 0)
+            ->get();
+
+        return $categories;
     }
 
     /**
@@ -98,7 +114,7 @@ class Category extends Model
     public static function getCategoriesName()
     {
         $list = [];
-        $categories = self::select('id','category', 'parent_id')->get();
+        $categories = self::select('id','category', 'parent_id', 'slug')->get();
         $data = $categories->keyBy('id')->toArray();
         $tree = self::buildTree($data);
         foreach ($data as $key => $value) {
@@ -178,5 +194,97 @@ class Category extends Model
             }
         }
         return $list;
+    }
+
+    /**
+     * @param array $w | ["id"=> int, "category" => string, "parent_id" => int, "childs" => array]
+     * @param int $id
+     * @return array | [0 => string, 1=> string, ...]
+     */
+    public static function getSubIds($w, $id)
+    {
+        $result = self::getSubArray($w, $id);
+        $list = self::idsArray($result);
+        return $list;
+    }
+
+    /**
+     * Get category sub tree.
+     *
+     * @param array $w | ["id"=> int, "category" => string, "parent_id" => int, "childs" => array]
+     * @param int $catId
+     * @return array|null  | ["id"=> int, "category" => string, "parent_id" => int, "childs" => array]
+     */
+    public static function getSubArray($w, $catId)
+    {
+        static $myFlag = true;
+        static $e = [];
+
+        if(is_array($w) && $myFlag){
+            foreach($w as $key=>$str){
+                if($key == $catId) {
+                    $e = $str;
+                    $myFlag = false;
+                }
+                self::getSubArray($str, $catId);
+            }
+        }
+        else null;
+        return $e;
+    }
+
+    /**
+     * Get categories ids array from sub tree array.
+     *
+     * @param array $w | ["id"=> int, "category" => string, "parent_id" => int, "childs" => array]
+     * @return array | [0 => string, 1=> string, ...]
+     */
+    public static function idsArray($w)
+    {
+        $it = new \RecursiveArrayIterator($w);
+        $tit = new \RecursiveTreeIterator($it);
+
+        $arr = [];
+        foreach( $tit as $key => $value ){
+            if($key == "id") {
+                $chars = array("|", "-", " ");
+                $value = str_replace($chars, "", $value);
+                $arr[] = $value;
+            }
+        }
+        return $arr;
+    }
+
+    /**
+     * @param Category $categories
+     * @param int $parent_id
+     * @return string|null
+     */
+    public static function buildMenu($categories, $parent_id)
+    {
+        $cats = "";
+
+        if($categories){
+            $cats = array();
+            foreach($categories as $category) {
+                $cats[$category->parent_id][] = $category;
+            }
+        }
+
+        function build_tree($cats, $parent_id)
+        {
+            if (is_array($cats) and isset($cats[$parent_id])) {
+                $tree = '<ul>';
+                foreach ($cats[$parent_id] as $cat) {
+                    $tree .= '<li><a href=/category/' . $cat->slug . '>' . $cat->category . '</a>';
+                    $tree .= build_tree($cats, $cat->id);
+                    $tree .= '</li>';
+                }
+                $tree .= '</ul>';
+            } else return null;
+            return $tree;
+        }
+
+        return build_tree($cats, $parent_id);
     }
 }

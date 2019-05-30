@@ -20,19 +20,19 @@ class Product extends Model
     }
 
     /**
-     * @param string $slug | category slug
+     * @param array $ids | [0 => string, 1 => string, ...]
      * @param string $order
      * @param string $price
      * @return Product
      */
-    public static function findByCategory($slug, $order, $price = null)
+    public static function findByCategory($ids, $order, $price = null)
     {
         $sort = self::sortCondition($order);
 
         return DB::table('categories')
             ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
             ->join('products', 'products_categories.product_id', '=', 'products.id')
-            ->where('categories.slug', '=', $slug)
+            ->whereIn('categories.id', $ids)
             ->when($price, function ($query) use ($price) {
                 return $query->where('price', '<=', $price);
             })
