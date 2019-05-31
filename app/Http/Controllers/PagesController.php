@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
 use App\Category as Category;
 use App\Product as Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PagesController extends Controller
 {
@@ -77,8 +78,14 @@ class PagesController extends Controller
     public function cart(Request $request)
     {
         $userId = Auth::id();
-
         $products = Cart::index($userId);
+
+        if(!$userId) {
+            $cart = Session::get("cart");
+            if($cart) {
+                $products = Cart::guestIndex($cart);
+            }
+        }
 
         return view('cart', ['products'=>$products]);
     }
@@ -90,10 +97,15 @@ class PagesController extends Controller
     public function order(Request $request)
     {
         $request->flash();
-
         $userId = Auth::id();
-
         $cart = Cart::index($userId);
+
+        if(!$userId) {
+            $cart = Session::get("cart");
+            if($cart) {
+                $cart = Cart::guestIndex($cart);
+            }
+        }
 
         return view('order', ['cart'=>$cart]);
     }

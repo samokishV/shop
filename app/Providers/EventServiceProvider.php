@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Cart;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -16,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ]
     ];
 
     /**
@@ -26,7 +33,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
-        //
     }
 }

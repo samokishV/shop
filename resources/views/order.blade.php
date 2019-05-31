@@ -45,13 +45,19 @@
                     @endif
                 </div>
                 <input type="hidden">
-                @isset($cart[0])
-                    <input type="submit" class="btn btn-success btn-lg w-100" value="Checkout">
-                @endisset
+                @auth
+                    @isset($cart[0])
+                        <input type="submit" class="btn btn-success btn-lg w-100" value="Checkout">
+                    @endisset
 
-                @empty($cart[0])
-                    <h3>Please add items to make an order!</h3>
-                @endempty
+                    @empty($cart[0])
+                        <h3>Please add items to make an order!</h3>
+                    @endempty
+                @endauth
+
+                @guest
+                    <h3>You should be registered to make an order.</h3>
+                @endguest
 
             </form>
         </div>
