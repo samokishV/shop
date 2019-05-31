@@ -25,13 +25,23 @@ class Cart extends Model
      */
     public static function add($userId, $productId, $qt)
     {
-        $cart = new Cart;
+        $product = Cart::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->first();
 
-        $cart->user_id = $userId;
-        $cart->product_id = $productId;
-        $cart->qt = $qt;
+        // update qt if product already in cart
+        if($product) {
+            $product->qt = $qt;
+            $product->save();
+        } else {
+            $cart = new Cart;
 
-        $cart->save();
+            $cart->user_id = $userId;
+            $cart->product_id = $productId;
+            $cart->qt = $qt;
+
+            $cart->save();
+        }
     }
 
     /**
