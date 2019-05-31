@@ -264,27 +264,34 @@ class Category extends Model
     {
         $cats = "";
 
-        if($categories){
+        if ($categories) {
             $cats = array();
-            foreach($categories as $category) {
+            foreach ($categories as $category) {
                 $cats[$category->parent_id][] = $category;
             }
         }
 
-        function build_tree($cats, $parent_id)
-        {
-            if (is_array($cats) and isset($cats[$parent_id])) {
-                $tree = '<ul>';
-                foreach ($cats[$parent_id] as $cat) {
-                    $tree .= '<li><a href=/category/' . $cat->slug . '>' . $cat->category . '</a>';
-                    $tree .= build_tree($cats, $cat->id);
-                    $tree .= '</li>';
-                }
-                $tree .= '</ul>';
-            } else return null;
-            return $tree;
-        }
+        return self::build_tree($cats, $parent_id);
+     }
 
-        return build_tree($cats, $parent_id);
+    /**
+     * Get ul list of nested categories.
+     *
+     * @param array $cats
+     * @param int $parent_id
+     * @return string|null
+     */
+    public static function build_tree($cats, $parent_id)
+    {
+        if (is_array($cats) and isset($cats[$parent_id])) {
+            $tree = '<ul>';
+            foreach ($cats[$parent_id] as $cat) {
+                $tree .= '<li><a href=/category/' . $cat->slug . '>' . $cat->category . '</a>';
+                $tree .= self::build_tree($cats, $cat->id);
+                $tree .= '</li>';
+            }
+            $tree .= '</ul>';
+        } else return null;
+        return $tree;
     }
 }

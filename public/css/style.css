@@ -28,3 +28,12 @@
 .customLink, .customLink:hover{
     text-decoration: none;
 }
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
+.custom-style {
+    padding-right:30px;
+    margin-top:-10px;
+}

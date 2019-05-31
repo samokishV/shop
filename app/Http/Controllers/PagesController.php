@@ -31,6 +31,10 @@ class PagesController extends Controller
         $categories = Category::all();
         $data['menu'] = Category::buildMenu($categories, 0);
 
+        foreach($data['categories'] as $cat) {
+            $data['sub-menu'][$cat->id] = Category::buildMenu($categories, $cat->id);
+        }
+
         return view('index', compact("data"));
     }
 
