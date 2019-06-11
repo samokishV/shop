@@ -89,7 +89,7 @@ class Cart extends Model
      * @param int $userId
      * @return Collection
      */
-    public static function index($userId)
+    public static function getByUserId($userId)
     {
         return  DB::table('carts')
             ->join('products', 'carts.product_id', '=', 'products.id')
@@ -113,7 +113,7 @@ class Cart extends Model
      */
     public static function getTotal($userId)
     {
-        $products = Cart::index($userId);
+        $products = Cart::getByUserId($userId);
 
         $total = 0;
         foreach ($products as $product) {

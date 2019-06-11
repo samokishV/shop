@@ -24,7 +24,7 @@ class PagesController extends Controller
     public function index()
     {
         $data = [];
-        $data['categories'] = Category::main();
+        $data['categories'] = Category::firstLevelCategories();
         $data['names'] = Category::getCategoriesName();
         $data['promo'] = Product::findPromo();
 
@@ -84,7 +84,7 @@ class PagesController extends Controller
     public function cart(Request $request)
     {
         $userId = Auth::id();
-        $products = Cart::index($userId);
+        $products = Cart::getByUserId($userId);
 
         if (!$userId) {
             $cart = Session::get("cart");
@@ -104,7 +104,7 @@ class PagesController extends Controller
     {
         $request->flash();
         $userId = Auth::id();
-        $cart = Cart::index($userId);
+        $cart = Cart::getByUserId($userId);
 
         if (!$userId) {
             $cart = Session::get("cart");

@@ -90,11 +90,11 @@ class Category extends Model
     }
 
     /**
-     * Select main categories.
+     * Select first level categories.
      *
      * @return Category
      */
-    public static function main()
+    public static function firstLevelCategories()
     {
         $categories =  DB::table('categories')
             ->where('parent_id', '=', 0)
