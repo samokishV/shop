@@ -41,9 +41,8 @@ class Category extends Model
     {
         $category = Category::find($id);
 
-        DB::table('categories')
-            ->where('id', $id)
-            ->update(['category' => $name, 'slug' => $slug, 'parent_id' => $parentId]);
+        $smallImgName = $category->preview;
+        $fullImgName = $category->original_img;
 
         if ($image) {
             // delete old images from folder
@@ -52,14 +51,12 @@ class Category extends Model
             // save new images
             $fullImgName = Image::saveOriginal($image);
             $smallImgName =  Image::savePreview($image);
-
-            $category->preview = $smallImgName;
-            $category->original_img = $fullImgName;
-
-            DB::table('categories')
-                ->where('id', $id)
-                ->update(['preview' => $smallImgName, 'original_img' => $fullImgName]);
         }
+
+        DB::table('categories')
+            ->where('id', $id)
+            ->update(['category' => $name, 'slug' => $slug, 'parent_id' => $parentId, 'preview' => $smallImgName,
+                'original_img' => $fullImgName]);
     }
 
     /**
