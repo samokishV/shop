@@ -1,65 +1,52 @@
 $(document).ready(function() {
+    const productNumber = $('#products_number');
 
     //add product to cart
-    $(".products").submit(function() {
+    $(".products").submit(function(e) {
+        e.preventDefault();
+        var type = 'post';
+        var href = '/cart/add';
         var str = $(this).serialize();
-        $.ajax({
-            type: 'post',
-            url: '/cart/add',
-            data: str,
-            success: function(data) {
-                alert(data);
 
-                if(data == "Product successfully add to cart") {
-                    number = $('#products_number').html() - 0;
-                    number++;
-                    $('#products_number').html(number);
-                }
+        customFunc(type, href, str, function(data) {
+            alert(data);
+            if (data === "Product successfully add to cart") {
+                number = productNumber.html() - 0;
+                number++;
+                productNumber.html(number);
             }
         });
-        return false;
     });
 
     //delete product from cart by id
-    $(".products-delete").submit(function() {
+    $(".products-delete").submit(function(e) {
+        e.preventDefault(e);
+        var type = 'post';
+        var href = $(this).attr('action');
         var str = $(this).serialize();
-        $.ajax({
-            type: 'post',
-            url: $(this).attr('action'),
-            data: str,
-            success: function(data) {
-                if(data) {
-                    number = $('#products_number').html() - 0;
-                    number--;
-                    $('#products_number').html(number);
-                }
-            },
-            error: function( req, status, err ) {
-                alert('something went wrong', status, err );
-            }
+
+        customFunc(type, href, str, function() {
+            number = productNumber.html() - 0;
+            number--;
+            productNumber.html(number);
         });
+
         $(this).remove();
         arr = $(":input[type=number]");
-        return false;
     });
 
     //delete all products from cart
-    $("#cart-delete").submit(function() {
+    $("#cart-delete").submit(function(e) {
+        e.preventDefault(e);
+        var type = 'post';
+        var href = '/cart/delete';
         var str = $(this).serialize();
-        $.ajax({
-            type: 'post',
-            url: '/cart/delete',
-            data: str,
-            success: function(result) {
-                $('#products_number').html("0");
-            },
-            error: function( req, status, err ) {
-                alert('something went wrong', status, err );
-            }
+
+        customFunc(type, href, str, function() {
+            productNumber.html("0");
         });
 
         $(".products-delete").remove();
-        return false;
     });
 
     //update cart before open order page
@@ -68,24 +55,15 @@ $(document).ready(function() {
         var promises = [];
 
         $.each(arr, function(i, el) {
-            id = el.id;
-            qt = el.value - 0;
+            var id = el.id;
+            var qt = el.value - 0;
 
-            request = $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: 'post',
-                url: '/cart/update/'+id,
-                data: {'qt': qt},
-                success: function(result) {
-                    //
-                },
-                error: function( req, status, err ) {
-                    alert('something went wrong'+ status + err );
-                }
-            });
+            var type = 'post';
+            var href = '/cart/update/' + id;
+            var str = {'qt': qt};
 
-            promises.push( request);
-
+            request = customFunc(type, href, str, function() {});
+            promises.push(request);
         });
 
         $.when.apply(null, promises).done(function(){

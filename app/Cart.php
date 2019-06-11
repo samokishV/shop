@@ -11,11 +11,13 @@ class Cart extends Model
     /**
      * @param int $userId
      * @param string $productId
-     * @return array
+     * @return Cart
      */
-    public static function findById($userId, $productId)
+    public static function findProductById($userId, $productId)
     {
-        return DB::select('select * from carts where user_id = ? and product_id = ?', [$userId, $productId]);
+        return Cart::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->first();
     }
 
     /**
@@ -25,9 +27,7 @@ class Cart extends Model
      */
     public static function add($userId, $productId, $qt)
     {
-        $product = Cart::where('user_id', $userId)
-            ->where('product_id', $productId)
-            ->first();
+        $product = self::findProductById($userId, $productId);
 
         // update qt if product already in cart
         if ($product) {
@@ -49,10 +49,9 @@ class Cart extends Model
      * @param string $productId
      * @return int
      */
-    public static function deleteById($userId, $productId)
+    public static function deleteProductById($userId, $productId)
     {
-        return DB::table('carts')
-            ->where('user_id', $userId)
+        return Cart::where('user_id', $userId)
             ->where('product_id', $productId)
             ->delete();
     }
@@ -63,8 +62,7 @@ class Cart extends Model
      */
     public static function deleteAll($userId)
     {
-        return DB::table('carts')
-            ->where('user_id', $userId)
+        return Cart::where('user_id', $userId)
             ->delete();
     }
 
@@ -72,16 +70,12 @@ class Cart extends Model
      * @param int $userId
      * @param string $productId
      * @param $qt
-     * @return void
+     * @return bool
      */
     public static function updateById($userId, $productId, $qt)
     {
-        $product = Cart::where('user_id', $userId)
-            ->where('product_id', $productId)
-            ->firstOrFail();
-
+        $product = self::findProductById($userId, $productId);
         $product->qt = $qt;
-
         $product->save();
     }
 
@@ -104,7 +98,7 @@ class Cart extends Model
      */
     public static function count($userId)
     {
-        return DB::select('select count(product_id) as productsQt from carts where user_id = ?', [$userId]);
+        return self::where('user_id', $userId)->count();
     }
 
     /**

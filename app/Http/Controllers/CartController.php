@@ -32,7 +32,7 @@ class CartController extends Controller
                 return "product already in cart";
             }
         } else {
-            $product = Cart::findById($userId, $productId);
+            $product = Cart::findProductById($userId, $productId);
 
             if ($product) {
                 return "product already in cart";
@@ -47,11 +47,12 @@ class CartController extends Controller
      * @param Request $request
      * @param $productId
      * @return int
+     * @throws \Exception
      */
     public function delete(Request $request, $productId)
     {
         $userId = Auth::id();
-        $result = Cart::deleteById($userId, $productId);
+        $result = Cart::deleteProductById($userId, $productId);
 
         if (!$userId) {
             $cart = Session::get('cart');

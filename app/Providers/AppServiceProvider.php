@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             if (Auth::check()) {
                 $userId = Auth::id();
-                $productsQt = Cart::count($userId)[0]->productsQt;
+                $productsQt = Cart::count($userId);
             } else {
                 if (Session::has('cart')) {
                     $cart = Session::get('cart');
