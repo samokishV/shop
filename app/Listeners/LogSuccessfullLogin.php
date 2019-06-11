@@ -20,7 +20,7 @@ class LogSuccessfulLogin
     */
     public function __construct()
     {
-    //
+        //
     }
 
     /**
@@ -32,9 +32,9 @@ class LogSuccessfulLogin
     public function handle(Login $event)
     {
         $cart = Session::get('cart');
-        if($cart) {
+        if ($cart) {
             $userId = $event->user->id;
-            foreach($cart as $productId=>$qt) {
+            foreach ($cart as $productId=>$qt) {
                 Cart::add($userId, $productId, $qt);
             }
         }

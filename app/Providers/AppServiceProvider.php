@@ -17,12 +17,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('*', function($view) {
+        View::composer('*', function ($view) {
             if (Auth::check()) {
                 $userId = Auth::id();
                 $productsQt = Cart::count($userId)[0]->productsQt;
             } else {
-                if(Session::has('cart')) {
+                if (Session::has('cart')) {
                     $cart = Session::get('cart');
                     $productsQt = Cart::countProducts($cart);
                 } else {

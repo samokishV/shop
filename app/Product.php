@@ -39,7 +39,7 @@ class Product extends Model
             ->select('products.*', 'categories.slug as catSlug')
             ->when($sort, function ($query) use ($sort) {
                 return $query->orderBy($sort['field'], $sort['type']);
-                    })
+            })
             ->paginate(2);
     }
 
@@ -49,7 +49,7 @@ class Product extends Model
      */
     public static function sortCondition($order)
     {
-        if($order!='default') {
+        if ($order!='default') {
             $sort = explode("-", $order);
             $sort['field'] = $sort[0];
             $sort['type'] = $sort[1];
@@ -87,7 +87,7 @@ class Product extends Model
 
         $result = array();
         foreach ($products as $product) {
-           $result[$product->category][] = $product;
+            $result[$product->category][] = $product;
         }
 
         return $result;
@@ -101,7 +101,7 @@ class Product extends Model
         $products =  DB::table('categories')
             ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
             ->join('products', 'products_categories.product_id', '=', 'products.id')
-            ->select('products.*','categories.id as catId')
+            ->select('products.*', 'categories.id as catId')
             ->get();
 
         return $products;
@@ -153,7 +153,7 @@ class Product extends Model
         $product->promo = $promo;
 
         $additional = $info['additional'];
-        if($additional!="{}" && $additional!='{"":""}') {
+        if ($additional!="{}" && $additional!='{"":""}') {
             $product->additional = $info['additional'];
         }
         $fullImgName = Image::saveOriginal($info['image']);
@@ -185,7 +185,9 @@ class Product extends Model
         $product = Product::find($id);
 
         $additional = $info['additional'];
-        if($additional=="{}" || $additional=='{"":""}') $additional = null;
+        if ($additional=="{}" || $additional=='{"":""}') {
+            $additional = null;
+        }
 
         DB::table('products')
             ->where('id', $id)
@@ -193,7 +195,7 @@ class Product extends Model
                 'price' => $info['price'], 'in_stock' => $info['in_stock'], 'promo' => $promo,
                 'additional' => $additional]);
 
-        if($info['image']) {
+        if ($info['image']) {
             // delete old images from folder
             Image::deleteOriginal($product->original_img);
             Image:: deletePreview($product->preview);

@@ -20,11 +20,11 @@ class CartController extends Controller
 
         $userId = Auth::id();
 
-        if(!$userId) {
+        if (!$userId) {
             $cart = Session::get('cart');
             $product = Cart::findInCart($productId, $cart);
 
-            if(!$product) {
+            if (!$product) {
                 $products = Cart::addToCart($productId, $qt, $cart);
                 Session::put('cart', $products);
                 return "Product successfully add to cart";
@@ -34,7 +34,7 @@ class CartController extends Controller
         } else {
             $product = Cart::findById($userId, $productId);
 
-            if($product) {
+            if ($product) {
                 return "product already in cart";
             } else {
                 Cart::add($userId, $productId, $qt);
@@ -53,7 +53,7 @@ class CartController extends Controller
         $userId = Auth::id();
         $result = Cart::deleteById($userId, $productId);
 
-        if(!$userId) {
+        if (!$userId) {
             $cart = Session::get('cart');
             $result = Cart::deleteFromCart($cart, $productId);
         }
@@ -69,7 +69,7 @@ class CartController extends Controller
         $userId = Auth::id();
         $result = Cart::deleteAll($userId);
 
-        if(!$userId) {
+        if (!$userId) {
             Session::forget('cart');
         }
 
@@ -85,7 +85,7 @@ class CartController extends Controller
         $userId = Auth::id();
         $qt= $request->qt;
 
-        if(!$userId) {
+        if (!$userId) {
             $cart = Session::get('cart');
             Cart::updateCart($cart, $productId, $qt);
         } else {

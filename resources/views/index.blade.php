@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-<?php echo $data['menu']; ?>
-
 <h1> Categories </h1>
 <div class="col-sm-12 row d-flex justify-content-start">
     @isset($data['categories'])
@@ -16,6 +13,14 @@
                     <a href="/category/{{$category->slug}}">
                         <p class="card-text">{{$category->category}}</p>
                     </a>
+                    <div class="dropdown row col-sm-12">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{$category->id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Show more
+                        </button>
+                        <div class="dropdown-menu custom-style" aria-labelledby="dropdownMenuButton{{$category->id}}">
+                            <?php echo $data['sub-menu'][$category->id]; ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         @endforeach

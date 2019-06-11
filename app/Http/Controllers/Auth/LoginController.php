@@ -42,7 +42,8 @@ class LoginController extends Controller
     {
         if (Auth::user()->role == "admin") {
             return '/admin';
-        } if(Auth::user()->role == "manager") {
+        }
+        if (Auth::user()->role == "manager") {
             return 'admin/order';
         } else {
             return '/home';

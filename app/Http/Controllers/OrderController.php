@@ -34,7 +34,7 @@ class OrderController
             $request->flash();
             $userId = Auth::id();
             $cart = Cart::index($userId);
-             return view('order', ['cart' => $cart])
+            return view('order', ['cart' => $cart])
                 ->withErrors($validator);
         } else {
             // save an order
@@ -55,7 +55,7 @@ class OrderController
             $user->notify(new UserOrderMail());
 
             $managers = User::findByRole('manager');
-            foreach($managers as $manager) {
+            foreach ($managers as $manager) {
                 Mail::to($manager->email)->send(new ManagerOrderMail($userInfo, $order));
             }
 
@@ -111,7 +111,7 @@ class OrderController
     {
         $processed = $request['processed'];
 
-        if($processed=="on") {
+        if ($processed=="on") {
             $status = 1;
         } else {
             $status = 0;

@@ -28,7 +28,7 @@ class ProductController extends Controller
     {
         $product = Product::findBySlug($slug);
 
-        if($product) {
+        if ($product) {
             return view('product', ['product' => $product, 'title' => $product->title]);
         } else {
             return response('Page not found', 404);
@@ -77,7 +77,7 @@ class ProductController extends Controller
     {
         $status = $request['promo'];
 
-        if($status=="on") {
+        if ($status=="on") {
             $status = 1;
         } else {
             $status = 0;
@@ -130,7 +130,7 @@ class ProductController extends Controller
             $info["image"] = $request->file("image");
             $status = $request['promo'];
 
-            if($status=="on") {
+            if ($status=="on") {
                 $promo = 1;
             } else {
                 $promo = 0;
@@ -186,7 +186,7 @@ class ProductController extends Controller
             $info["image"] = $request->file("image");
             $status = $request['promo'];
 
-            if($status=="on") {
+            if ($status=="on") {
                 $promo = 1;
             } else {
                 $promo = 0;

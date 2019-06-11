@@ -39,8 +39,7 @@ Route::post('order', 'OrderController@store');
 
 Route::get('order/history', 'OrderController@show');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
-
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', 'PagesController@adminIndex');
 
     Route::get('user', 'UserController@index');
@@ -84,14 +83,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::post('product/edit-promo/{id}', 'ProductController@updatePromo');
 });
 
-Route::group(['prefix' => 'admin/order', 'middleware' => ['check_role:admin,manager']], function() {
-
+Route::group(['prefix' => 'admin/order', 'middleware' => ['check_role:admin,manager']], function () {
     Route::get('/', 'OrderController@index');
 
     Route::get('edit/{id}', 'OrderController@edit');
 
     Route::post('edit/{id}', 'OrderController@update');
-
 });
 
 // Public route to show images
@@ -102,11 +99,3 @@ Route::get('/callback', 'SocialAuthFacebookController@callback');
 
 Route::get('/redirect/twitter', 'SocialAuthTwitterController@redirect');
 Route::get('/callback/twitter', 'SocialAuthTwitterController@callback');
-
-
-
-
-
-
-
-

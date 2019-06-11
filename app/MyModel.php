@@ -23,8 +23,8 @@ class myModel extends Model
     public static function timeLocalization($value)
     {
         $user = Auth::user();
-// If no user is logged in, we'll just default to the
-// application timezone
+        // If no user is logged in, we'll just default to the
+        // application timezone
         $timezone = $user ? $user->timezone : Config::get('app.timezone');
 
         return Carbon::createFromTimestamp(strtotime($value))

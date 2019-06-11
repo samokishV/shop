@@ -45,7 +45,7 @@ class Category extends Model
             ->where('id', $id)
             ->update(['category' => $name, 'slug' => $slug, 'parent_id' => $parentId]);
 
-        if($image) {
+        if ($image) {
             // delete old images from folder
             Image::deleteOriginal($category->original_img);
             Image:: deletePreview($category->preview);
@@ -114,7 +114,7 @@ class Category extends Model
     public static function getCategoriesName()
     {
         $list = [];
-        $categories = self::select('id','category', 'parent_id', 'slug')->get();
+        $categories = self::select('id', 'category', 'parent_id', 'slug')->get();
         $data = $categories->keyBy('id')->toArray();
         $tree = self::buildTree($data);
         foreach ($data as $key => $value) {
@@ -132,16 +132,16 @@ class Category extends Model
      * @param array $data  | $data['key1' => ['id' => int, 'category' => string, 'parent_id' => int], 'key2' => [...]]
      * @return array | ["id"=> int, "category" => string, "parent_id" => int, "childs" => array]
      */
-    public static  function buildTree($data)
+    public static function buildTree($data)
     {
         $childs = array();
 
-        foreach($data as &$item) {
+        foreach ($data as &$item) {
             $childs[$item['parent_id']][$item['id']] = &$item;
         }
         unset($item);
 
-        foreach($data as &$item) {
+        foreach ($data as &$item) {
             if (isset($childs[$item['id']])) {
                 $item['childs'] = $childs[$item['id']];
             }
@@ -158,12 +158,12 @@ class Category extends Model
      * @param array $tree
      * @return array | ['key1' => int, 'key2' => int, ...]
      */
-    public static function getKeys($key, $tree) {
+    public static function getKeys($key, $tree)
+    {
         $found_path = [];
         $ritit = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($tree), \RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($ritit as $leafValue) {
-
             $path = array();
             foreach (range(0, $ritit->getDepth()) as $depth) {
                 $path[] = $ritit->getSubIterator($depth)->key();
@@ -187,10 +187,13 @@ class Category extends Model
      */
     public static function getFullCategoryName($arrKeys, $data)
     {
-        foreach($arrKeys as $key=>$value) {
-            if($value!="childs") {
-                if($key == 0) $list = $data[$value]['category'];
-                else $list .= " / ".$data[$value]['category'];
+        foreach ($arrKeys as $key=>$value) {
+            if ($value!="childs") {
+                if ($key == 0) {
+                    $list = $data[$value]['category'];
+                } else {
+                    $list .= " / ".$data[$value]['category'];
+                }
             }
         }
         return $list;
@@ -220,16 +223,17 @@ class Category extends Model
         static $myFlag = true;
         static $e = [];
 
-        if(is_array($w) && $myFlag){
-            foreach($w as $key=>$str){
-                if($key == $catId) {
+        if (is_array($w) && $myFlag) {
+            foreach ($w as $key=>$str) {
+                if ($key == $catId) {
                     $e = $str;
                     $myFlag = false;
                 }
                 self::getSubArray($str, $catId);
             }
+        } else {
+            null;
         }
-        else null;
         return $e;
     }
 
@@ -245,8 +249,8 @@ class Category extends Model
         $tit = new \RecursiveTreeIterator($it);
 
         $arr = [];
-        foreach( $tit as $key => $value ){
-            if($key == "id") {
+        foreach ($tit as $key => $value) {
+            if ($key == "id") {
                 $chars = array("|", "-", " ");
                 $value = str_replace($chars, "", $value);
                 $arr[] = $value;
@@ -272,7 +276,7 @@ class Category extends Model
         }
 
         return self::build_tree($cats, $parent_id);
-     }
+    }
 
     /**
      * Get ul list of nested categories.
@@ -291,7 +295,9 @@ class Category extends Model
                 $tree .= '</li>';
             }
             $tree .= '</ul>';
-        } else return null;
+        } else {
+            return null;
+        }
         return $tree;
     }
 }

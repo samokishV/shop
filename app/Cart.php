@@ -30,7 +30,7 @@ class Cart extends Model
             ->first();
 
         // update qt if product already in cart
-        if($product) {
+        if ($product) {
             $product->qt = $qt;
             $product->save();
         } else {
@@ -116,7 +116,7 @@ class Cart extends Model
         $products = Cart::index($userId);
 
         $total = 0;
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $total += $product->total;
         }
 
@@ -132,7 +132,7 @@ class Cart extends Model
      */
     public static function findInCart($productId, $cart)
     {
-        if(isset($cart[$productId])) {
+        if (isset($cart[$productId])) {
             return $cart[$productId];
         }
     }
@@ -177,7 +177,7 @@ class Cart extends Model
             ->whereIn('id', $keys)
             ->get();
 
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $product->qt = $cart[$product->id];
             $product->total = $product->qt*$product->price;
         }

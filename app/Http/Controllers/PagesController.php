@@ -31,7 +31,7 @@ class PagesController extends Controller
         $categories = Category::all();
         $data['menu'] = Category::buildMenu($categories, 0);
 
-        foreach($data['categories'] as $cat) {
+        foreach ($data['categories'] as $cat) {
             $data['sub-menu'][$cat->id] = Category::buildMenu($categories, $cat->id);
         }
 
@@ -58,14 +58,16 @@ class PagesController extends Controller
         $request->flash();
 
         $order = $request->input('sort-options');
-        if(!isset($order)) $order = 'default';
+        if (!isset($order)) {
+            $order = 'default';
+        }
 
         $price = $request->input('price');
 
         $category = Category::where('slug', $catSlug)->get();
         $catId =  $category[0]->id;
 
-        $cat = Category::select('id','category', 'parent_id', 'slug')->get();
+        $cat = Category::select('id', 'category', 'parent_id', 'slug')->get();
         $d = $cat->keyBy('id')->toArray();
         $tree = Category::buildTree($d);
         $ids = Category::getSubIds($tree, $catId);
@@ -84,9 +86,9 @@ class PagesController extends Controller
         $userId = Auth::id();
         $products = Cart::index($userId);
 
-        if(!$userId) {
+        if (!$userId) {
             $cart = Session::get("cart");
-            if($cart) {
+            if ($cart) {
                 $products = Cart::guestIndex($cart);
             }
         }
@@ -104,9 +106,9 @@ class PagesController extends Controller
         $userId = Auth::id();
         $cart = Cart::index($userId);
 
-        if(!$userId) {
+        if (!$userId) {
             $cart = Session::get("cart");
-            if($cart) {
+            if ($cart) {
                 $cart = Cart::guestIndex($cart);
             }
         }
@@ -114,4 +116,3 @@ class PagesController extends Controller
         return view('order', ['cart'=>$cart]);
     }
 }
-

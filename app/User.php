@@ -69,7 +69,7 @@ class User extends Authenticatable
 
         $user->email = $email;
 
-        if($user->password != $password) {
+        if ($user->password != $password) {
             $hash = Hash::make($password);
             $user->password = $hash;
         } else {
@@ -85,7 +85,7 @@ class User extends Authenticatable
      */
     public function isAdmin()
     {
-        if($this->role === "admin") {
+        if ($this->role === "admin") {
             return true;
         } else {
             return false;
@@ -97,7 +97,7 @@ class User extends Authenticatable
      */
     public function isManager()
     {
-        if($this->role === "manager") {
+        if ($this->role === "manager") {
             return true;
         }
     }

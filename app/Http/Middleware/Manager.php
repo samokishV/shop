@@ -10,7 +10,7 @@ class Manager
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            if(Auth::user()->isManager()) {
+            if (Auth::user()->isManager()) {
                 return $next($request);
             }
         }

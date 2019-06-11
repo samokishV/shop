@@ -9,10 +9,12 @@ class CheckRole
 {
     public function handle($request, Closure $next, ... $roles)
     {
-        if(empty($roles)) $roles = ['admin'];
+        if (empty($roles)) {
+            $roles = ['admin'];
+        }
 
-        foreach($roles as $role) {
-            if(Auth::user() && $request->user()->role === $role) {
+        foreach ($roles as $role) {
+            if (Auth::user() && $request->user()->role === $role) {
                 return $next($request);
             }
         }

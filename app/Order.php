@@ -30,7 +30,7 @@ class Order extends MyModel
 
         $oderId = $order->id;
 
-        foreach($cart as $item) {
+        foreach ($cart as $item) {
             $prod_order = new ProductsOrder;
 
             $prod_order->order_id = $oderId;
@@ -68,13 +68,21 @@ class Order extends MyModel
      * @param int $orderId
      * @return array
      */
-    public static function  getById($orderId)
+    public static function getById($orderId)
     {
         return Order::where('orders.id', '=', $orderId)
             ->join('products_orders', 'orders.id', '=', 'products_orders.order_id')
             ->join('products', 'products_orders.product_id', '=', 'products.id')
-            ->select('orders.id',  'orders.name', 'orders.email', 'orders.phone', 'orders.address',
-                'products_orders.*', 'products.title', DB::raw('round(products_orders.total/qt,2) as price'))
+            ->select(
+                'orders.id',
+                'orders.name',
+                'orders.email',
+                'orders.phone',
+                'orders.address',
+                'products_orders.*',
+                'products.title',
+                DB::raw('round(products_orders.total/qt,2) as price')
+            )
             ->get();
     }
 
@@ -89,4 +97,3 @@ class Order extends MyModel
         $order->save();
     }
 }
-
