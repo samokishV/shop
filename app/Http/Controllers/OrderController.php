@@ -33,7 +33,7 @@ class OrderController
         if ($validator->fails()) {
             $request->flash();
             $userId = Auth::id();
-            $cart = Cart::index($userId);
+            $cart = Cart::getByUserId($userId);
             return view('order', ['cart' => $cart])
                 ->withErrors($validator);
         } else {
@@ -41,7 +41,7 @@ class OrderController
             $userId = Auth::id();
             $userInfo = $request->only(['name', 'email', 'phone', 'address']);
             $total = Cart::getTotal($userId);
-            $cart = Cart::index($userId)->toArray();
+            $cart = Cart::getByUserId($userId)->toArray();
             $orderId = Order::store($userId, $userInfo, $total, $cart);
 
             $userInfo = Order::find($orderId);

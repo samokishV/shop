@@ -40,7 +40,7 @@ class UserOrderMail extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = config('app.url')."/order/history";
+        $url = route('order.history');
 
         return (new MailMessage)
                     ->line('Your order successfully created.')

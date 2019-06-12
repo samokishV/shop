@@ -35,7 +35,7 @@ class ManagerOrderMail extends Mailable
     public function build()
     {
         $subject = 'New order';
-        $link = config('app.url')."/admin/order/edit/".$this->user->id;
+        $link = route('order.edit', [$this->user->id]);
 
         return $this->subject($subject)->view('emails.order')
             ->with('user', $this->user)
