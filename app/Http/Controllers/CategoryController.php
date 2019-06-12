@@ -62,7 +62,7 @@ class CategoryController extends Controller
             $slug = $request["slug"];
             $image = $request->file("image");
             Category::store($parentCategory, $category, $slug, $image);
-            return redirect('admin/category');
+            return redirect(route('admin.category.index'));
         }
     }
 
@@ -120,7 +120,7 @@ class CategoryController extends Controller
             $slug = $request["slug"];
             $image = $request->file("image");
             Category::updateById($id, $parentCategory, $category, $slug, $image);
-            return redirect('admin/category');
+            return redirect(route('admin.category.index'));
         }
     }
 

@@ -59,7 +59,7 @@ class OrderController
                 Mail::to($manager->email)->send(new ManagerOrderMail($userInfo, $order));
             }
 
-            return redirect('order/history');
+            return redirect(route('order.history'));
         }
     }
 
@@ -119,6 +119,6 @@ class OrderController
 
         Order::changeStatus($id, $status);
 
-        return redirect('admin/order');
+        return redirect(route('admin.order.index'));
     }
 }

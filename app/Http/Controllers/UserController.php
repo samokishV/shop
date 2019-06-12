@@ -56,7 +56,7 @@ class UserController extends Controller
             $role = $request->role;
             $timezone = $request->timezone;
             User::store($email, $password, $role, $timezone);
-            return redirect('admin/user');
+            return redirect(route('admin.user.index'));
         }
     }
 
@@ -111,7 +111,7 @@ class UserController extends Controller
             $role = $request->role;
             $timezone = $request->timezone;
             User::updateById($id, $email, $password, $role, $timezone);
-            return redirect('admin/user');
+            return redirect(route('admin.user.index'));
         }
     }
 

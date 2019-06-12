@@ -85,7 +85,7 @@ class ProductController extends Controller
 
         Product::changeStatus($id, $status);
 
-        return redirect('admin/product');
+        return redirect(route('admin.product.index'));
     }
 
     /**
@@ -136,7 +136,7 @@ class ProductController extends Controller
                 $promo = 0;
             }
             Product::store($categoryId, $info, $promo);
-            return redirect('admin/product');
+            return redirect(route('admin.product.index'));
         }
     }
 
@@ -192,7 +192,7 @@ class ProductController extends Controller
                 $promo = 0;
             }
             Product::updateById($id, $categoryId, $info, $promo);
-            return redirect('admin/product');
+            return redirect(route('admin.product.index'));
         }
     }
 
