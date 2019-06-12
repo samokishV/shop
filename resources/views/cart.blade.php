@@ -2,13 +2,13 @@
 
 @section('content')
     <div class="d-flex justify-content-end">
-        <form id="cart-delete" action="/cart/delete/" type="POST">
+        <form id="cart-delete" action="{{ route('cart.delete.all') }}" type="POST">
             {{ csrf_field() }}
             <button class="btn btn-danger btn-md align-right m-2">Delete all</button>
         </form>
     </div>
     @foreach($products as $product)
-        <form method='post' action="/cart/delete/{{$product->id}}" class="products-delete">
+        <form method='post' action="{{ route('cart.delete', [$product->id]) }}" class="products-delete">
             {{ csrf_field() }}
             <div class="row justify-content-md-center card-body cart-product">
                 <div class="col col-lg-2">
@@ -50,11 +50,11 @@
     </div>
     <div class="row">
         <div class="w-50">
-            <a href="/home/" class="cart-big-txt"><i class="fas fa-arrow-left"></i>&nbsp;Back to shopping</a>
+            <a href="{{ route('home') }}" class="cart-big-txt"><i class="fas fa-arrow-left"></i>&nbsp;Back to shopping</a>
         </div>
         <div class="w-50">
             <p class="text-right cart-big-txt">
-                <a href="/order/" id="orderLink">Checkout&nbsp;<i class="fas fa-arrow-right"></i></a>
+                <a href="{{ route('order') }}" id="orderLink">Checkout&nbsp;<i class="fas fa-arrow-right"></i></a>
             <p>
         </div>
     </div>

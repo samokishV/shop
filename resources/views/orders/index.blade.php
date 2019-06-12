@@ -12,7 +12,7 @@
             <th> </th>
         </tr>
         @foreach($orders as $order)
-            <form class="order-edit" action="/admin/order/edit/{{$order->id}}" method="post">
+            <form class="order-edit" action="{{ route('order.edit', [$order->id]) }}" method="post">
                 {{ csrf_field() }}
                 <tr>
                     <td>{{$order->id}}</td>

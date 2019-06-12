@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <p><h3>Categories <a href="/admin/category/add/"><button class="btn btn-sm btn-success">New category</button></a> </h3></p>
+    <p><h3>Categories <a href="{{ route('category.add') }}"><button class="btn btn-sm btn-success">New category</button></a> </h3></p>
     <table class="table table-striped" style="width: 600px">
         <tr>
             <th>#</th>
@@ -13,10 +13,10 @@
         <tr>
             <td>{{$category->id}}</td>
             <td>{{$catFullName[$category->id]}}</td>
-            <td><a href="/category/{{$category->slug}}">{{$category->slug}}</a></td>
+            <td><a href="{{ route('category.show', [$category->slug]) }}">{{$category->slug}}</a></td>
             <td align="right">
-                <a href="/admin/category/edit/{{$category->id}}"><button class="btn btn-sm btn-primary">edit</button></a>
-                <a href="/admin/category/delete/{{$category->id}}" class="category-delete"><button class="btn btn-sm btn-warning">delete</button></a>
+                <a href="{{ route('category.edit', [$category->id]) }}"><button class="btn btn-sm btn-primary">edit</button></a>
+                <a href="{{ route('category.delete', [$category->id]) }}" class="category-delete"><button class="btn btn-sm btn-warning">delete</button></a>
             </td>
         </tr>
         @endforeach

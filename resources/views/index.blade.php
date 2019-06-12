@@ -6,11 +6,11 @@
     @isset($data['categories'])
         @foreach ($data['categories'] as $category)
             <div class="card m-2" style="width: 18rem;">
-                <a href="/category/{{$category->slug}}">
+                <a href="{{ route('category.show', [$category->slug]) }}">
                     <img class="card-img-top" src="/{{$category->preview}}" alt="{{$category->category}}">
                 </a>
                 <div class="card-body">
-                    <a href="/category/{{$category->slug}}">
+                    <a href="{{ route('category.show', [$category->slug]) }}">
                         <p class="card-text">{{$category->category}}</p>
                     </a>
                     <div class="dropdown row col-sm-12">
@@ -32,13 +32,13 @@
         @isset($data['promo'])
             @foreach ($data['promo'] as $promo)
             <div class="card m-2" style="width: 18rem;">
-                <form method='post' action="/cart/add" class="products">
+                <form method='post' action="{{ route('cart.add') }}" class="products">
                     {{ csrf_field() }}
-                    <a href="/product/{{$promo->slug}}">
+                    <a href="{{ route('product.show', [$promo->slug]) }}">
                         <img class="card-img-top" src="/{{$promo->preview}}" alt="{{$promo->title}}">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title bold"><a href="/product/{{$promo->slug}}">{{$promo->title}}</a></h5>
+                        <h5 class="card-title bold"><a href="{{ route('product.show', [$promo->slug]) }}">{{$promo->title}}</a></h5>
                         <h5 class="card-title">{{$promo->price}}</h5>
                         @if($promo->in_stock > 0)
                         <h6 class="card-subtitle mb-2 text-muted">in stock: {{$promo->in_stock}}</h6>

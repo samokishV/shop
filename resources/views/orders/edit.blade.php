@@ -17,7 +17,7 @@
                 </thead>
                 <tbody>
                 @isset($info)
-                <form action="/admin/order/edit/{{$info->id}}" method="post">
+                <form action="{{ route('order.edit', [$info->id]) }}" method="post">
                     {{ csrf_field() }}
                     <tr>
                         <th scope="row">{{$info->id}}</th>

@@ -18,7 +18,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand logo" href="/home/">Home</a>
+    <a class="navbar-brand logo" href="{{ route('home') }}">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -26,20 +26,20 @@
         <ul class="navbar-nav mr-auto">
             @auth
                 <li class="nav-item">
-                    <a class="nav-link" href="/order/history">Orders</a>
+                    <a class="nav-link" href="{{ route('order.history') }}">Orders</a>
                 </li>
             @endauth
         </ul>
         <ul class="navbar-nav mr-right">
             <li class="nav-item">
-                <form action="/product/search" method="post" class="form-inline my-2 my-lg-0">
+                <form action="{{ route('product.search') }}" method="post" class="form-inline my-2 my-lg-0">
                     {{ csrf_field() }}
                     <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="{{old('keyword')}}" required>
                     <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </li>
             <li class="nav-item">
-                <a href="/cart/">
+                <a href="{{ route('cart') }}">
                     <button type="button" class="btn btn-primary">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="badge badge-light" id="products_number">
@@ -63,7 +63,7 @@
                         {{ csrf_field() }}
                     </form>
                 @else
-                    <li> <a class="nav-link" href="/login/">Log in</a> </li>
+                    <li> <a class="nav-link" href="{{ route('login') }}">Log in</a> </li>
                 @endauth
             </li>
         </ul>
@@ -83,6 +83,5 @@
 <script src="/js/product.js"></script>
 <script src="/js/timezone.js"></script>
 <script src="/js/phoneMask.js"></script>
-<script src="/js/index.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <p><h3>Products <a href="/admin/product/add/"><button class="btn btn-sm btn-success">New product</button></a>
+    <p><h3>Products <a href="{{ route('product.add') }}"><button class="btn btn-sm btn-success">New product</button></a>
         <a id="productEditBtn"><button class="btn btn-sm btn-primary">Update all</button></a></h3></p>
     <table class="table table-striped" style="width: 800px">
         <tr>
@@ -14,12 +14,12 @@
             <th> </th>
         </tr>
         @foreach($products as $product)
-            <form class="product-edit" action="/admin/product/edit-promo/{{$product->id}}" method="post">
+            <form class="product-edit" action="{{ route('promo.edit', [$product->id]) }}" method="post">
                 {{ csrf_field() }}
                 <tr>
                     <td>{{$product->id}}</td>
                     <td>
-                        <a href="/product/{{$product->slug}}">
+                        <a href="{{ route('product.show', [$product->slug]) }}">
                             {{$product->title}}
                         </a>
                     </td>
@@ -28,7 +28,7 @@
                     <td><input id="{{$product->id}}" name="promo" type="checkbox" @if($product->promo) checked @endif ></td>
                     <td>{{$catFullName[$product->catId]}}</td>
                     <td align="right">
-                        <a href="/admin/product/edit/{{$product->id}}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="{{ route('product.edit', [$product->id]) }}" class="btn btn-sm btn-primary">Edit</a>
                         <a href="/admin/product/delete/{{$product->id}}" class="product-delete"><button class="btn btn-sm btn-warning">Delete</button></a>
                         <input type="submit" value="Update" class="btn btn-sm btn-success">
                     </td>

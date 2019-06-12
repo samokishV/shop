@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm">
                 <div class="card" style="width: 20rem;">
-                    <form method='post' action="/cart/add" class="products">
+                    <form method='post' action="{{ route('cart.add') }}" class="products">
                         {{ csrf_field() }}
                         <div class="card-body">
                             <h5 class="card-title bold">{{$product->title}}</h5>
