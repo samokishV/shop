@@ -122,4 +122,6 @@
     <div class="row">
         <img src="/{{$product->original_img}}" id="img-preview">
     </div>
+    @include('products.feature')
 @endsection
+

@@ -1,22 +1,17 @@
 $(document).ready(function() {
-    //update product by id
+
+    const featureTemplate = $("#feature-template");
+    const html = featureTemplate.html();
+
+    //update product promo status
     $(".product-edit").submit(function(e) {
         e.preventDefault();
-        href = $(this).attr('action');
+
+        var type = 'post';
+        var href = $(this).attr('action');
         var str = $(this).serialize();
-        $.ajax({
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: href,
-            type: 'POST',
-            data: str,
-            success: function(result) {
-                //
-            },
-            error: function( req, status, err ) {
-                alert('something went wrong'+ status + err );
-            }
-        });
-        return false;
+
+        customFunc(type, href, str, function() {});
     });
 
     //update all product status
@@ -31,19 +26,11 @@ $(document).ready(function() {
             if(promo) promo = "on";
             else promo = null;
 
-            request = $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: 'post',
-                url: '/admin/product/edit-promo/'+id,
-                data: {'promo': promo},
-                success: function(result) {
-                    //
-                },
-                error: function( req, status, err ) {
-                    alert('something went wrong'+ status + err );
-                }
-            });
+            var type = 'post';
+            var href = '/admin/product/edit-promo/'+id;
+            var str = {'promo': promo};
 
+            request = customFunc(type, href, str, function() {});
             promises.push( request);
 
         });
@@ -56,34 +43,14 @@ $(document).ready(function() {
     //delete product by id
     $(".product-delete").on("click", function(e) {
         e.preventDefault();
-        href = $(this).attr('href');
-        $.ajax({
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: href,
-            type: 'DELETE',
-            success: function(result) {
-                //
-            },
-            error: function( req, status, err ) {
-                alert('something went wrong'+ status + err );
-            }
-        });
+
+        var type = 'DELETE';
+        var href = $(this).attr('href');
+        var str = {};
+
+        request = customFunc(type, href, str, function() {});
         $(this).closest("tr").remove();
     });
-
-    html = `<div class='row mt-4 mb-4 feature-group'>
-                <div class='col-sm-5'>
-                    <label>Feature name</label>
-                    <input class='feature w-100'>
-                </div>
-                <div class='col-sm-5'>
-                    <label>Value</label>
-                    <input class='feature-value w-100'>
-                </div>
-                <div class="col-sm-2 my-auto">
-                    <a class="btn btn-sm btn-success text-light remove-feature">Delete feature</a>
-                </div>
-            </div>`;
 
     $("#add-new-feature").on("click", function(e) {
         $(html).insertAfter("#new-features");
@@ -101,7 +68,12 @@ $(document).ready(function() {
         values = $(".feature-value");
 
         $.each(features, function(i, name) {
-            obj[features[i].value] = values[i].value;
+            var featureName = features[i].value;
+            var featureValue = values[i].value;
+
+            if(featureName) {
+                obj[featureName] = featureValue;
+            }
         });
 
         additional = JSON.stringify(obj);

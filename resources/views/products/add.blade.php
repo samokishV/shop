@@ -120,4 +120,7 @@
     <div class="row">
         <img src="" id="img-preview">
     </div>
+    @include('products.feature')
 @endsection
+
+
