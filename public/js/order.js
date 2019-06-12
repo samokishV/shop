@@ -2,21 +2,12 @@ $(document).ready(function() {
     //update order by id
     $(".order-edit").submit(function(e) {
         e.preventDefault();
-        href = $(this).attr('action');
+
+        var type = 'POST';
+        var href = $(this).attr('action');
         var str = $(this).serialize();
-        $.ajax({
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: href,
-            type: 'POST',
-            data: str,
-            success: function(result) {
-                //
-            },
-            error: function( req, status, err ) {
-                alert('something went wrong'+ status + err );
-            }
-        });
-        return false;
+
+        customFunc(type, href, str, function() {});
     });
 
     //update all orders status
@@ -31,27 +22,16 @@ $(document).ready(function() {
             if(processed) processed = "on";
             else processed = null;
 
-            request = $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type: 'post',
-                url: '/admin/order/edit/'+id,
-                data: {'processed': processed},
-                success: function(result) {
-                    //
-                },
-                error: function( req, status, err ) {
-                    alert('something went wrong'+ status + err );
-                }
-            });
+            var type = 'POST';
+            var href ='/admin/order/edit/'+id;
+            var str = {'processed': processed};
 
+            request = customFunc(type, href, str, function() {});
             promises.push( request);
-
         });
 
         $.when.apply(null, promises).done(function(){
             window.location.href="/admin/order";
-        })
-
-
+        });
     });
 });
