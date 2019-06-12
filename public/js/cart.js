@@ -5,7 +5,7 @@ $(document).ready(function() {
     $(".products").submit(function(e) {
         e.preventDefault();
         var type = 'post';
-        var href = '/cart/add';
+        var href = route('cart.add');
         var str = $(this).serialize();
 
         customFunc(type, href, str, function(data) {
@@ -39,7 +39,7 @@ $(document).ready(function() {
     $("#cart-delete").submit(function(e) {
         e.preventDefault(e);
         var type = 'post';
-        var href = '/cart/delete';
+        var href = route('cart.delete.all');
         var str = $(this).serialize();
 
         customFunc(type, href, str, function() {
@@ -59,7 +59,7 @@ $(document).ready(function() {
             var qt = el.value - 0;
 
             var type = 'post';
-            var href = '/cart/update/' + id;
+            var href = route('cart.edit', [id]);
             var str = {'qt': qt};
 
             request = customFunc(type, href, str, function() {});
@@ -67,7 +67,7 @@ $(document).ready(function() {
         });
 
         $.when.apply(null, promises).done(function(){
-            window.location.href="/order/";
+            window.location.href = route('order');
         })
     });
 

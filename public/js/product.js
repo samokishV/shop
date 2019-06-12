@@ -27,7 +27,7 @@ $(document).ready(function() {
             else promo = null;
 
             var type = 'post';
-            var href = '/admin/product/edit-promo/'+id;
+            var href = route('promo.edit' , [id]);
             var str = {'promo': promo};
 
             request = customFunc(type, href, str, function() {});
@@ -36,8 +36,8 @@ $(document).ready(function() {
         });
 
         $.when.apply(null, promises).done(function(){
-            window.location.href="/admin/product";
-        })
+            window.location.href = route('admin.product.index');
+        });
     });
 
     //delete product by id

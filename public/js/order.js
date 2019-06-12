@@ -23,7 +23,7 @@ $(document).ready(function() {
             else processed = null;
 
             var type = 'POST';
-            var href ='/admin/order/edit/'+id;
+            var href = route('order.edit', [id]);
             var str = {'processed': processed};
 
             request = customFunc(type, href, str, function() {});
@@ -31,7 +31,7 @@ $(document).ready(function() {
         });
 
         $.when.apply(null, promises).done(function(){
-            window.location.href="/admin/order";
+            window.location.href = route('admin.order.index');
         });
     });
 });
