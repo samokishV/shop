@@ -2,95 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Cart;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
     /**
      * @param Request $request
+     * @param CartService $cart
      * @return string
      */
-    public function add(Request $request)
+    public function add(Request $request, CartService $cart)
     {
         $productId= $request->input('id');
         $qt= $request->input('qt');
-
         $userId = Auth::id();
 
-        if (!$userId) {
-            $cart = Session::get('cart');
-            $product = Cart::findInCart($productId, $cart);
-
-            if (!$product) {
-                $products = Cart::addToCart($productId, $qt, $cart);
-                Session::put('cart', $products);
-                return "Product successfully add to cart";
-            } else {
-                return "product already in cart";
-            }
-        } else {
-            $product = Cart::findProductById($userId, $productId);
-
-            if ($product) {
-                return "product already in cart";
-            } else {
-                Cart::add($userId, $productId, $qt);
-                return "Product successfully add to cart";
-            }
-        }
-    }
-
-    /**
-     * @param Request $request
-     * @param $productId
-     * @return int
-     * @throws \Exception
-     */
-    public function delete(Request $request, $productId)
-    {
-        $userId = Auth::id();
-        $result = Cart::deleteProductById($userId, $productId);
-
-        if (!$userId) {
-            $cart = Session::get('cart');
-            $result = Cart::deleteFromCart($cart, $productId);
-        }
-
+        $result =  $cart->addProduct($productId, $qt, $userId);
         return $result;
     }
 
     /**
+     * @param $productId
+     * @param CartService $cart
      * @return int
      */
-    public function deleteAll()
+    public function delete($productId, CartService $cart)
     {
         $userId = Auth::id();
-        $result = Cart::deleteAll($userId);
+        $result = $cart->removeProduct($productId, $userId);
+        return $result;
+    }
 
-        if (!$userId) {
-            Session::forget('cart');
-        }
-
+    /**
+     * @param CartService $cart
+     * @return int
+     */
+    public function deleteAll(CartService $cart)
+    {
+        $userId = Auth::id();
+        $result = $cart->clear($userId);
         return $result;
     }
 
     /**
      * @param Request $request
      * @param string $productId
+     * @param CartService $cart
+     * @return mixed
      */
-    public function update(Request $request, $productId)
+    public function update(Request $request, $productId, CartService $cart)
     {
         $userId = Auth::id();
-        $qt= $request->qt;
-
-        if (!$userId) {
-            $cart = Session::get('cart');
-            Cart::updateCart($cart, $productId, $qt);
-        } else {
-            Cart::updateById($userId, $productId, $qt);
-        }
+        $qt = $request->qt;
+        $result = $cart->updateProduct($productId, $qt, $userId);
+        return $result;
     }
 }

@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\DB;
 class Cart extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id', 'product_id', 'qt'
+    ];
+
+    /**
      * @param int $userId
      * @param string $productId
      * @return Cart
@@ -34,13 +43,7 @@ class Cart extends Model
             $product->qt = $qt;
             $product->save();
         } else {
-            $cart = new Cart;
-
-            $cart->user_id = $userId;
-            $cart->product_id = $productId;
-            $cart->qt = $qt;
-
-            $cart->save();
+            Cart::create(['user_id' => $userId, 'product_id' => $productId, 'qt' => $qt]);
         }
     }
 
@@ -85,8 +88,7 @@ class Cart extends Model
      */
     public static function getByUserId($userId)
     {
-        return  DB::table('carts')
-            ->join('products', 'carts.product_id', '=', 'products.id')
+        return  Cart::join('products', 'carts.product_id', '=', 'products.id')
             ->where('user_id', '=', $userId)
             ->select('products.*', 'carts.qt', DB::raw('price*qt as total'))
             ->get();
@@ -99,62 +101,6 @@ class Cart extends Model
     public static function count($userId)
     {
         return self::where('user_id', $userId)->count();
-    }
-
-    /**
-     * @param $userId
-     * @return int
-     */
-    public static function getTotal($userId)
-    {
-        $products = Cart::getByUserId($userId);
-
-        $total = 0;
-        foreach ($products as $product) {
-            $total += $product->total;
-        }
-
-        return $total;
-    }
-
-    /**
-     * Find if product exists in session cart array.
-     *
-     * @param string $productId
-     * @param Collection $cart | [string => string] | [id1 => qt, id2 => qt]
-     * @return string | null
-     */
-    public static function findInCart($productId, $cart)
-    {
-        if (isset($cart[$productId])) {
-            return $cart[$productId];
-        }
-    }
-
-    /**
-     * Add product to cart array.
-     *
-     * @param string $productId
-     * @param string $qt
-     * @param Collection $cart | [string => string] | [id1 => qt, id2 => qt]
-     * @return Collection
-     */
-    public static function addToCart($productId, $qt, $cart)
-    {
-        $cart[$productId] = $qt;
-        $products = collect($cart);
-        return $products;
-    }
-
-    /**
-     * Count products in cart array.
-     *
-     * @param Collection $cart | [string => string] | [id1 => qt, id2 => qt]
-     * @return int
-     */
-    public static function countProducts($cart)
-    {
-        return count($cart);
     }
 
     /**
@@ -179,28 +125,13 @@ class Cart extends Model
     }
 
     /**
-     * Delete product from cart array.
-     *
-     * @param Collection $cart | [string => string] | [id1 => qt, id2 => qt]
-     * @param string $productId
-     * @return Collection
+     * @param $userId
+     * @return int
      */
-    public static function deleteFromCart($cart, $productId)
+    public static function getTotal($userId)
     {
-        return $cart->forget($productId);
-    }
-
-    /**
-     * Update product qt in cart array.
-     * @param Collection $cart | [string => string] | [id1 => qt, id2 => qt]
-     * @param string $productId
-     * @param string $qt
-     * @return string
-     */
-    public static function updateCart($cart, $productId, $qt)
-    {
-        $cart[$productId] = $qt;
-        $products = collect($cart);
-        return $products;
+        return Cart::join('products', 'carts.product_id', '=', 'products.id')
+            ->where('user_id', '=', $userId)
+            ->sum('price*qt');
     }
 }

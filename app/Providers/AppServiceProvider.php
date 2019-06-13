@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Cart;
+use App\Services\CartService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View as View;
 use Illuminate\Support\ServiceProvider;
@@ -24,7 +25,8 @@ class AppServiceProvider extends ServiceProvider
             } else {
                 if (Session::has('cart')) {
                     $cart = Session::get('cart');
-                    $productsQt = Cart::countProducts($cart);
+                    $cartObj = new CartService();
+                    $productsQt = $cartObj->countProducts($cart);
                 } else {
                     $productsQt = 0;
                 }
