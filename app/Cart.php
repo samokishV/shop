@@ -132,6 +132,6 @@ class Cart extends Model
     {
         return Cart::join('products', 'carts.product_id', '=', 'products.id')
             ->where('user_id', '=', $userId)
-            ->sum('price*qt');
+            ->sum(DB::raw('price * qt'));
     }
 }
