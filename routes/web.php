@@ -33,7 +33,7 @@ Route::post('cart/delete', 'CartController@deleteAll')->name('cart.delete.all');
 
 Route::get('cart', 'PagesController@cart')->name('cart');
 
-Route::get('order', 'PagesController@order')->name('order');
+Route::get('order', 'OrderController@create')->name('order');
 
 Route::post('order', 'OrderController@store');
 

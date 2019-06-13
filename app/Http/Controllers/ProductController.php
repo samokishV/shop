@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProduct;
+use App\Http\Requests\UpdateProduct;
 use Validator;
 use Illuminate\Validation\Rule;
 use App\Product;
@@ -103,41 +105,23 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreProduct $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreProduct $request)
     {
-        $validator =  Validator::make($request->all(), [
-            'category' => 'required | numeric',
-            'slug' => ['required', 'alpha_dash', Rule::unique('products')],
-            'image' => ['required', Rule::dimensions()->minWidth(400)->minHeight(400)],
-            'image.*' => 'mimes:jpeg,png,jpg | max:2048',
-            'title' => 'required',
-            'description' => 'required',
-            'price' => 'required | numeric',
-            'in_stock' => 'required | numeric'
-        ]);
+        $categoryId = $request['category'];
+        $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
+        $info["image"] = $request->file("image");
+        $status = $request['promo'];
 
-        if ($validator->fails()) {
-            $request->flash();
-            $categories = Category::all();
-            $categoriesNames = Category::getCategoriesName();
-            return view('products.add', ['categories' => $categories, 'catFullName' => $categoriesNames])->withErrors($validator->messages());
+        if ($status=="on") {
+            $promo = 1;
         } else {
-            $categoryId = $request['category'];
-            $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
-            $info["image"] = $request->file("image");
-            $status = $request['promo'];
-
-            if ($status=="on") {
-                $promo = 1;
-            } else {
-                $promo = 0;
-            }
-            Product::store($categoryId, $info, $promo);
-            return redirect(route('admin.product.index'));
+            $promo = 0;
         }
+        Product::store($categoryId, $info, $promo);
+        return redirect(route('admin.product.index'));
     }
 
     /**
@@ -157,43 +141,24 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param UpdateProduct $request
+     * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProduct $request, $id)
     {
-        $validator =  Validator::make($request->all(), [
-            'category' => 'required | numeric',
-            'slug' => ['required', 'alpha_dash', Rule::unique('products')->ignore($id)],
-            'image' => [Rule::dimensions()->minWidth(400)->minHeight(400)],
-            'image.*' => 'mimes:jpeg,png,jpg | max:2048',
-            'title' => 'required',
-            'description' => 'required',
-            'price' => 'required | numeric',
-            'in_stock' => 'required | numeric'
-        ]);
+        $categoryId = $request['category'];
+        $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
+        $info["image"] = $request->file("image");
+        $status = $request['promo'];
 
-        if ($validator->fails()) {
-            $request->flash();
-            $products = Product::findById($id);
-            $categories = Category::all();
-            $categoriesNames = Category::getCategoriesName();
-            return view('products.edit', ['categories' => $categories, 'products' => $products, 'catFullName' => $categoriesNames])->withErrors($validator->messages());
+        if ($status=="on") {
+            $promo = 1;
         } else {
-            $categoryId = $request['category'];
-            $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
-            $info["image"] = $request->file("image");
-            $status = $request['promo'];
-
-            if ($status=="on") {
-                $promo = 1;
-            } else {
-                $promo = 0;
-            }
-            Product::updateById($id, $categoryId, $info, $promo);
-            return redirect(route('admin.product.index'));
+            $promo = 0;
         }
+        Product::updateById($id, $categoryId, $info, $promo);
+        return redirect(route('admin.product.index'));
     }
 
     /**

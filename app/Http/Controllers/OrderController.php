@@ -3,64 +3,70 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Http\Requests\StoreOrder;
 use App\Order;
 use App\User;
 use App\Mail\ManagerOrderMail;
 use App\Notifications\UserOrderMail;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Rules\PhoneNumber;
-use App\Rules\Name;
+
 
 class OrderController
 {
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        $userId = Auth::id();
+        $cart = Cart::getByUserId($userId);
+
+        if (!$userId) {
+            $cart = Session::get("cart");
+            if ($cart) {
+                $cart = Cart::guestIndex($cart);
+            }
+        }
+
+        return view('order', ['cart'=>$cart]);
+    }
+
+    /**
+     * @param StoreOrder $request
      * @return Factory|View
      */
-    public function store(Request $request)
+    public function store(StoreOrder $request)
     {
-        $validator =  Validator::make($request->all(), [
-            'name' => ['required', new Name],
-            'email' => 'required | email',
-            'phone' => ['required', new PhoneNumber],
-            'address' => 'required'
-        ]);
+        // save an order
+        $userId = Auth::id();
+        $userInfo = $request->only(['name', 'email', 'phone', 'address']);
+        $total = Cart::getTotal($userId);
+        $cart = Cart::getByUserId($userId)->toArray();
+        $orderId = Order::store($userId, $userInfo, $total, $cart);
 
-        if ($validator->fails()) {
-            $request->flash();
-            $userId = Auth::id();
-            $cart = Cart::getByUserId($userId);
-            return view('order', ['cart' => $cart])
-                ->withErrors($validator);
-        } else {
-            // save an order
-            $userId = Auth::id();
-            $userInfo = $request->only(['name', 'email', 'phone', 'address']);
-            $total = Cart::getTotal($userId);
-            $cart = Cart::getByUserId($userId)->toArray();
-            $orderId = Order::store($userId, $userInfo, $total, $cart);
+        $userInfo = Order::find($orderId);
+        $order = Order::getById($orderId);
 
-            $userInfo = Order::find($orderId);
-            $order = Order::getById($orderId);
+        //send mail to user and manager
+        $request->user()->notify(new UserOrderMail());
 
-            //send mail to user and manager
-            $request->user()->notify(new UserOrderMail());
+        $user = new User();
+        $user->email = $request->email;
+        $user->notify(new UserOrderMail());
 
-            $user = new User();
-            $user->email = $request->email;
-            $user->notify(new UserOrderMail());
-
-            $managers = User::findByRole('manager');
-            foreach ($managers as $manager) {
-                Mail::to($manager->email)->send(new ManagerOrderMail($userInfo, $order));
-            }
-
-            return redirect(route('order.history'));
+        $managers = User::findByRole('manager');
+        foreach ($managers as $manager) {
+            Mail::to($manager->email)->send(new ManagerOrderMail($userInfo, $order));
         }
+
+        return redirect(route('order.history'));
     }
 
     /**
@@ -103,7 +109,7 @@ class OrderController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
      * @return Response
      */

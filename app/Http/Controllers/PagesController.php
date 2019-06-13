@@ -95,24 +95,4 @@ class PagesController extends Controller
 
         return view('cart', ['products'=>$products]);
     }
-
-    /**
-     * @param Request $request
-     * @return Factory| View
-     */
-    public function order(Request $request)
-    {
-        $request->flash();
-        $userId = Auth::id();
-        $cart = Cart::getByUserId($userId);
-
-        if (!$userId) {
-            $cart = Session::get("cart");
-            if ($cart) {
-                $cart = Cart::guestIndex($cart);
-            }
-        }
-
-        return view('order', ['cart'=>$cart]);
-    }
 }

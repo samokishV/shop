@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategory;
+use App\Http\Requests\UpdateCategory;
+use Illuminate\Http\Response;
 use Validator;
-use Illuminate\Validation\Rule;
-use Illuminate\Http\Request;
 use App\Category;
 
 class CategoryController extends Controller
@@ -12,7 +13,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -24,7 +25,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -36,41 +37,24 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreCategory $request
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreCategory $request)
     {
-        $validator =  Validator::make($request->all(), [
-            'parent_category' => 'required',
-            'category' => 'required | unique:"categories',
-            'slug' => 'required | alpha_dash | unique:"categories',
-            'image' => ['required',
-                Rule::dimensions()->minWidth(400)->minHeight(400)
-            ],
-            'image.*' => 'mimes:jpeg,png,jpg | max:2048'
-        ]);
-
-        if ($validator->fails()) {
-            $request->flash();
-            $categories = Category::all();
-            $categoriesNames = Category::getCategoriesName();
-            return view('categories.add', ['categories' => $categories, 'catFullName' => $categoriesNames])->withErrors($validator->messages());
-        } else {
-            $parentCategory = $request["parent_category"];
-            $category = $request["category"];
-            $slug = $request["slug"];
-            $image = $request->file("image");
-            Category::store($parentCategory, $category, $slug, $image);
-            return redirect(route('admin.category.index'));
-        }
+        $parentCategory = $request["parent_category"];
+        $category = $request["category"];
+        $slug = $request["slug"];
+        $image = $request->file("image");
+        Category::store($parentCategory, $category, $slug, $image);
+        return redirect(route('admin.category.index'));
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -81,7 +65,7 @@ class CategoryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -94,41 +78,25 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateCategory $request
+     * @param int $id
+     * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategory $request, $id)
     {
-        $validator =  Validator::make($request->all(), [
-            'parent_category' => 'required',
-            'category' => ['required', Rule::unique('categories')->ignore($id)],
-            'slug' => ['required', 'alpha_dash', Rule::unique('categories')->ignore($id)],
-            'image' => [Rule::dimensions()->minWidth(400)->minHeight(400)],
-            'image.*' => 'mimes:jpeg,png,jpg | max:2048'
-        ]);
-
-        if ($validator->fails()) {
-            $request->flash();
-            $category = Category::find($id);
-            $categories = Category::all();
-            $categoriesNames = Category::getCategoriesName();
-            return view('categories.edit', ["category" => $category, "categories" => $categories, 'catFullName' => $categoriesNames])->withErrors($validator->messages());
-        } else {
-            $parentCategory = $request["parent_category"];
-            $category = $request["category"];
-            $slug = $request["slug"];
-            $image = $request->file("image");
-            Category::updateById($id, $parentCategory, $category, $slug, $image);
-            return redirect(route('admin.category.index'));
-        }
+        $parentCategory = $request["parent_category"];
+        $category = $request["category"];
+        $slug = $request["slug"];
+        $image = $request->file("image");
+        Category::updateById($id, $parentCategory, $category, $slug, $image);
+        return redirect(route('admin.category.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
