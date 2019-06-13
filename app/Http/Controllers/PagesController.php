@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Cart;
-use App\Order;
+use App\Services\CartService;
+use App\Services\CategoryService;
 use DB;
 use Illuminate\Contracts\View\Factory as Factory;
 use Illuminate\View\View as View;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Category as Category;
 use App\Product as Product;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class PagesController extends Controller
 {
@@ -43,7 +41,7 @@ class PagesController extends Controller
      */
     public function adminIndex()
     {
-        return view('admin-index', compact("data"));
+        return view('admin-index');
     }
 
     /**
@@ -51,47 +49,28 @@ class PagesController extends Controller
      *
      * @param Request $request
      * @param $catSlug
+     * @param CategoryService $category
      * @return Factory | View
      */
-    public function category(Request $request, $catSlug)
+    public function category(Request $request, $catSlug, CategoryService $category)
     {
         $request->flash();
-
-        $order = $request->input('sort-options');
-        if (!isset($order)) {
-            $order = 'default';
-        }
-
-        $price = $request->input('price');
-
-        $category = Category::where('slug', $catSlug)->get();
-        $catId =  $category[0]->id;
-
-        $cat = Category::select('id', 'category', 'parent_id', 'slug')->get();
-        $d = $cat->keyBy('id')->toArray();
-        $tree = Category::buildTree($d);
-        $ids = Category::getSubIds($tree, $catId);
-
-        $products = Product::findByCategory($ids, $order, $price);
+        $products = $category->getProducts($request, $catSlug);
 
         return view('category', ['products'=>$products]);
     }
 
     /**
+     * Display cart page.
+     *
      * @param Request $request
+     * @param CartService $cart
      * @return Factory| View
      */
-    public function cart(Request $request)
+    public function cart(Request $request, CartService $cart)
     {
         $userId = Auth::id();
-        $products = Cart::getByUserId($userId);
-
-        if (!$userId) {
-            $cart = Session::get("cart");
-            if ($cart) {
-                $products = Cart::guestIndex($cart);
-            }
-        }
+        $products = $cart->getProducts($userId);
 
         return view('cart', ['products'=>$products]);
     }

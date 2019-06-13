@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Cart;
 use App\Http\Requests\StoreOrder;
 use App\Order;
-use App\User;
-use App\Mail\ManagerOrderMail;
-use App\Notifications\UserOrderMail;
+use App\Services\CartService;
+use App\Services\OrderService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,51 +17,24 @@ class OrderController
     /**
      * Show the form for creating a new resource.
      *
+     * @param CartService $cart
      * @return Response
      */
-    public function create()
+    public function create(CartService $cart)
     {
         $userId = Auth::id();
-        $cart = Cart::getByUserId($userId);
-
-        if (!$userId) {
-            $cart = Session::get("cart");
-            if ($cart) {
-                $cart = Cart::guestIndex($cart);
-            }
-        }
-
-        return view('order', ['cart'=>$cart]);
+        $products = $cart->getProducts($userId);
+        return view('order', ['cart'=>$products]);
     }
 
     /**
      * @param StoreOrder $request
+     * @param OrderService $order
      * @return Factory|View
      */
-    public function store(StoreOrder $request)
+    public function store(StoreOrder $request, OrderService $order)
     {
-        // save an order
-        $userId = Auth::id();
-        $userInfo = $request->only(['name', 'email', 'phone', 'address']);
-        $total = Cart::getTotal($userId);
-        $cart = Cart::getByUserId($userId)->toArray();
-        $orderId = Order::store($userId, $userInfo, $total, $cart);
-
-        $userInfo = Order::find($orderId);
-        $order = Order::getById($orderId);
-
-        //send mail to user and manager
-        $request->user()->notify(new UserOrderMail());
-
-        $user = new User();
-        $user->email = $request->email;
-        $user->notify(new UserOrderMail());
-
-        $managers = User::findByRole('manager');
-        foreach ($managers as $manager) {
-            Mail::to($manager->email)->send(new ManagerOrderMail($userInfo, $order));
-        }
-
+        $order->create($request);
         return redirect(route('order.history'));
     }
 
@@ -110,20 +79,14 @@ class OrderController
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  int  $id
+     * @param int $id
+     * @param OrderService $order
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, OrderService $order)
     {
         $processed = $request['processed'];
-
-        if ($processed=="on") {
-            $status = 1;
-        } else {
-            $status = 0;
-        }
-
-        Order::changeStatus($id, $status);
+        $order->updateStatus($id, $processed);
 
         return redirect(route('admin.order.index'));
     }

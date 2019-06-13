@@ -9,6 +9,15 @@ use Illuminate\Http\UploadedFile;
 class Category extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'parent_id', 'category', 'slug', 'preview', 'original_img'
+    ];
+
+    /**
      * @param string $parentId
      * @param string $name
      * @param string $slug
@@ -16,18 +25,11 @@ class Category extends Model
      */
     public static function store($parentId, $name, $slug, $image)
     {
-        $category = new Category();
-        $category->parent_id = $parentId;
-        $category->category = $name;
-        $category->slug = $slug;
-
         $fullImgName = Image::saveOriginal($image);
         $smallImgName =  Image::savePreview($image);
 
-        $category->preview = $smallImgName;
-        $category->original_img = $fullImgName;
-
-        $category->save();
+        Category::create(['parent_id' => $parentId, 'category' => $name, 'slug' => $slug, 'preview' => $smallImgName,
+            'original_img' => $fullImgName]);
     }
 
     /**
@@ -53,8 +55,7 @@ class Category extends Model
             $smallImgName =  Image::savePreview($image);
         }
 
-        DB::table('categories')
-            ->where('id', $id)
+        Category::where('id', $id)
             ->update(['category' => $name, 'slug' => $slug, 'parent_id' => $parentId, 'preview' => $smallImgName,
                 'original_img' => $fullImgName]);
     }
@@ -73,33 +74,13 @@ class Category extends Model
     }
 
     /**
-     * Select all categories with products
-     *
-     * @return Category
-     */
-    public static function findWithProducts()
-    {
-        $categories =  DB::table('categories')
-            ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
-            ->groupBy('category_id')
-            ->havingRaw('count(category_id) > 0')
-            ->select('categories.*')
-            ->get();
-
-        return $categories;
-    }
-
-    /**
      * Select first level categories.
      *
      * @return Category
      */
     public static function firstLevelCategories()
     {
-        $categories =  DB::table('categories')
-            ->where('parent_id', '=', 0)
-            ->get();
-
+        $categories =  Category::where('parent_id', '=', 0)->get();
         return $categories;
     }
 

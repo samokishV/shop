@@ -83,7 +83,7 @@ class CartService
     /**
      * Delete all products from cart.
      *
-     * @param $userId
+     * @param int $userId
      * @return int
      */
     public function clear($userId)
@@ -95,6 +95,24 @@ class CartService
         }
 
         return $result;
+    }
+
+    /**
+     * @param int $userId
+     * @return Collection|mixed
+     */
+    public function getProducts($userId)
+    {
+        $cart = Cart::getByUserId($userId);
+
+        if (!$userId) {
+            $cart = Session::get("cart");
+            if ($cart) {
+                $cart = Cart::guestIndex($cart);
+            }
+        }
+
+        return $cart;
     }
 
     /**

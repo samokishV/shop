@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProduct;
 use App\Http\Requests\UpdateProduct;
+use App\Services\ProductService;
 use Validator;
-use Illuminate\Validation\Rule;
 use App\Product;
 use App\Category;
 use DB;
@@ -73,20 +73,12 @@ class ProductController extends Controller
      *
      * @param Request $request
      * @param int $id
+     * @param ProductService $product
      * @return RedirectResponse|Redirector
      */
-    public function updatePromo(Request $request, $id)
+    public function updatePromo(Request $request, $id, ProductService $product)
     {
-        $status = $request['promo'];
-
-        if ($status=="on") {
-            $status = 1;
-        } else {
-            $status = 0;
-        }
-
-        Product::changeStatus($id, $status);
-
+        $product->updatePromo($request, $id);
         return redirect(route('admin.product.index'));
     }
 
@@ -106,21 +98,12 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreProduct $request
+     * @param ProductService $product
      * @return Response
      */
-    public function store(StoreProduct $request)
+    public function store(StoreProduct $request, ProductService $product)
     {
-        $categoryId = $request['category'];
-        $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
-        $info["image"] = $request->file("image");
-        $status = $request['promo'];
-
-        if ($status=="on") {
-            $promo = 1;
-        } else {
-            $promo = 0;
-        }
-        Product::store($categoryId, $info, $promo);
+        $product->create($request);
         return redirect(route('admin.product.index'));
     }
 
@@ -143,29 +126,20 @@ class ProductController extends Controller
      *
      * @param UpdateProduct $request
      * @param int $id
+     * @param ProductService $product
      * @return Response
      */
-    public function update(UpdateProduct $request, $id)
+    public function update(UpdateProduct $request, $id, ProductService $product)
     {
-        $categoryId = $request['category'];
-        $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
-        $info["image"] = $request->file("image");
-        $status = $request['promo'];
-
-        if ($status=="on") {
-            $promo = 1;
-        } else {
-            $promo = 0;
-        }
-        Product::updateById($id, $categoryId, $info, $promo);
+        $product->update($request, $id);
         return redirect(route('admin.product.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param int $id
+     * @return void
      */
     public function destroy($id)
     {
