@@ -4,6 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductsOrder extends MyModel
+class ProductsOrder extends Model
 {
 }

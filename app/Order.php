@@ -6,7 +6,7 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Order extends MyModel
+class Order extends Model
 {
     /**
      * @param int $userId
