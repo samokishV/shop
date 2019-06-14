@@ -125,7 +125,7 @@ class Category extends Model
             }
         }
 
-        $tree = $childs[0];
+        $tree = $childs[0] ?? null;
         return $tree;
     }
 

@@ -42,7 +42,7 @@ return [
         'mysql' => [
             'host' => '127.0.0.1',
             'driver'    => 'mysql',
-            'database'  => 'shop_db',
+            'database'  => 'shop_db_copy',
             'username'  => 'samokish',
             'password'  => 'qwerty',
             'charset' => 'utf8mb4',
