@@ -7,7 +7,7 @@
         @foreach ($data['categories'] as $category)
             <div class="card m-2" style="width: 18rem;">
                 <a href="{{ route('category.show', [$category->slug]) }}">
-                    <img class="card-img-top" src="/{{$category->preview}}" alt="{{$category->category}}">
+                    <img class="card-img-top" src="{{ asset($category->preview) }}" alt="{{$category->category}}">
                 </a>
                 <div class="card-body">
                     <a href="{{ route('category.show', [$category->slug]) }}">

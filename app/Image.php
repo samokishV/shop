@@ -14,8 +14,10 @@ class Image
      */
     public static function saveOriginal($file)
     {
-        $fullImgName = $file->store('img');
-        return $fullImgName;
+        // storage path storage/app/public
+        $storagePath = $file->store('/public');
+        $fullImgName = basename($storagePath);
+        return 'storage/'.$fullImgName;
     }
 
     /**
@@ -29,7 +31,7 @@ class Image
         $fileName = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
 
         $fileName = 'small_'.$fileName.".".$ext;
-        $fullPath = storage_path('/app/img/'.$fileName);
+        $fullPath = public_path('storage/').$fileName;
 
         // proportionally reduce the size of the image and add white fields
         $img->resize(290, 430, function ($constraint) {
@@ -37,7 +39,7 @@ class Image
         })->resizeCanvas(290, 430, 'center', false, '#ffffff')
         ->save($fullPath);
 
-        return "img/".$fileName;
+        return 'storage/'.$fileName;
     }
 
     /**
@@ -45,7 +47,7 @@ class Image
      */
     public static function deleteOriginal($path)
     {
-        File::delete(storage_path('/app/'.$path));
+        File::delete($path);
     }
 
     /**
@@ -53,6 +55,6 @@ class Image
      */
     public static function deletePreview($path)
     {
-        File::delete(storage_path('/app/'.$path));
+        File::delete($path);
     }
 }

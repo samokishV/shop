@@ -57,6 +57,6 @@
         </div>
     </div>
     <div class="row">
-        <img src="/{{$category->original_img}}" id="img-preview">
+        <img src="{{asset($category->original_img)}}" id="img-preview">
     </div>
 @endsection
