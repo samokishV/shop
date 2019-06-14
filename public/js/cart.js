@@ -73,7 +73,7 @@ $(document).ready(function() {
 
     $(":input").bind('keyup change click', function (e) {
         if (! $(this).data("previousValue") || $(this).data("previousValue") != $(this).val()) {
-            change_value(this);
+            changeQtAndTotal(this);
             $(this).data("previousValue", $(this).val());
         }
     });
@@ -81,14 +81,19 @@ $(document).ready(function() {
     arr = $(":input[type=number]");
 
     $.each(arr, function(i, el) {
-        change_value(el);
+        changeQtAndTotal(el);
     });
 
 
-    function change_value(el)
+    /**
+     * Update qt and total value when input number value change.
+     *
+     * @param inputNumber
+     */
+    function changeQtAndTotal(inputNumber)
     {
-        id = el.id;
-        qt = el.value - 0;
+        id = inputNumber.id;
+        qt = inputNumber.value - 0;
         price = $("#" + id + "price").html() - 0;
         total = price * qt;
         $("#" + id + "qt").html(qt);
