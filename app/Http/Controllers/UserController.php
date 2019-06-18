@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
+use App\Services\UserService;
 use App\User;
 use Illuminate\Http\Response;
 
@@ -34,15 +35,12 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreUser $request
+     * @param UserService $user
      * @return Response
      */
-    public function store(StoreUser $request)
+    public function store(StoreUser $request, UserService $user)
     {
-        $email = $request->email;
-        $password = $request->password;
-        $role = $request->role;
-        $timezone = $request->timezone;
-        User::store($email, $password, $role, $timezone);
+        $user->store($request);
         return redirect(route('admin.user.index'));
     }
 
@@ -72,29 +70,26 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param UpdateUser $request
+     * @param int $id
+     * @param UserService $user
      * @return Response
      */
-    public function update(UpdateUser $request, $id)
+    public function update(UpdateUser $request, $id, UserService $user)
     {
-        $email = $request->email;
-        $password = $request->password;
-        $role = $request->role;
-        $timezone = $request->timezone;
-        User::updateById($id, $email, $password, $role, $timezone);
+        $user->update($request, $id);
         return redirect(route('admin.user.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param int $id
+     * @param UserService $user
+     * @return void
      */
-    public function destroy($id)
+    public function destroy($id, UserService $user)
     {
-        $user = User::find($id);
-        $user->delete();
+        $user->destroy($id);
     }
 }
