@@ -108,11 +108,29 @@ class CartService
         if (!$userId) {
             $cart = Session::get("cart");
             if ($cart) {
-                $cart = Cart::guestIndex($cart);
+                $cart = self::guestIndex($cart);
             }
         }
-
         return $cart;
+    }
+
+    /**
+     * Get full info about product in cart.
+     *
+     * @param array $cart
+     * @return Collection
+     */
+    public static function guestIndex($cart)
+    {
+        $cart = $cart->toArray();
+        $keys = array_keys($cart);
+        $products = Cart::guestProducts($keys);
+
+        foreach ($products as $product) {
+            $product->qt = $cart[$product->id];
+            $product->total = $product->qt*$product->price;
+        }
+        return $products;
     }
 
     /**

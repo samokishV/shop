@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProduct;
 use App\Http\Requests\UpdateProduct;
+use App\Services\CategoryService;
 use App\Services\ProductService;
+use Illuminate\Validation\ValidationException;
 use Validator;
 use App\Product;
 use App\Category;
@@ -14,7 +16,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -39,32 +40,30 @@ class ProductController extends Controller
 
     /**
      * @param Request $request
+     * @param ProductService $product
      * @return Factory|View
      * @throws ValidationException
      */
-    public function search(Request $request)
+    public function search(Request $request, ProductService $product)
     {
         $this->validate($request, [
             'keyword' => 'required'
         ]);
 
-        $request->flash();
-
-        $keyword = $request->input('keyword');
-        $product = Product::searchByKeyword($keyword);
-
-        return view('search', ['products' => $product]);
+        $products = $product->search($request);
+        return view('search', ['products' => $products]);
     }
 
     /**
      * Display a listing of the resource.
      *
+     * @param CategoryService $category
      * @return Response
      */
-    public function index()
+    public function index(CategoryService $category)
     {
         $products = Product::findAll();
-        $categoriesNames = Category::getCategoriesName();
+        $categoriesNames = $category::getCategoriesName();
         return view('products.index', ['products' => $products, 'catFullName' => $categoriesNames]);
     }
 
@@ -85,12 +84,13 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param CategoryService $category
      * @return Response
      */
-    public function create()
+    public function create(CategoryService $category)
     {
         $categories = Category::all();
-        $categoriesNames = Category::getCategoriesName();
+        $categoriesNames = $category::getCategoriesName();
         return view('products.add', ['categories' => $categories, 'catFullName' => $categoriesNames]);
     }
 
@@ -110,14 +110,15 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     * @param CategoryService $category
      * @return Response
      */
-    public function edit($id)
+    public function edit($id, CategoryService $category)
     {
         $products = Product::findById($id);
         $categories = Category::all();
-        $categoriesNames = Category::getCategoriesName();
+        $categoriesNames = $category::getCategoriesName();
         return view('products.edit', ['products' => $products, 'categories' => $categories, 'catFullName' => $categoriesNames]);
     }
 
@@ -139,11 +140,11 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
+     * @param ProductService $product
      * @return void
      */
-    public function destroy($id)
+    public function destroy($id, ProductService $product)
     {
-        $product = Product::find($id);
-        $product->delete();
+        $product->destroy($id);
     }
 }

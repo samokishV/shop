@@ -12,23 +12,30 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title', 'slug', 'description', 'price', 'promo', 'in_stock', 'additional', 'preview', 'original_img'
+    ];
+
+    /**
      * @return Product
      */
     public static function findPromo()
     {
-        return DB::select('select * from products where promo = 1');
+        return Product::where( 'promo',  '=',  1)->get();
     }
 
     /**
      * @param array $ids | [0 => string, 1 => string, ...]
-     * @param string $order
+     * @param array | null $sort
      * @param string $price
      * @return Product
      */
-    public static function findByCategory($ids, $order, $price = null)
+    public static function findByCategory($ids, $sort, $price = null)
     {
-        $sort = self::sortCondition($order);
-
         return DB::table('categories')
             ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
             ->join('products', 'products_categories.product_id', '=', 'products.id')
@@ -44,30 +51,12 @@ class Product extends Model
     }
 
     /**
-     * @param string $order | "price-asc"
-     * @return array | null
-     */
-    public static function sortCondition($order)
-    {
-        if ($order!='default') {
-            $sort = explode("-", $order);
-            $sort['field'] = $sort[0];
-            $sort['type'] = $sort[1];
-        } else {
-            $sort = null;
-        }
-
-        return $sort;
-    }
-
-    /**
      * @param string $slug
      * @return Product
      */
     public static function findBySlug($slug)
     {
-        $product = DB::select('select * from products where slug = ?', [$slug]);
-        return $product[0];
+        return Product::where('slug', '=', $slug)->first();
     }
 
     /**
@@ -76,21 +65,12 @@ class Product extends Model
      */
     public static function searchByKeyword($keyword)
     {
-        $products =  DB::table('categories')
+        return  DB::table('categories')
             ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
             ->join('products', 'products_categories.product_id', '=', 'products.id')
             ->where('title', 'LIKE', "%{$keyword}%")
             ->select('products.*', 'categories.category')
             ->get();
-
-        // group products by category
-
-        $result = array();
-        foreach ($products as $product) {
-            $result[$product->category][] = $product;
-        }
-
-        return $result;
     }
 
     /**
@@ -98,13 +78,11 @@ class Product extends Model
      */
     public static function findAll()
     {
-        $products =  DB::table('categories')
+        return  DB::table('categories')
             ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
             ->join('products', 'products_categories.product_id', '=', 'products.id')
             ->select('products.*', 'categories.id as catId')
             ->get();
-
-        return $products;
     }
 
     /**
@@ -113,14 +91,12 @@ class Product extends Model
      */
     public static function findById($id)
     {
-        $products =  DB::table('categories')
+        return  DB::table('categories')
             ->join('products_categories', 'categories.id', '=', 'products_categories.category_id')
             ->join('products', 'products_categories.product_id', '=', 'products.id')
             ->where('products.id', '=', $id)
             ->select('products.*', 'categories.id as category_id')
             ->get();
-
-        return $products;
     }
 
     /**
@@ -135,84 +111,36 @@ class Product extends Model
     }
 
     /**
-     * @param string $categoryId
      * @param array $info | ['title' => string , 'slug' => string, 'description' => string, 'price' => string,
-     * 'in_stock' => string, 'image' => string, 'additional' => string]
+     * 'in_stock' => string, 'image' => string]
      * @param bool $promo
+     * @param $additional
+     * @param string $fullImgName
+     * @param string $smallImgName
      * @return bool|void
      */
-    public static function store($categoryId, $info, $promo)
+    public static function store($info, $promo, $additional, $fullImgName, $smallImgName)
     {
-        $product = new Product();
-
-        $product->title = $info['title'];
-        $product->slug = $info['slug'];
-        $product->description = $info['description'];
-        $product->price = $info['price'];
-        $product->in_stock = $info['in_stock'];
-        $product->promo = $promo;
-
-        $additional = $info['additional'];
-        if ($additional!="{}" && $additional!='{"":""}') {
-            $product->additional = $info['additional'];
-        }
-        $fullImgName = Image::saveOriginal($info['image']);
-        $smallImgName =  Image::savePreview($info['image']);
-
-        $product->preview = $smallImgName;
-        $product->original_img = $fullImgName;
-
-        $product->save();
-
-        $products_categories = new ProductsCategory();
-
-        $products_categories->category_id = $categoryId;
-        $products_categories->product_id = $product->id;
-
-        $products_categories->save();
+        return Product::create(['title' => $info['title'], 'slug' => $info['slug'], 'description' => $info['description'],
+            'price' => $info['price'], 'in_stock' => $info['in_stock'], 'promo' => $promo, 'additional' => $additional,
+            'preview' => $smallImgName, 'original_img' => $fullImgName]);
     }
 
     /**
      * @param int $id
-     * @param string $categoryId
      * @param array $info | ['title' => string , 'slug' => string, 'description' => string, 'price' => string,
      * 'in_stock' => string, 'image' => string, 'additional' => string]
      * @param bool $promo
+     * @param string | null $additional
+     * @param string $fullImgName
+     * @param string $smallImgName
      * @return bool|void
      */
-    public static function updateById($id, $categoryId, $info, $promo)
+    public static function updateById($id, $info, $promo, $additional, $fullImgName, $smallImgName)
     {
-        $product = Product::find($id);
-
-        $additional = $info['additional'];
-        if ($additional=="{}" || $additional=='{"":""}') {
-            $additional = null;
-        }
-
-        DB::table('products')
-            ->where('id', $id)
+        return Product::where('id', $id)
             ->update(['title' => $info['title'], 'slug' => $info['slug'], 'description' => $info['description'],
                 'price' => $info['price'], 'in_stock' => $info['in_stock'], 'promo' => $promo,
-                'additional' => $additional]);
-
-        if ($info['image']) {
-            // delete old images from folder
-            Image::deleteOriginal($product->original_img);
-            Image:: deletePreview($product->preview);
-            // save new images
-            $fullImgName = Image::saveOriginal($info['image']);
-            $smallImgName = Image::savePreview($info['image']);
-
-            $product->preview = $smallImgName;
-            $product->original_img = $fullImgName;
-
-            DB::table('products')
-                ->where('id', $id)
-                ->update(['preview' => $smallImgName, 'original_img' => $fullImgName]);
-        }
-
-        $products_categories = DB::table('products_categories')
-            ->where('product_id', $product->id)
-            ->update(['category_id' => $categoryId]);
+                'additional' => $additional, 'preview' => $smallImgName, 'original_img' => $fullImgName]);
     }
 }

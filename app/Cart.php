@@ -104,24 +104,16 @@ class Cart extends Model
     }
 
     /**
-     * Get full info about product in cart.
+     * Get product cart info.
      *
-     * @param Collection $cart | [string => string] | [id1 => qt, id2 => qt]
+     * @param $keys
      * @return Collection
      */
-    public static function guestIndex($cart)
+    public static function guestProducts($keys)
     {
-        $cart = $cart->toArray();
-        $keys = array_keys($cart);
-        $products = DB::table('products')
+        return DB::table('products')
             ->whereIn('id', $keys)
             ->get();
-
-        foreach ($products as $product) {
-            $product->qt = $cart[$product->id];
-            $product->total = $product->qt*$product->price;
-        }
-        return $products;
     }
 
     /**

@@ -17,20 +17,21 @@ class PagesController extends Controller
     /**
      * Display the home page.
      *
+     * @param CategoryService $category
      * @return Factory| View
      */
-    public function index()
+    public function index(CategoryService $category)
     {
         $data = [];
         $data['categories'] = Category::firstLevelCategories();
-        $data['names'] = Category::getCategoriesName();
+        $data['names'] = $category::getCategoriesName();
         $data['promo'] = Product::findPromo();
 
         $categories = Category::all();
-        $data['menu'] = Category::buildMenu($categories, 0);
+        $data['menu'] = $category::buildMenu($categories, 0);
 
         foreach ($data['categories'] as $cat) {
-            $data['sub-menu'][$cat->id] = Category::buildMenu($categories, $cat->id);
+            $data['sub-menu'][$cat->id] = $category::buildMenu($categories, $cat->id);
         }
 
         return view('index', compact("data"));

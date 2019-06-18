@@ -6,6 +6,7 @@ use App\Cart;
 use App\Mail\ManagerOrderMail;
 use App\Notifications\UserOrderMail;
 use App\Order;
+use App\ProductsOrder;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,17 @@ class OrderService
         $userInfo = $request->only(['name', 'email', 'phone', 'address']);
         $total = Cart::getTotal($userId);
         $cart = Cart::getByUserId($userId);
-        $orderId = Order::store($userId, $userInfo, $total, $cart);
+
+        // save order to DB
+        $order = Order::store($userId, $userInfo, $total, $cart);
+        $orderId = $order->id;
+
+        foreach ($cart as $item) {
+            ProductsOrder::store($orderId, $item->id, $item->qt, $item->total);
+            Order::productQtDecrease($item->id, $item->qt);
+        }
+
+        Cart::deleteAll($userId);
 
         $userInfo = Order::find($orderId);
         $order = Order::getById($orderId);
