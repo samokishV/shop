@@ -7,11 +7,11 @@ The admin has full access to the admin panel, only the order list is available t
 
 ```
 composer install
-Import database
 Fill .env config values (app, db, mail, facebook, twitter)
 Change permissions to storage folder
 php artisan config:cache
 composer dump-autoload
+Running migration
 ```
 
 ## Admin panel
