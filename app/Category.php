@@ -24,7 +24,7 @@ class Category extends Model
      * @param string $smallImgName
      * @return Category
      */
-    public static function store($parentId, $name, $slug,  $fullImgName, $smallImgName)
+    public static function store($parentId, $name, $slug, $fullImgName, $smallImgName)
     {
         return Category::create(['parent_id' => $parentId, 'category' => $name, 'slug' => $slug, 'preview' => $smallImgName,
             'original_img' => $fullImgName]);
@@ -39,7 +39,7 @@ class Category extends Model
      * @param string $smallImgName
      * @return Category
      */
-    public static function updateById($id, $parentId, $name, $slug,  $fullImgName, $smallImgName)
+    public static function updateById($id, $parentId, $name, $slug, $fullImgName, $smallImgName)
     {
         return Category::where('id', $id)
             ->update(['category' => $name, 'slug' => $slug, 'parent_id' => $parentId, 'preview' => $smallImgName,

@@ -21,7 +21,7 @@ class Carts extends Migration
             $table->timestamps();
         });
 
-        Schema::table('carts', function($table) {
+        Schema::table('carts', function ($table) {
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

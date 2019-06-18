@@ -11,7 +11,6 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-
 class OrderController
 {
     /**

@@ -21,7 +21,7 @@ class CreateSocialTwitterAccountsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('social_twitter_accounts', function($table) {
+        Schema::table('social_twitter_accounts', function ($table) {
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

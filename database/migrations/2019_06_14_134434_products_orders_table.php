@@ -22,7 +22,7 @@ class ProductsOrdersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('products_orders', function($table) {
+        Schema::table('products_orders', function ($table) {
             $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('product_id')->references('id')->on('products');
         });

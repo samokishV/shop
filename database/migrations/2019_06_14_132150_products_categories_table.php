@@ -20,7 +20,7 @@ class ProductsCategoriesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('products_categories', function($table) {
+        Schema::table('products_categories', function ($table) {
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('product_id')->references('id')->on('products');
         });

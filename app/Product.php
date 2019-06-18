@@ -25,7 +25,7 @@ class Product extends Model
      */
     public static function findPromo()
     {
-        return Product::where( 'promo',  '=',  1)->get();
+        return Product::where('promo', '=', 1)->get();
     }
 
     /**

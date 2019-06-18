@@ -64,8 +64,16 @@ class Order extends Model
         return Order::where('orders.id', '=', $orderId)
             ->join('products_orders', 'orders.id', '=', 'products_orders.order_id')
             ->join('products', 'products_orders.product_id', '=', 'products.id')
-            ->select('orders.id', 'orders.name', 'orders.email', 'orders.phone', 'orders.address', 'products_orders.*',
-                'products.title', DB::raw('round(products_orders.total/qt,2) as price'))
+            ->select(
+                'orders.id',
+                'orders.name',
+                'orders.email',
+                'orders.phone',
+                'orders.address',
+                'products_orders.*',
+                'products.title',
+                DB::raw('round(products_orders.total/qt,2) as price')
+            )
             ->get();
     }
 

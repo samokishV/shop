@@ -62,7 +62,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     Route::post('category/add', 'CategoryController@store');
 
-    Route::get('category/edit/{id}', 'CategoryController@edit')->name('category.edit');;
+    Route::get('category/edit/{id}', 'CategoryController@edit')->name('category.edit');
+    ;
 
     Route::post('category/edit/{id}', 'CategoryController@update');
 
