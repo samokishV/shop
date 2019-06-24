@@ -103,13 +103,11 @@ class CartService
      */
     public function getProducts($userId)
     {
-        $cart = Cart::getByUserId($userId);
-
         if (!$userId) {
             $cart = Session::get("cart");
-            if ($cart) {
-                $cart = self::guestIndex($cart);
-            }
+            $cart = self::guestIndex($cart);
+        } else {
+            $cart = Cart::getByUserId($userId);
         }
         return $cart;
     }
