@@ -8,19 +8,18 @@ use App\Notifications\UserOrderMail;
 use App\Order;
 use App\ProductsOrder;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class OrderService
 {
     /**
-     * @param Request $request
+     * @param array $userInfo | ['name' => string , 'email' => string , 'phone' => string, 'address' => string]
      */
-    public function create(Request $request)
+    public function create($userInfo)
     {
         $userId = Auth::id();
-        $userInfo = $request->only(['name', 'email', 'phone', 'address']);
+
         $total = Cart::getTotal($userId);
         $cart = Cart::getByUserId($userId);
 
@@ -39,10 +38,10 @@ class OrderService
         $order = Order::getById($orderId);
 
         //send mail to user and manager
-        $request->user()->notify(new UserOrderMail());
+        Auth::user()->notify(new UserOrderMail());
 
         $user = new User();
-        $user->email = $request->email;
+        $user->email = $userInfo->email;
         $user->notify(new UserOrderMail());
 
         $managers = User::findByRole('manager');

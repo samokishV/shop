@@ -40,7 +40,12 @@ class UserController extends Controller
      */
     public function store(StoreUser $request, UserService $user)
     {
-        $user->store($request);
+        $email = $request->email;
+        $password = $request->password;
+        $role = $request->role;
+        $timezone = $request->timezone;
+
+        $user->store($email, $password, $role, $timezone);
         return redirect(route('admin.user.index'));
     }
 
@@ -77,7 +82,12 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, $id, UserService $user)
     {
-        $user->update($request, $id);
+        $email = $request->email;
+        $password = $request->password;
+        $role = $request->role;
+        $timezone = $request->timezone;
+
+        $user->update($email, $password, $role, $timezone, $id);
         return redirect(route('admin.user.index'));
     }
 

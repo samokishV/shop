@@ -5,37 +5,33 @@ namespace App\Services;
 use App\Category as Category;
 use App\Image;
 use App\Product as Product;
-use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 
 class CategoryService
 {
     /**
-     * @param Request $request
+     * @param string $parentCategory
+     * @param string $categoryTitle
+     * @param string $slug
+     * @param UploadedFile $image
      */
-    public function store(Request $request)
+    public function store($parentCategory, $categoryTitle, $slug, $image)
     {
-        $parentCategory = $request["parent_category"];
-        $category = $request["category"];
-        $slug = $request["slug"];
-        $image = $request->file("image");
-
         $fullImgName = Image::saveOriginal($image);
         $smallImgName =  Image::savePreview($image);
 
-        Category::store($parentCategory, $category, $slug, $fullImgName, $smallImgName);
+        Category::store($parentCategory, $categoryTitle, $slug, $fullImgName, $smallImgName);
     }
 
     /**
-     * @param Request $request
-     * @param $id
+     * @param string $parentCategory
+     * @param string $categoryTitle
+     * @param string $slug
+     * @param UploadedFile $image
+     * @param int $id
      */
-    public function update(Request $request, $id)
+    public function update($parentCategory, $categoryTitle, $slug, $image, $id)
     {
-        $parentCategory = $request["parent_category"];
-        $categoryId = $request["category"];
-        $slug = $request["slug"];
-        $image = $request->file("image");
-
         $category = Category::find($id);
 
         $smallImgName = $category->preview;
@@ -50,7 +46,7 @@ class CategoryService
             $smallImgName =  Image::savePreview($image);
         }
 
-        Category::updateById($id, $parentCategory, $categoryId, $slug, $fullImgName, $smallImgName);
+        Category::updateById($id, $parentCategory, $categoryTitle, $slug, $fullImgName, $smallImgName);
     }
 
     /**
@@ -65,18 +61,16 @@ class CategoryService
     }
 
     /**
-     * @param Request $request
+     * @param string $order
+     * @param string $price
      * @param string $catSlug
      * @return Product
      */
-    public function getProducts(Request $request, $catSlug)
+    public function getProducts($order, $price, $catSlug)
     {
-        $order = $request->input('sort-options');
         if (!isset($order)) {
             $order = 'default';
         }
-
-        $price = $request->input('price');
 
         $category = Category::where('slug', $catSlug)->get();
         $catId =  $category[0]->id;

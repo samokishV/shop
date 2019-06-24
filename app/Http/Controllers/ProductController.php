@@ -50,7 +50,8 @@ class ProductController extends Controller
             'keyword' => 'required'
         ]);
 
-        $products = $product->search($request);
+        $keyword = $request['keyword'];
+        $products = $product->search($keyword);
         return view('search', ['products' => $products]);
     }
 
@@ -77,7 +78,8 @@ class ProductController extends Controller
      */
     public function updatePromo(Request $request, $id, ProductService $product)
     {
-        $product->updatePromo($request, $id);
+        $promo = $request['promo'];
+        $product->updatePromo($promo, $id);
         return redirect(route('admin.product.index'));
     }
 
@@ -103,7 +105,13 @@ class ProductController extends Controller
      */
     public function store(StoreProduct $request, ProductService $product)
     {
-        $product->create($request);
+        $categoryId = $request['category'];
+        $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
+        $image = $request->file("image");
+        $status = $request['promo'];
+        $additional = $request['additional'];
+
+        $product->create($categoryId, $info, $image, $status, $additional);
         return redirect(route('admin.product.index'));
     }
 
@@ -132,7 +140,13 @@ class ProductController extends Controller
      */
     public function update(UpdateProduct $request, $id, ProductService $product)
     {
-        $product->update($request, $id);
+        $categoryId = $request['category'];
+        $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
+        $image = $request->file("image");
+        $status = $request['promo'];
+        $additional = $request['additional'];
+
+        $product->update($categoryId, $info, $image, $status, $additional, $id);
         return redirect(route('admin.product.index'));
     }
 

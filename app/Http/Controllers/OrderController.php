@@ -33,7 +33,9 @@ class OrderController
      */
     public function store(StoreOrder $request, OrderService $order)
     {
-        $order->create($request);
+        $userInfo = $request->only(['name', 'email', 'phone', 'address']);
+        $order->create($userInfo);
+
         return redirect(route('order.history'));
     }
 

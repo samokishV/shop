@@ -5,38 +5,41 @@ namespace App\Services;
 use App\Image;
 use App\Product;
 use App\ProductsCategory;
-use Illuminate\Http\Request;
 
 class ProductService
 {
     /**
-     * @param Request $request
+     * @param string $categoryId
+     * @param array $info | ['title' => string, 'slug' => string, 'description' => string, 'price' => string,
+     * 'in_stock' =>string, 'additional' => string]
+     * @param $image
+     * @param $promo
+     * @param $additional
      */
-    public function create(Request $request)
+    public function create($categoryId, $info, $image, $promo, $additional)
     {
-        $categoryId = $request['category'];
-        $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
-        $info["image"] = $request->file("image");
-        $promo = self::getPromo($request);
-        $additional = self::getAdditional($request);
-        $fullImgName = Image::saveOriginal($info['image']);
-        $smallImgName =  Image::savePreview($info['image']);
+        $promo = self::getPromo($promo);
+        $additional = self::getAdditional($additional);
+        $fullImgName = Image::saveOriginal($image);
+        $smallImgName =  Image::savePreview($image);
         $product = Product::store($info, $promo, $additional, $fullImgName, $smallImgName);
         $productId = $product->id;
         ProductsCategory::store($categoryId, $productId);
     }
 
     /**
-     * @param Request $request
+     * @param string $categoryId
+     * @param array $info | ['title' => string, 'slug' => string, 'description' => string, 'price' => string,
+     * 'in_stock' =>string, 'additional' => string]
+     * @param $image
+     * @param $promo
+     * @param $additional
      * @param int $id
      */
-    public function update(Request $request, $id)
+    public function update($categoryId, $info, $image, $promo, $additional, $id)
     {
-        $categoryId = $request['category'];
-        $info = $request->only('title', 'slug', 'description', 'price', 'in_stock', 'additional');
-        $info["image"] = $request->file("image");
-        $promo = self::getPromo($request);
-        $additional = self::getAdditional($request);
+        $promo = self::getPromo($promo);
+        $additional = self::getAdditional($additional);
 
         $product = Product::find($id);
         $smallImgName = $product->preview;
@@ -47,8 +50,8 @@ class ProductService
             Image::deleteOriginal($product->original_img);
             Image:: deletePreview($product->preview);
             // save new images
-            $fullImgName = Image::saveOriginal($info['image']);
-            $smallImgName = Image::savePreview($info['image']);
+            $fullImgName = Image::saveOriginal($image);
+            $smallImgName = Image::savePreview($image);
         }
 
         Product::updateById($id, $info, $promo, $additional, $fullImgName, $smallImgName);
@@ -57,12 +60,12 @@ class ProductService
     }
 
     /**
-     * @param Request $request
+     * @param string $status
      * @param int $id
      */
-    public function updatePromo(Request $request, $id)
+    public function updatePromo($status, $id)
     {
-        $promo = self::getPromo($request);
+        $promo = self::getPromo($status);
         Product::changeStatus($id, $promo);
     }
 
@@ -79,13 +82,11 @@ class ProductService
     }
 
     /**
-     * @param Request $request
+     * @param string $status
      * @return int
      */
-    public static function getPromo(Request $request)
+    public static function getPromo($status)
     {
-        $status = $request['promo'];
-
         if ($status=="on") {
             $promo = 1;
         } else {
@@ -94,9 +95,8 @@ class ProductService
         return $promo;
     }
 
-    public static function getAdditional(Request $request)
+    public static function getAdditional($additional)
     {
-        $additional = $request['additional'];
         if ($additional=="{}" || $additional=='{"":""}') {
             $additional = null;
         }
@@ -105,12 +105,12 @@ class ProductService
     }
 
     /**
-     * @param Request $request
+     * @param string $keyword
      * @return array
      */
-    public function search(Request $request)
+    public function search($keyword)
     {
-        $keyword = $request['keyword'];
+
         $products = Product::searchByKeyword($keyword);
         return self::groupProductsByCategories($products);
     }

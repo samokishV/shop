@@ -46,7 +46,12 @@ class CategoryController extends Controller
      */
     public function store(StoreCategory $request, CategoryService $category)
     {
-        $category->store($request);
+        $parentCategory = $request["parent_category"];
+        $categoryTitle = $request["category"];
+        $slug = $request["slug"];
+        $image = $request->file("image");
+
+        $category->store($parentCategory, $categoryTitle, $slug, $image);
         return redirect(route('admin.category.index'));
     }
 
@@ -87,7 +92,12 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategory $request, $id, CategoryService $category)
     {
-        $category->update($request, $id);
+        $parentCategory = $request["parent_category"];
+        $categoryTitle = $request["category"];
+        $slug = $request["slug"];
+        $image = $request->file("image");
+
+        $category->update($parentCategory, $categoryTitle, $slug, $image, $id);
         return redirect(route('admin.category.index'));
     }
 

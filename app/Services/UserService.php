@@ -3,32 +3,29 @@
 namespace App\Services;
 
 use App\User;
-use Illuminate\Http\Request;
 
 class UserService
 {
     /**
-     * @param Request $request
+     * @param string $email
+     * @param string $password
+     * @param string $role
+     * @param string $timezone
      */
-    public function store(Request $request)
+    public function store($email, $password, $role, $timezone)
     {
-        $email = $request->email;
-        $password = $request->password;
-        $role = $request->role;
-        $timezone = $request->timezone;
         User::store($email, $password, $role, $timezone);
     }
 
     /**
-     * @param Request $request
+     * @param string $email
+     * @param string $password
+     * @param string $role
+     * @param string $timezone
      * @param $id
      */
-    public function update(Request $request, $id)
+    public function update($email, $password, $role, $timezone, $id)
     {
-        $email = $request->email;
-        $password = $request->password;
-        $role = $request->role;
-        $timezone = $request->timezone;
         User::updateById($id, $email, $password, $role, $timezone);
     }
 

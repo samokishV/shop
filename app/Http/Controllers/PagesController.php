@@ -56,7 +56,10 @@ class PagesController extends Controller
     public function category(Request $request, $catSlug, CategoryService $category)
     {
         $request->flash();
-        $products = $category->getProducts($request, $catSlug);
+        $order = $request->input('sort-options');
+        $price = $request->input('price');
+
+        $products = $category->getProducts($order, $price, $catSlug);
 
         return view('category', ['products'=>$products]);
     }
