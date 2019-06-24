@@ -8,7 +8,7 @@ $(document).ready(function() {
         var href = route('cart.add');
         var str = $(this).serialize();
 
-        customFunc(type, href, str, function(data) {
+        request(type, href, str, function(data) {
             alert(data);
             if (data === "Product successfully add to cart") {
                 number = productNumber.html() - 0;
@@ -25,7 +25,7 @@ $(document).ready(function() {
         var href = $(this).attr('action');
         var str = $(this).serialize();
 
-        customFunc(type, href, str, function() {
+        request(type, href, str, function() {
             number = productNumber.html() - 0;
             number--;
             productNumber.html(number);
@@ -42,7 +42,7 @@ $(document).ready(function() {
         var href = route('cart.delete.all');
         var str = $(this).serialize();
 
-        customFunc(type, href, str, function() {
+        request(type, href, str, function() {
             productNumber.html("0");
         });
 
@@ -62,8 +62,8 @@ $(document).ready(function() {
             var href = route('cart.edit', [id]);
             var str = {'qt': qt};
 
-            request = customFunc(type, href, str, function() {});
-            promises.push(request);
+            responce = request(type, href, str, function() {});
+            promises.push(responce);
         });
 
         $.when.apply(null, promises).done(function(){

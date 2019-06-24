@@ -7,7 +7,7 @@ $(document).ready(function() {
         var href =  $(this).attr('href');
         var str = $(this).serialize();
 
-        customFunc(type, href, str, function() {});
+        request(type, href, str, function() {});
 
         $(this).closest("tr").remove();
     });

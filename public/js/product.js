@@ -11,7 +11,7 @@ $(document).ready(function() {
         var href = $(this).attr('action');
         var str = $(this).serialize();
 
-        customFunc(type, href, str, function() {});
+        request(type, href, str, function() {});
     });
 
     //update all product status
@@ -30,8 +30,8 @@ $(document).ready(function() {
             var href = route('promo.edit' , [id]);
             var str = {'promo': promo};
 
-            request = customFunc(type, href, str, function() {});
-            promises.push( request);
+            response = request(type, href, str, function() {});
+            promises.push(response);
 
         });
 
@@ -48,7 +48,7 @@ $(document).ready(function() {
         var href = $(this).attr('href');
         var str = {};
 
-        request = customFunc(type, href, str, function() {});
+        request(type, href, str, function() {});
         $(this).closest("tr").remove();
     });
 

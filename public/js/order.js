@@ -7,7 +7,7 @@ $(document).ready(function() {
         var href = $(this).attr('action');
         var str = $(this).serialize();
 
-        customFunc(type, href, str, function() {});
+        request(type, href, str, function() {});
     });
 
     //update all orders status
@@ -26,8 +26,8 @@ $(document).ready(function() {
             var href = route('order.edit', [id]);
             var str = {'processed': processed};
 
-            request = customFunc(type, href, str, function() {});
-            promises.push( request);
+            response = request(type, href, str, function() {});
+            promises.push(responce);
         });
 
         $.when.apply(null, promises).done(function(){
