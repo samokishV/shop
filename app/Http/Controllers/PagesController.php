@@ -10,7 +10,6 @@ use Illuminate\View\View as View;
 use Illuminate\Http\Request;
 use App\Category as Category;
 use App\Product as Product;
-use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
@@ -73,8 +72,7 @@ class PagesController extends Controller
      */
     public function cart(Request $request, CartService $cart)
     {
-        $userId = Auth::id();
-        $products = $cart->getProducts($userId);
+        $products = $cart->getProducts();
 
         return view('cart', ['products'=>$products]);
     }

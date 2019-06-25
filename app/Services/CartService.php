@@ -13,31 +13,19 @@ class CartService
      *
      * @param int $productId
      * @param string $qt
-     * @param int $userId
      * @return string
      */
-    public function addProduct($productId, $qt, $userId)
+    public function addProduct($productId, $qt)
     {
-        if (!$userId) {
-            $cart = Session::get('cart');
-            $product = self::findInCart($productId, $cart);
+        $cart = Session::get('cart');
+        $product = self::findInCart($productId, $cart);
 
-            if (!$product) {
-                $products = self::addToCart($productId, $qt, $cart);
-                Session::put('cart', $products);
-                return "Product successfully add to cart";
-            } else {
-                return "product already in cart";
-            }
+        if (!$product) {
+            $products = self::addToCart($productId, $qt, $cart);
+            Session::put('cart', $products);
+            return "Product successfully add to cart";
         } else {
-            $product = Cart::findProductById($userId, $productId);
-
-            if ($product) {
-                return "product already in cart";
-            } else {
-                Cart::add($userId, $productId, $qt);
-                return "Product successfully add to cart";
-            }
+            return "product already in cart";
         }
     }
 
@@ -46,17 +34,12 @@ class CartService
      *
      * @param int $productId
      * @param string $qt
-     * @param int $userId
      * @return bool|string
      */
-    public function updateProduct($productId, $qt, $userId)
+    public function updateProduct($productId, $qt)
     {
-        if (!$userId) {
-            $cart = Session::get('cart');
-            $result = self::updateCart($cart, $productId, $qt);
-        } else {
-            $result = Cart::updateById($userId, $productId, $qt);
-        }
+        $cart = Session::get('cart');
+        $result = self::updateCart($cart, $productId, $qt);
 
         return $result;
     }
@@ -65,17 +48,12 @@ class CartService
      * Remove product from cart.
      *
      * @param int $productId
-     * @param int $userId
      * @return Collection|int
      */
-    public function removeProduct($productId, $userId)
+    public function removeProduct($productId)
     {
-        $result = Cart::deleteProductById($userId, $productId);
-
-        if (!$userId) {
-            $cart = Session::get('cart');
-            $result = self::deleteFromCart($cart, $productId);
-        }
+        $cart = Session::get('cart');
+        $result = self::deleteFromCart($cart, $productId);
 
         return $result;
     }
@@ -83,32 +61,21 @@ class CartService
     /**
      * Delete all products from cart.
      *
-     * @param int $userId
-     * @return int
+     * @return void
      */
-    public function clear($userId)
+    public function clear()
     {
-        $result = Cart::deleteAll($userId);
-
-        if (!$userId) {
-            Session::forget('cart');
-        }
-
-        return $result;
+        Session::forget('cart');
     }
 
     /**
-     * @param int $userId
-     * @return Collection|mixed
+     * @return Collection|null
      */
-    public function getProducts($userId)
+    public function getProducts()
     {
-        if (!$userId) {
-            $cart = Session::get("cart");
-            $cart = self::guestIndex($cart);
-        } else {
-            $cart = Cart::getByUserId($userId);
-        }
+        $cart = Session::get("cart");
+        $cart = self::cartIndex($cart);
+
         return $cart;
     }
 
@@ -118,17 +85,33 @@ class CartService
      * @param array $cart
      * @return Collection
      */
-    public static function guestIndex($cart)
+    public static function cartIndex($cart)
     {
         $cart = $cart->toArray();
         $keys = array_keys($cart);
-        $products = Cart::guestProducts($keys);
+        $products = Cart::getProducts($keys);
 
         foreach ($products as $product) {
             $product->qt = $cart[$product->id];
             $product->total = $product->qt*$product->price;
         }
         return $products;
+    }
+
+    /**
+     * @return int
+     */
+    public static function getTotal()
+    {
+        $cart = Session::get("cart");
+        $products = self::cartIndex($cart);
+
+        $total = 0;
+        foreach ($products as $product) {
+            $total += $product->total;
+        }
+
+        return $total;
     }
 
     /**

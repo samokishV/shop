@@ -21,20 +21,20 @@ class OrderController
      */
     public function create(CartService $cart)
     {
-        $userId = Auth::id();
-        $products = $cart->getProducts($userId);
+        $products = $cart->getProducts();
         return view('order', ['cart'=>$products]);
     }
 
     /**
      * @param StoreOrder $request
      * @param OrderService $order
+     * @param CartService $cart
      * @return Factory|View
      */
-    public function store(StoreOrder $request, OrderService $order)
+    public function store(StoreOrder $request, OrderService $order, CartService $cart)
     {
         $userInfo = $request->only(['name', 'email', 'phone', 'address']);
-        $order->create($userInfo);
+        $order->create($userInfo, $cart);
 
         return redirect(route('order.history'));
     }

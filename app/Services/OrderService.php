@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Cart;
 use App\Mail\ManagerOrderMail;
 use App\Notifications\UserOrderMail;
 use App\Order;
@@ -15,24 +14,25 @@ class OrderService
 {
     /**
      * @param array $userInfo | ['name' => string , 'email' => string , 'phone' => string, 'address' => string]
+     * @param CartService $cart
      */
-    public function create($userInfo)
+    public function create($userInfo, $cart)
     {
         $userId = Auth::id();
 
-        $total = Cart::getTotal($userId);
-        $cart = Cart::getByUserId($userId);
+        $total = $cart->getTotal();
+        $products = $cart->getProducts();
 
         // save order to DB
-        $order = Order::store($userId, $userInfo, $total, $cart);
+        $order = Order::store($userId, $userInfo, $total, $products);
         $orderId = $order->id;
 
-        foreach ($cart as $item) {
+        foreach ($products as $item) {
             ProductsOrder::store($orderId, $item->id, $item->qt, $item->total);
             Order::productQtDecrease($item->id, $item->qt);
         }
 
-        Cart::deleteAll($userId);
+        $cart->clear();
 
         $userInfo = Order::find($orderId);
         $order = Order::getById($orderId);
