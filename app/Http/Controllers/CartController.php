@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\CartService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -17,10 +16,14 @@ class CartController extends Controller
     {
         $productId= $request->input('id');
         $qt= $request->input('qt');
-        $userId = Auth::id();
 
-        $result =  $cart->addProduct($productId, $qt, $userId);
-        return $result;
+        $result =  $cart->addProduct($productId, $qt);
+        if($result) {
+            $message = "Product successfully add to cart";
+        } else {
+            $message = "Product already in cart";
+        }
+        return $message;
     }
 
     /**
@@ -30,20 +33,16 @@ class CartController extends Controller
      */
     public function delete($productId, CartService $cart)
     {
-        $userId = Auth::id();
-        $result = $cart->removeProduct($productId, $userId);
+        $result = $cart->removeProduct($productId);
         return $result;
     }
 
     /**
      * @param CartService $cart
-     * @return int
      */
     public function deleteAll(CartService $cart)
     {
-        $userId = Auth::id();
-        $result = $cart->clear($userId);
-        return $result;
+        $cart->clear();
     }
 
     /**
@@ -54,9 +53,8 @@ class CartController extends Controller
      */
     public function update(Request $request, $productId, CartService $cart)
     {
-        $userId = Auth::id();
         $qt = $request->qt;
-        $result = $cart->updateProduct($productId, $qt, $userId);
+        $result = $cart->updateProduct($productId, $qt);
         return $result;
     }
 }

@@ -13,7 +13,7 @@ class CartService
      *
      * @param int $productId
      * @param string $qt
-     * @return string
+     * @return bool
      */
     public function addProduct($productId, $qt)
     {
@@ -22,9 +22,7 @@ class CartService
         if (!$product) {
             $products = self::addToCart($productId, $qt);
             Session::put('cart', $products);
-            return "Product successfully add to cart";
-        } else {
-            return "product already in cart";
+            return true;
         }
     }
 
