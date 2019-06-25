@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Image;
 use App\Product;
 use App\ProductsCategory;
+use Illuminate\Http\UploadedFile;
 
 class ProductService
 {
@@ -12,9 +13,9 @@ class ProductService
      * @param string $categoryId
      * @param array $info | ['title' => string, 'slug' => string, 'description' => string, 'price' => string,
      * 'in_stock' =>string, 'additional' => string]
-     * @param $image
-     * @param $promo
-     * @param $additional
+     * @param UploadedFile $image
+     * @param string $promo
+     * @param string $additional
      */
     public function create($categoryId, $info, $image, $promo, $additional)
     {
@@ -31,9 +32,9 @@ class ProductService
      * @param string $categoryId
      * @param array $info | ['title' => string, 'slug' => string, 'description' => string, 'price' => string,
      * 'in_stock' =>string, 'additional' => string]
-     * @param $image
-     * @param $promo
-     * @param $additional
+     * @param UploadedFile $image
+     * @param string $promo
+     * @param string $additional
      * @param int $id
      */
     public function update($categoryId, $info, $image, $promo, $additional, $id)

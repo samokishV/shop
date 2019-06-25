@@ -3,7 +3,7 @@
  *
  * @param {string} type
  * @param {string} url
- * @param {json} data
+ * @param {object} data
  * @param successCallback
  * @returns {*|{getAllResponseHeaders, abort, setRequestHeader, readyState, getResponseHeader, overrideMimeType, statusCode}}
  */
