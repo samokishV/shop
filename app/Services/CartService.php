@@ -183,4 +183,12 @@ class CartService
 
         return count($cart);
     }
+
+    /**
+     * @return bool
+     */
+    public static function exists()
+    {
+        return Session::has('cart');
+    }
 }

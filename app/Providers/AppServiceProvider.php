@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Services\CartService;
 use Illuminate\Support\Facades\View as View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,9 +17,10 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
 
-            if (Session::has('cart')) {
-                $cartObj = new CartService();
-                $productsQt = $cartObj->countProducts();
+            $cart = new CartService();
+
+            if ($cart->exists()) {
+                $productsQt = $cart->countProducts();
             } else {
                 $productsQt = 0;
             }
