@@ -27,7 +27,7 @@ $(document).ready(function() {
             var str = {'processed': processed};
 
             response = request(type, href, str, function() {});
-            promises.push(responce);
+            promises.push(response);
         });
 
         $.when.apply(null, promises).done(function(){
