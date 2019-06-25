@@ -19,9 +19,8 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
 
             if (Session::has('cart')) {
-                $cart = Session::get('cart');
                 $cartObj = new CartService();
-                $productsQt = $cartObj->countProducts($cart);
+                $productsQt = $cartObj->countProducts();
             } else {
                 $productsQt = 0;
             }
